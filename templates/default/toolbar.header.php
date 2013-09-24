@@ -9,4 +9,4 @@
 */
 defined('_JEXEC') or die('Restricted access');
 ?>
-<h4><?php echo $title; ?></h4>
+<h4> <?php echo $title; ?>  </h4>

@@ -18,41 +18,23 @@ defined('_JEXEC') or die();
 }
 </style>
 
-<div class="cSearch-Result">
+<div class="cSearch-ResultTopless">
 <p>
-<b>Gifts</b>
+<b>Withdrawal request</b>
 </p>
 
 	<a id="lists" name="listing"/>
 		<ul class="cIndexList forFriendsList cResetList"> 
 		
 		<li>
-			<a href="<?php echo CRoute::getURI(); ?>/addGift">Add gift</a>
-		</li>
-		
-		 <?php foreach ($giftList as $dataRec) 
-               {		 
-		 ?>
-		 
-			<li>
-				<div class="cIndex-Box clearfix">
-					
-					<a href="<?php echo CRoute::getURI();?>/editGift" class="cIndex-Avatar cFloat-L">
-						<img class="cAvatar" src="<?php echo JURI::root() . $dataRec->imageURL; ?>" alt="google"/>
-					</a>
-
-					<div class="cIndex-Content">
-						<h3 class="cIndex-Name cResetH">
-							<a href="<?php echo CRoute::getURI();?>/editGift?id=<?php echo $dataRec->id; ?>"><?php echo $dataRec->code; ?></a>
-						</h3>
-						<div class="cIndex-Status">Value point: <span></span><span><?php  echo $dataRec->valuePoint ?></span></div>
-						<div class="cIndex-Actions"><a href="<?php echo CRoute::getURI();?>/deleteGift?id=<?php echo $dataRec->id; ?>">Delete</a></div>
-					</div>
-				</div>
 			
 		</li>
 		
-		<?php } ?>
+		 
+			<li>
+						
+		</li>
+		
 		
 	</ul>
 <div class="cPagination"/>

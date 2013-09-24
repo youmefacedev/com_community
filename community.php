@@ -222,7 +222,8 @@ if ($task != 'azrul_ajax')
 		JFile::write(COMMUNITY_COM_PATH.'/access.log', $params->toString());
 	}
 
-	echo getJomSocialPoweredByLink();
+	//echo getJomSocialPoweredByLink();
+	echo "";
 
 //	getTriggerCount
 //	$appLib = CAppPlugins::getInstance();

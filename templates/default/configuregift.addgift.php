@@ -73,11 +73,8 @@ defined('_JEXEC') or die();
 						
 							<label class="form-label" for="name">Photo</label>
 							<div class="form-field">
-							
-							
 								<input type="file" id="file-upload" name="Filedata" />
-								<input class="btn" size="30" type="submit" id="file-upload-submit" value="<?php echo JText::_('COM_COMMUNITY_BUTTON_UPLOAD_PICTURE'); ?>">
-							
+								<!--  <input class="btn" size="30" type="submit" id="file-upload-submit" value="<?php echo JText::_('COM_COMMUNITY_BUTTON_UPLOAD_PICTURE'); ?>">  -->
 							</div>
 						
 						</li>

@@ -18,9 +18,9 @@ defined('_JEXEC') or die();
 }
 </style>
 
-<div class="cSearch-Result">
+<div class="cSearch-ResultTopless">
 <p>
-<b>Top up credit</b>
+<b>Topup credit</b>
 </p>
 
 

@@ -92,9 +92,9 @@ defined('_JEXEC') or die();
 
 </script>
 
-<div class="cSearch-Result">
+<div class="cSearch-ResultTopless">
 <p>
-<b>Withdraw</b>
+<b>Withdraw credit</b>
 </p>
 
 <form name="formWithdraw" id="formWithdraw" action="<?php echo $coreUrl; ?>" method="POST" class="cForm community-form-validate">

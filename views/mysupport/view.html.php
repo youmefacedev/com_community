@@ -39,7 +39,7 @@ class CommunityViewMySupport extends CommunityView
 		
 		echo $tmpl->set('supportList', $supportList)
 				  ->set('withdrawUrl', $withdrawUrl)
-			  	  ->fetch( 'mysupport.list');
+				  ->fetch( 'mysupport.list');
 	}
 	
 	

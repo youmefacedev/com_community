@@ -56,7 +56,7 @@ $taskName = JRequest::getCmd( 'task');
 					</li>
 					<li>
 						<a href="javascript:void(0);" title="<?php echo JText::_('COM_COMMUNITY_LOGOUT'); ?>" onclick="document.communitylogout2.submit();">
-							<i class="js-icon-logout"></i>
+							Logout <i class="js-icon-logout"></i>
 						</a>
 					<form class="cForm" action="<?php echo JRoute::_('index.php');?>" method="post" name="communitylogout2" id="communitylogout2">
 						<input type="hidden" name="option" value="<?php echo COM_USER_NAME ; ?>" />
@@ -129,18 +129,13 @@ $taskName = JRequest::getCmd( 'task');
 					
 					<?php if( $balancePoint ){ ?>
 					<li class="visible-desktop" >
-					
-						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=getcredit' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_BALANCEPOINTS' );?>">
 							<i class="icon-gift"></i><span class="js-counter"><?php echo $balancePoint; ?></span>
-						</a>
 					</li>
 					<?php } ?>
 					
 					<?php if( $withdrawalPoint ){ ?>
 					<li class="visible-desktop" >
-						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=getcredit' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_WITHDRAWNPOINTS' );?>">
 							<span class="js-counter"><?php echo $withdrawalPoint; ?></span>
-						</a>
 					</li>
 					<?php } ?>
 					
@@ -173,7 +168,7 @@ $taskName = JRequest::getCmd( 'task');
         <ul class="nav pull-right">
 					<li class="visible-desktop" >
 						<a href="javascript:void(0);" title="<?php echo JText::_('COM_COMMUNITY_LOGOUT'); ?>" onclick="document.communitylogout.submit();">
-							<i class="js-icon-logout"></i>
+							Logout <i class="js-icon-logout"></i>
 						</a>
 					<form class="cForm" action="<?php echo JRoute::_('index.php');?>" method="post" name="communitylogout" id="communitylogout">
 						<input type="hidden" name="option" value="<?php echo COM_USER_NAME ; ?>" />

@@ -51,6 +51,16 @@
 	height : 48px;	
 }
 
+
+
+#close {
+    float: right;
+    font-size: 0.85em;
+    margin-right: 0;
+    text-transform: uppercase;
+}
+
+
 .cIndex-Status span
 {
 	font-size : 90%;	
@@ -101,6 +111,35 @@
     text-decoration : none;
 }
 
+
+.popover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1010;
+  display: none;
+  max-width: 600px;
+  padding: 1px;
+  text-align: left;
+  white-space: normal;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+     -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding;
+          background-clip: padding-box;
+}
+
+.popover-content {
+    
+}
+
 </style>
 
 <script>
@@ -129,6 +168,9 @@
 			jomsQuery("#like_id" + id).show();
 		}
 
+
+		var prevId = ""; 
+
 		// show support 
 		function showSupport(data, likedItem)
 		{		
@@ -138,11 +180,6 @@
 		 	for(var i=0; i < data.length; i++)
 		 	{
 		 		idx++;
-
-		 		if (idx == 2)
-		 		{
-			 		idx = 0;
-		 		}
 		 		
 				if (idx == 1)
 				{
@@ -153,29 +190,52 @@
 		 			content += "<div class='cIndex-Box clearfix'>";
 		 			
 		 			content += "<div class='support-Content'>";
-		 				content += "<h3 class='cIndex-Name cResetH'>";
+		 			content += "<h3 class='cIndex-Name cResetH'>";
 		 					content += "<a href=''>" + data[i].code +  "</a>";
 		 			content += "</h3>";
 		 			
 		 			content += "<div class='cIndex-Status'><span><img src='../../.." + data[i].imageURL +  "'/></span></div>";
 		 			content += "<div class='cIndex-Status'><span></span><span>" + data[i].valuePoint +  " credits</span></div>";
 		 			content += "<div class='cIndex-Actions'><a href='#' class='btn btn-primary' id=sendSupport" + data[i].id + " giftId=" + data[i].id + " itemId=" + likedItem  + ">Send</a></div>";
-		 		content += "</div>";
-		 		content += "</div>";
 
-		 		if (idx == 1)
-		 		{
+			 		content += "</div>";
 		 			content += "</div>";
+		 			content += "</div>";
+		 		
+		 		if (idx == 5 || (i + 1) == data.length)
+		 		{
+		 			content += "</div>";  // ending tag 
+		 		}
+
+		 		if (idx == 5)
+		 		{
+			 		idx = 0;
 		 		}
 		 	}
 
+		 	closeOtherPopup();
+
 		 	jomsQuery("#like_id" + likedItem).popover(
 				 	{
-					 	title : 'Support', 
+					 	title : 'Like ' + 
+					 	 '<button type="button" id="close" class="close" onclick="jomsQuery(&quot;#like_id' + likedItem + '&quot;).popover(&quot;hide&quot;);">&times;</button>', 
 		        		content : content
 		 	}).popover('show');
-		}
 
+		 	prevId = "#like_id" + likedItem;
+		 	
+		}
+		
+
+		function closeOtherPopup()
+		{
+			if (prevId == "") 
+				return; 
+
+			jomsQuery(prevId).popover('hide');
+			
+		}
+		
 		// binds support buttons
 		var documentCount=0;
 	         
@@ -330,7 +390,7 @@ if($accessClass != 'public') {
 <div class="cStream-Respond wall-cocs" id="wall-cmt-<?php echo $act->id; ?>">
 <?php if($act->likeCount > 0 && $showLike) { /* hide count if no one like it */?>
 <div class="cStream-Likes">
-<i class="stream-icon com-icon-thumbup"></i>Initial load ..
+<i class="stream-icon com-icon-thumbup"></i><!--  Initial load .. -->
 <a onclick="jax.call('community','system,ajaxStreamShowLikes', '<?php echo $act->id; ?>');return false;" href="#showLikes"><?php echo ($act->likeCount > 1) ? JText::sprintf('COM_COMMUNITY_LIKE_THIS_MANY', $act->likeCount) : JText::sprintf('COM_COMMUNITY_LIKE_THIS', $act->likeCount); ?></a>
 </div>
 <?php } ?>

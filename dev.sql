@@ -29,20 +29,20 @@ create table jom_payment_method (id int primary key auto_increment, code varchar
  insert into jom_menu
  (menutype, path, img, params, title, alias, link, type, published, parent_id, level, component_id, ordering, checked_out, browserNav, access, template_style_id, lft, rgt, home, client_id)
  values
- ('jomsocial', '', '', '', 'Support', 'show-support', 'index.php?option=com_community&view=support', 'component', 1, 1, 1, 10000, 0, 0, 0, 2, 0, 121, 121, 0, 0);
+ ('jomsocial', '', '', '', 'Like', 'show-support', 'index.php?option=com_community&view=mysupport', 'component', 1, 1, 1, 10000, 0, 0, 0, 2, 0, 121, 121, 0, 0);
  
  
  insert into jom_menu
  (menutype, path, img, params, title, alias, link, type, published, parent_id, level, component_id, ordering, checked_out, browserNav, access, template_style_id, lft, rgt, home, client_id)
  values
- ('jomsocial', '', '', '', 'My Friend Support', 'mysupport', 'index.php?option=com_community&view=mysupport', 'component', 1, 163, 2, 10000, 0, 0, 0, 1, 0, 121, 121, 0, 0);
+ ('jomsocial', '', '', '', 'Who like me', 'mysupport', 'index.php?option=com_community&view=mysupport', 'component', 1, 179, 2, 10000, 0, 0, 0, 1, 0, 121, 121, 0, 0);
   
  insert into jom_menu
  (menutype, path, img, params, title, alias, link, type, published, parent_id, level, component_id, ordering, checked_out, browserNav, access, template_style_id, lft, rgt, home, client_id)
  values
- ('jomsocial', '', '', '', 'Topup credit', 'topupcredit', 'index.php?option=com_community&view=topupcredit', 'component', 1, 163, 2, 10000, 0, 0, 0, 1, 0, 121, 121, 0, 0);
+ ('jomsocial', '', '', '', 'Topup credit', 'topupcredit', 'index.php?option=com_community&view=topupcredit', 'component', 1, 179, 2, 10000, 0, 0, 0, 1, 0, 121, 121, 0, 0);
   
  insert into jom_menu
  (menutype, path, img, params, title, alias, link, type, published, parent_id, level, component_id, ordering, checked_out, browserNav, access, template_style_id, lft, rgt, home, client_id)
  values
- ('jomsocial', '', '', '', 'Withdraw', 'mywithdrawal', 'index.php?option=com_community&view=mywithdraw', 'component', 1, 163, 2, 10000, 0, 0, 0, 1, 0, 121, 121, 0, 0);
+ ('jomsocial', '', '', '', 'Withdraw credit', 'mywithdrawal', 'index.php?option=com_community&view=mywithdraw', 'component', 1, 179, 2, 10000, 0, 0, 0, 1, 0, 121, 121, 0, 0);

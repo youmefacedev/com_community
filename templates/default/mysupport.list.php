@@ -18,9 +18,9 @@ defined('_JEXEC') or die();
 }
 </style>
 
-<div class="cSearch-Result">
+<div class="cSearch-ResultTopless">
 <p>
-<b>My Friend Support</b>
+<b>Who like me</b>
 </p>
 
 	<a id="lists" name="listing"/>
@@ -55,7 +55,7 @@ defined('_JEXEC') or die();
 						<div class="cIndex-Support">
 							<span> <?php echo $dataRec['supportName']; ?> </span>
 						</div>
-						<div class="cIndex-Support">Gift value : <span></span><span>  <?php echo (!empty($dataRec['giftValue']) ? $dataRec['giftValue'] : ""); ?> </span> &nbsp; <a href="<?php echo $withdrawUrl; ?>"><button class="btn btn-primary">Withdraw </button> </a> </div>
+						<div class="cIndex-Support">Gift value : <span></span><span>  <?php echo (!empty($dataRec['giftValue']) ? $dataRec['giftValue'] : ""); ?> </span> &nbsp; </div>
 						
 					</div>
 				</div>

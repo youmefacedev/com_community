@@ -213,13 +213,19 @@ class CommunityView extends JViewLegacy
 		}
 
 	    $showHead = true;
-
+	    
+	    
 	    // Do not add header to know page, profile
 		if(($view == 'profile' && ($task == '' || $task == 'display')) || $view == 'frontpage' || $view == 'events' || ($task == 'viewgroup'))
 		{
 			$showHead = false;
 		}
 
+		if ($view == 'topupcredit' || $view == 'mysupport' || $view == 'mywithdraw')
+		{
+			$showHead = false;
+		}
+		
 		if($showHead)
 		{
 			$tmpl = new CTemplate();
