@@ -87,7 +87,7 @@ class CommunityViewMyWithdraw extends CommunityView
 					
 					$this->initiateRequest($my->id, $withdrawalDate->format('Y-m-d H:i:s'), $withdrawValue, 0, 0, $withdrawalDate->format('Y-m-d H:i:s'), $name, $bankName, $mepsRouting, $acctnum, $bankCountry);
 					
-					$coreUrl = CRoute::_('index.php?option=com_community', false);
+					$coreUrl = CRoute::_('index.php?option=com_community&view=mywithdraw', false);
 					
 					echo $tmpl->set('coreUrl', $coreUrl)
 					->fetch( 'mywithdraw.success');

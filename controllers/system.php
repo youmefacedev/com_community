@@ -1621,7 +1621,6 @@ return $objResponse->sendResponse();
 
 		$like->addLike($act->like_type, $act->like_id);
 
-
 		$likeCount = $like->getLikeCount($act->like_type, $act->like_id);
 
 		// If the like count is 1, then, the like bar most likely not there before
@@ -1638,9 +1637,16 @@ return $objResponse->sendResponse();
 		//$objResponse->addScriptCall($script);
 
 		//$objResponse->addScriptCall("closeSupport", $itemId);
+
+		$my				= CFactory::getUser();
+		$userValuePoint = $this->getUserBalancePoint($my->id);
+		
+		$objResponse->addScriptCall('refreshUserPoint', $userValuePoint);
 		
 		return $objResponse->sendResponse();
 	}
+	
+	
 
 	/**
 	 *

@@ -144,10 +144,9 @@
 
 <script>
 
-
 		
 		function closeSupport(id)
-		{
+		{	
 			jomsQuery("#like_id" + id).popover('hide');
 			jomsQuery("#like_id" + id).hide();
 			reload();
@@ -155,10 +154,10 @@
 
 		function reload()
 		{
-			alert(functionCount);
+			//alert(functionCount);
 			functionCount=0;
 			//window.location.reload();
-			alert(functionCount);
+			//alert(functionCount);
 			//documentCount=0;
 			//functionCount=0; 
 		}
@@ -255,18 +254,23 @@
 		   			   
 				});
 
-				jomsQuery('a[id^=sendSupport]').live('click',function() {
+				jomsQuery('a[id^=sendSupport]').live('click',function(evt) {
 				var e=jomsQuery(this);
 			    e.unbind('click');
 
 				    if (functionCount == 0)
 					{
+				    	// send // 
+						// evt.preventDefault();
 						var giftId = e.attr('giftId');
 						var itemId = e.attr('itemId');
 						jax.call('community','system,sendSupport', giftId, itemId);
 				 		closeSupport(itemId);
-				 		functionCount++;
+				 		//functionCount++;
 				    }
+
+				    return false;
+				    
 				});
 
 				documentCount++; // bind only once 

@@ -16,6 +16,9 @@ jimport( 'joomla.html.html');
 
 class CommunityViewMySupport extends CommunityView
 {
+	
+	private $totalGiftValue = 0;
+	
 	public function display($tpl = null)
 	{
 		$this->listSupport();
@@ -39,6 +42,7 @@ class CommunityViewMySupport extends CommunityView
 		
 		echo $tmpl->set('supportList', $supportList)
 				  ->set('withdrawUrl', $withdrawUrl)
+				  ->set('totalGiftValue', $this->totalGiftValue)
 				  ->fetch( 'mysupport.list');
 	}
 	
@@ -58,6 +62,8 @@ class CommunityViewMySupport extends CommunityView
 		{	
 			$giftValue = $userPointModel->getGiftValuePoint($giftElement->giftId);
 			
+			$this->totalGiftValue = $this->totalGiftValue + $giftValue;  
+			
 			$supportList[$idx]["giftValue"] = $giftValue;
 
 			$user = CFactory::getUser($giftElement->sourceUserId);
@@ -65,6 +71,8 @@ class CommunityViewMySupport extends CommunityView
 			$supportList[$idx]["supportName"] = $user->username;
 			
 			$supportList[$idx]["avatar"] = $user->getAvatar();
+			
+			$supportList[$idx]["lastUpdate"] = $giftElement->lastUpdate;
 			
 			$idx++;
 		}

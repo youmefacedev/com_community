@@ -8,6 +8,7 @@ create table jom_user_withdrawal_activity (id int primary key auto_increment, us
 
 create table jom_gift (id int primary key auto_increment, description varchar(255), valuePoint float, imageURL varchar(500), updatedByUser int, lastUpdate datetime); 
 
+-- newly introduced on 25-Sept-2013 -- 
 create table jom_point_system_config (id int primary key auto_increment, pointValuePerDollar float, currencyId int, lastUpdate datetime);
 
 create table jom_currency (id int primary key auto_increment, currencyCode varchar(3), description varchar(255), lastUpdate datetime);

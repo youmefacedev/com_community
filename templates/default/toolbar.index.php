@@ -129,7 +129,7 @@ $taskName = JRequest::getCmd( 'task');
 					
 					<?php if( $balancePoint ){ ?>
 					<li class="visible-desktop" >
-							<i class="icon-gift"></i><span class="js-counter"><?php echo $balancePoint; ?></span>
+							<i class="icon-gift"></i><span id="balancePoints" class="js-counter"><?php echo $balancePoint; ?></span>
 					</li>
 					<?php } ?>
 					
@@ -192,8 +192,11 @@ $taskName = JRequest::getCmd( 'task');
 	<?php echo $groupMiniHeader; ?>
 <?php endif; ?>
 
+
 <script>
-	joms.jQuery(function() {
+
+		joms.jQuery(function() {
+
 		var $collapsible = joms.jQuery('#js-collapse');
 
 		$collapsible.collapse({
@@ -206,4 +209,13 @@ $taskName = JRequest::getCmd( 'task');
 	        }
 	    );
 	});
+
+	function refreshUserPoint(userValuePoint)
+	{
+		// automativally refresh user point //
+		jomsQuery("#balancePoints").html(userValuePoint);
+	}
+
+
+	
 </script>

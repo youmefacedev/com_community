@@ -151,9 +151,9 @@ defined('_JEXEC') or die();
 		
 		       
 		     <li>
-					<label for="mepsRouting" class="form-label">Meps Routing</label>
+					<label for="mepsRouting" class="form-label">Meps Routing Code</label>
 					<div class="form-field">
-						<input type='text' id="mepsRouting" name="mepsRouting" /> 
+						<input type='text' id="mepsRouting" name="mepsRouting" /> <a href="">Get code</a>
 					</div>
 			</li>	
 					
@@ -183,7 +183,7 @@ defined('_JEXEC') or die();
 
 			<li>		
 					<div class="form-field">
-					<span><button id="submitBtn" name="submitBtn">Submit</button>
+					<span><button id="submitBtn" class="btn-primary btn" name="submitBtn">Submit</button>
 					</div>
 			
 			</li>

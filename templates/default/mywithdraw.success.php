@@ -30,9 +30,9 @@ defined('_JEXEC') or die();
 					<ul class="cFormList cFormHorizontal cResetList">
 						
 						<li>
-							<label class="form-label" for="name">Current Credit(s) </label>
+							<label class="form-label" for="name"></label>
 							<div class="form-field">
-								<span>You have successfully with your credits.<span/>
+								<span><a href="<?php echo $coreUrl; ?>"> You have successfully with your credits. </a><span/>
 							</div>
 						</li>
 						

@@ -63,7 +63,7 @@ class CommunityModelUserPointActivity extends JCCModel
 	 	if (isset($referenceId))
 	 	{
 	 		$db	= $this->getDBO();
-	 		$sql = 'SELECT '.$db->quoteName('id') .  ", " . $db->quoteName('giftId') . ' FROM '.$db->quoteName('#__user_reward_activity');
+	 		$sql = 'SELECT '.$db->quoteName('id') .  ", " . $db->quoteName('giftId') . ", " . $db->quoteName('lastUpdate') . ' FROM '.$db->quoteName('#__user_reward_activity');
 	 		$sql = $sql . ' WHERE '.$db->quoteName('referenceId') . '=' . $db->Quote($referenceId);
 	 		
 	 		$db->setQuery($sql);
