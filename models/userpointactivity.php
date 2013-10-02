@@ -94,6 +94,27 @@ class CommunityModelUserPointActivity extends JCCModel
 	 	return NULL;
 	 }
 	 
+	 public function getGiftActivityBySourceUser($userId , $referenceId, $activityStatus)
+	 {
+	 	if (isset($userId))
+	 	{
+	 		$db	= $this->getDBO();
+	 
+	 		$sql = 'SELECT ' . $db->quoteName('id') .  ", " . $db->quoteName('giftId') . ", " . $db->quoteName('giftValue')  . ", " . $db->quoteName('sourceUserId')  .
+	 		", " . $db->quoteName('lastUpdate') . ' FROM '.$db->quoteName('#__user_reward_activity');
+	 
+	 		$sql = $sql . ' WHERE '. $db->quoteName('sourceUserId') . '=' . $db->Quote($userId) . " AND " . $db->quoteName('activityStatus') . '=' . $db->Quote($activityStatus)
+	 		. " AND " . $db->quoteName('referenceId') . '=' . $db->Quote($referenceId);
+	 
+	 		$db->setQuery($sql);
+	 		$db->query();
+	 		$result = $db->loadObjectList();
+	 		return $result;
+	 	}
+	 	return NULL;
+	 }
+	 
+	 
 	 public function getGiftValueActivity($referenceId)
 	 {		
 	 	

@@ -143,30 +143,27 @@
 </style>
 
 <script>
-
 		
-		function closeSupport(id)
+		function closeSupport(id, liked)
 		{	
 			jomsQuery("#like_id" + id).popover('hide');
-			jomsQuery("#like_id" + id).hide();
+			
+			if (liked)
+			{
+				jomsQuery("#like_id" + id).hide();
+			}
 			reload();
 		}
 
 		function reload()
 		{
-			//alert(functionCount);
 			functionCount=0;
-			//window.location.reload();
-			//alert(functionCount);
-			//documentCount=0;
-			//functionCount=0; 
 		}
 
 		function showLikeSupport(id)
 		{			
 			jomsQuery("#like_id" + id).show();
 		}
-
 
 		var prevId = ""; 
 
@@ -212,24 +209,28 @@
 		 		}
 		 	}
 
-		 	closeOtherPopup();
+		 	closeOtherPopup("#like_id" + likedItem);
 
 		 	jomsQuery("#like_id" + likedItem).popover(
-				 	{
+				 	{	
+					 	placement : 'right',
 					 	title : 'Like ' + 
 					 	 '<button type="button" id="close" class="close" onclick="jomsQuery(&quot;#like_id' + likedItem + '&quot;).popover(&quot;hide&quot;);">&times;</button>', 
-		        		content : content
+		        		content : content 
+		        	
 		 	}).popover('show');
 
 		 	prevId = "#like_id" + likedItem;
 		 	
 		}
 		
-
-		function closeOtherPopup()
+		function closeOtherPopup(currentId)
 		{
 			if (prevId == "") 
 				return; 
+
+			if (prevId == currentId)
+				return;
 
 			jomsQuery(prevId).popover('hide');
 			
@@ -240,13 +241,11 @@
 	         
 		jomsQuery(document).ready(function()
         {
-			var functionCount=0; 
-			                       	
 			if (documentCount == 0)
 			{
 				jomsQuery('a[id^=like_id]').live('click', function(evt) {
-					
-					    var e=jomsQuery(this);
+
+						var e=jomsQuery(this);
 					    evt.preventDefault();
 					    e.unbind('click');
 						var ctrlId = e.attr('id');
@@ -254,28 +253,30 @@
 		   			   
 				});
 
-				jomsQuery('a[id^=sendSupport]').live('click',function(evt) {
-				var e=jomsQuery(this);
-			    e.unbind('click');
-
-				    if (functionCount == 0)
+				jomsQuery('a[id^=sendSupport]').live('click',function(evt) 
+				{
+					var e=jomsQuery(this);
+				    e.unbind('click');
+					    	
+					var giftId = e.attr('giftId');
+					var itemId = e.attr('itemId');
+					if (confirm("Please acknowledge if you would like to proceed with this?"))
 					{
-				    	// send // 
-						// evt.preventDefault();
-						var giftId = e.attr('giftId');
-						var itemId = e.attr('itemId');
 						jax.call('community','system,sendSupport', giftId, itemId);
-				 		closeSupport(itemId);
-				 		//functionCount++;
-				    }
-
-				    return false;
-				    
-				});
-
-				documentCount++; // bind only once 
-			}
-		    
+						closeSupport(itemId, true);
+						
+					}
+					else 
+					{	
+						closeSupport(itemId, false);
+						prevId = "";
+					}
+					return false;
+					    
+				  });
+	
+				  documentCount++; // bind only DOM object tree only once 
+			}		    
         });
         
 </script>
@@ -342,7 +343,7 @@ $allowComment = !empty($my->id);
 <span>
 
 <?php if($act->userLiked != COMMUNITY_LIKE) { ?>
-<!--   ++++ --> <a id="like_id<?php echo $act->id?>" href="#" 	data-actor="<?php echo $act->actor?>" data-placement="top" data-toggle="popover" href="#"><?php echo JText::_('COM_COMMUNITY_LIKE');?></a>
+<!--   ++++ --> <a id="like_id<?php echo $act->id?>" href="#" 	data-actor="<?php echo $act->actor?>" data-toggle="popover" href="#"><?php echo JText::_('COM_COMMUNITY_LIKE');?></a>
 <?php } else { ?>
 <!--  <a id="like_id<?php echo $act->id?>" href="#unlike" ><?php echo JText::_('COM_COMMUNITY_UNLIKE');?></a>  --> <!-- jeremy woo need to disable this!  -->     
 <?php } ?>

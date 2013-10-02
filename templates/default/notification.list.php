@@ -19,10 +19,13 @@ defined('_JEXEC') or die();
  */
 ?>
 
+
 <div class="cWindowNotification forNotifications">
 <?php if(!empty($notifications)) { ?>
 	<ul class="cWindowStream forNotifications cResetList">
 	<?php
+	
+	
 		foreach ($notifications as $row)
 		{
 	?>
@@ -71,7 +74,7 @@ defined('_JEXEC') or die();
 </div>
 <?php } ?>
 
-<div class="cWindowNotification-Jumper">
+<div class="cWindowNotification-Jumper">11
 	<a href="<?php echo $link; ?>"><?php echo $link_text; ?></a>
 </div>
 

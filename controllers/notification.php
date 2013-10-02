@@ -32,7 +32,7 @@ class CommunityNotificationController extends CommunityBaseController
 		$inboxHtml			= '';
 		$frenHtml			= '';
 		$notiTotal			= 0;
-
+		
 		//getting pending event request
 		$pendingEvent	= $eventModel->getPending($my->id);
 		$eventHtml		= '';
@@ -124,16 +124,22 @@ class CommunityNotificationController extends CommunityBaseController
 		}
 
 		//non require action notification
-
+	
 		$itemHtml = '';
 		$notifCount = 5;
 		$notificationModel	= CFactory::getModel( 'notification' );
 		$myParams			= 	$my->getParams();
 
 		$notifications = $notificationModel->getNotification($my->id,'0',$notifCount,$myParams->get('lastnotificationlist',''));
+		
+		$activityId = -1;
+		$constString = "actid=";
+		
+		
+		$userPointModel = CFactory::getModel('userpointactivity');
+		
 		if(!empty($notifications)){
-
-
+			
 
 			for($i=0; $i< count($notifications); $i++){
 				//add some inforamtion to the notification object
@@ -145,9 +151,28 @@ class CommunityNotificationController extends CommunityBaseController
 				$iRow->contentHtml 	=	CContentHelper::injectTags($iRow->content,$iRow->params,true);
 				$params = new CParameter( $iRow->params );
 				$iRow->url          =   $params->get('url','');
-			}
-			$tmpl	= new CTemplate();
+				
+				$pLength = strlen($constString);
+				$pos = strpos($params, $constString);
+				$pos2 = strpos($params, "\"", $pos);
+				
+				$startPos = $pos + $pLength;
+				$activityId = substr($params, $startPos, $pos2 - $startPos);
+				
+				$result = $userPointModel->getGiftActivityBySourceUser($iRow->actor, $activityId, 1);
 
+				$giftValue = -1;
+				foreach ($result as $giftElement)
+				{
+					$giftValue = $giftElement->giftValue;
+				}
+								
+				$iRow->giftValue = $giftValue; 
+			}
+			
+			
+			$tmpl	= new CTemplate();
+			
 			$tmpl->set( 'iRows' 	, $notifications );
 			$tmpl->setRef( 'my'	, $my );
 			$itemHtml = $tmpl->fetch( 'notification.item' );
@@ -383,6 +408,7 @@ class CommunityNotificationController extends CommunityBaseController
 		}
 
 		$tmpl = new CTemplate();
+		
 		$html = $tmpl
 				->set('notifications', $data)
 				->set('link', CRoute::_('index.php?option=com_community&view=friends&task=pending') )
@@ -420,13 +446,14 @@ class CommunityNotificationController extends CommunityBaseController
 			$data[] = $obj;
 		}
 
+		
 		$tmpl = new CTemplate();
 		$html = $tmpl
 				->set('notifications', $data)
 				->set('link', CRoute::_('index.php?option=com_community&view=inbox') )
 				->set('link_text', JText::_('COM_COMMUNITY_NOTIFICATIONS_SHOW_ALL_MSG'))
 				->set('empty_notice', JText::_('COM_COMMUNITY_NOTIFICATIONS_NO_MESSAGE') )
-				->fetch('notification.list');
+					->fetch('notification.list');
 
 		$objResponse->addAssign('cwin_logo', 'innerHTML', JText::_('COM_COMMUNITY_MESSAGE'));
 		$objResponse->addScriptCall('cWindowAddContent', $html);

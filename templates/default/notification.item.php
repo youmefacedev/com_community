@@ -23,8 +23,10 @@ defined('_JEXEC') or die();
 				<img src="<?php echo $row->actorAvatar; ?>" class="cAvatar" alt="<?php echo $this->escape($row->actorName); ?>"/>
 			</a>
 			<div class="cStream-Content">
-				<div id="notification-msg-<?php echo $row->id; ?>" class="cStream-Headline notification-msg-item">
-					<?php echo CContentHelper::injectTags($row->content,$row->params,true); ?>
+				<div id="notification-msg-<?php echo $row->id; ?>" class="cStream-Headline notification-msg-item"> 
+					<?php echo CContentHelper::injectTags($row->content,$row->params,true); ?>&nbsp; 
+					<i><?php echo (!empty($row->giftValue) ? "(" . $row->giftValue . " points)" : ''); ?> </i>
+					
 				</div>
 				<div class="cStream-Clock small">
 					<?php echo $row->timeDiff; ?>
