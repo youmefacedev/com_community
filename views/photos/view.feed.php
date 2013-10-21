@@ -569,6 +569,7 @@ class CommunityViewPhotos extends CommunityView
 		$showWall		= false;
 		$allowTag		= false;
 
+		
 		//check if we can allow the current viewing user to tag the photos
 		if($group->isMember( $my->id ) || $group->isAdmin( $my->id ) || COwnerHelper::isCommunityAdmin())
 		{
@@ -593,7 +594,7 @@ class CommunityViewPhotos extends CommunityView
 		$tmpl->set( 'friends'		, $friends);
 		$tmpl->set( 'config'		, $config);
 		$tmpl->set( 'photoCreator'	, $photoCreator);
-
+		
 		echo $tmpl->fetch('photos.photo');
 	}
 

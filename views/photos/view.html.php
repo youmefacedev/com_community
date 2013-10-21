@@ -737,6 +737,11 @@ class CommunityViewPhotos extends CommunityView
  		$defaultId	= $jinput->get('photo' , 0, 'INT' );
 		$userId		= $jinput->get('userid' , 0, 'INT' );
 
+		
+		
+		
+		
+		
 		$user = CFactory::getUser($userId);
 		// Set pathway for group photos
 		// Community > Groups > Group Name > Photos > Album Name
@@ -930,7 +935,10 @@ class CommunityViewPhotos extends CommunityView
 		$likesHTML	= $like->getHTML( 'album', $album->id, $my->id );
 
 		$owner = CFactory::getUser($album->creator);
-
+		
+		//$userLiked = $like->userLiked('album', $album->id, $my->id);
+		// $likes = 
+		
 		echo $tmpl		->set( 'likesHTML'	, $likesHTML )
 					->set( 'photosmapdefault'   , $photoMapsDefault )
 					->set( 'my'				, $my )
@@ -1095,6 +1103,7 @@ class CommunityViewPhotos extends CommunityView
 		$bookmarks		= new CBookmarks( $handler->getPhotoExternalURI( $photo->id , $album->id ) );
 
 		$this->showSubmenu();
+		
 		$tmpl	= new CTemplate();
 		echo $tmpl	->set( 'bookmarksHTML'	, $bookmarks->getHTML() )
 					->set( 'showWall'		, $handler->isWallAllowed() )

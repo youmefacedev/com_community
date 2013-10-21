@@ -553,11 +553,6 @@ return $objResponse->sendResponse();
 			return $this->ajaxBlockUnregister();
 		}
 
-
-
-
-
-
 		$like	=   new CLike();
 
 		if( !$like->enabled($element) )
@@ -598,11 +593,77 @@ return $objResponse->sendResponse();
 
 		// Add logging
 		CActivityStream::addActor($act, $params->toString() );
-
+		
+		$userValuePoint = $this->getUserBalancePoint($my->id);
+		
+		$objResponse->addScriptCall('refreshUserPoint', $userValuePoint);
+		
 		$objResponse->addScriptCall('__callback', $html);
 
 		return $objResponse->sendResponse();
 	}
+	
+	
+	public function ajaxLikePhoto( $element, $itemId )
+	{
+		$filter = JFilterInput::getInstance();
+		$element = $filter->clean($element, 'string');
+		$itemId = $filter->clean($itemId, 'int');
+	
+		if (!COwnerHelper::isRegisteredUser())
+		{
+			return $this->ajaxBlockUnregister();
+		}
+	
+		$like	=   new CLike();
+	
+		if( !$like->enabled($element) )
+		{
+			// @todo: return proper ajax error
+			return;
+		}
+	
+		$my				= CFactory::getUser();
+		$objResponse	= new JAXResponse();
+	
+	
+		$like->addLike( $element, $itemId );
+		$html	=   $like->getHTML( $element, $itemId, $my->id );
+	
+		$act = new stdClass();
+		$act->cmd 		= $element.'.like';
+		$act->actor   	= $my->id;
+		$act->target  	= 0;
+		$act->title	  	= '';
+		$act->content	= '';
+		$act->app		= $element.'.like';
+		$act->cid		= $itemId;
+	
+		$params = new CParameter('');
+	
+		switch ($element) {
+	
+			case 'groups':
+				$act->groupid = $itemId;
+				break;
+			case 'events':
+				$act->eventid = $itemId;
+				break;
+		}
+	
+		$params->set( 'action', $element.'.like');
+	
+		// Add logging
+		CActivityStream::addActor($act, $params->toString() );
+	
+		$userValuePoint = $this->getUserBalancePoint($my->id);
+	
+		$objResponse->addScriptCall('refreshUserPoint', $userValuePoint);
+		$objResponse->addScriptCall('hideUserLike', $itemId);
+		
+		return $objResponse->sendResponse();
+	}
+	
 
 	/**
 	 * Dislike an item
@@ -1802,7 +1863,7 @@ return $objResponse->sendResponse();
 		$actid = $filter->clean($actid, 'int');
 
 		$objResponse	=   new JAXResponse();
-			
+		
 		$giftModel = CFactory::getModel('support');
 		$giftResult = $giftModel->getList();
 
@@ -1810,7 +1871,173 @@ return $objResponse->sendResponse();
 		return $objResponse->sendResponse();
 
 	}
-
+	
+	public function sendSupportPhoto($giftId, $itemId)
+	{	
+		
+		$filter = JFilterInput::getInstance();
+		$objResponse	=   new JAXResponse();
+		
+		
+		$my = CFactory::getUser();
+		
+		$photo	    = JTable::getInstance( 'Photo' , 'CTable' );
+		$photo->load($itemId);
+				
+		$targetUserId = $photo->creator;
+		$sourceUserId = $my->id;
+		
+		$giftModel = CFactory::getModel('configuregift');
+		
+		$giftResult = $giftModel->getGiftObject($giftId);
+		
+		$giftValuePoint = 0;
+		
+		foreach ($giftResult as $giftElement)
+		{
+			$giftValuePoint = $giftElement->valuePoint;
+		}
+		
+		$sourceUserPoint = $this->getUserBalancePoint($sourceUserId);
+		$targetUserPoint = $this->getUserBalancePoint($targetUserId);
+		
+		if (is_null($sourceUserPoint)) // source user point cannot be found; create it //
+		{
+			$this->createUserPoint($sourceUserPoint, 0); // create a user point with zero value.
+			$sourceUserPoint=0;
+		}
+		
+		if (is_null($targetUserPoint)) // target point cannot be found; create it //
+		{
+			$this->createUserPoint($targetUserId, 0); // create a user point with zero value.
+			$targetUserPoint = 0;
+		}
+		
+		if ($sourceUserPoint >= $giftValuePoint)
+		{
+			// update source user point
+			$newBalance = $sourceUserPoint - $giftValuePoint;
+			$this->updateUserBalancePoint($sourceUserId, $newBalance);
+			// update gift activity //
+		
+			$eventDate = new DateTime();
+			$this->updateUserPointActivity($my->id, $targetUserId, $itemId, $giftId, $giftValuePoint, $eventDate->format('Y-m-d H:i:s'), 1);
+		
+			$targetUserPoint = $this->getUserBalancePoint($targetUserId);
+		
+			if (!is_null($targetUserPoint))
+			{
+				// update target user point
+				$newBalanceGivenPoint = $targetUserPoint + $giftValuePoint;
+				$this->updateUserBalancePoint($targetUserId, $newBalanceGivenPoint);
+				$this->ajaxLikePhoto("photo", $itemId); // for some reason we are not able to generate multiple ajax response.
+			}
+		
+		}
+		else
+		{
+			// Todo :- Better response handling in the user interface level.
+			// $objResponse->addAlert('You do not have sufficient credit to complete this operation.');
+			$content = "<div>You do not have sufficient credit to complete this operation. </div>";
+			$actions = "<button class='btn' onclick='cWindowHide()'>Ok</button>";
+		
+			$objResponse->addScriptCall('joms.jQuery(\'#cWindow\').remove();');
+		
+			//recreate the warning cwindow
+			$objResponse->addScriptCall('cWindowShow', '	', 'Support ', 450, 200, 'warning');
+			$objResponse->addScriptCall('cWindowAddContent', $content, $actions);
+		
+			$objResponse->addScriptCall('showLikeSupport', $itemId);
+			return $objResponse->sendResponse();
+		}
+	}
+	
+	
+	
+	public function sendSupportAlbum($giftId, $itemId)
+	{
+	
+		$filter = JFilterInput::getInstance();
+		$objResponse	=   new JAXResponse();
+	
+	
+		$my = CFactory::getUser();
+	
+		$photo	    = JTable::getInstance( 'Photo' , 'CTable' );
+		$photo->load($itemId);
+	
+		$targetUserId = $photo->creator;
+		$sourceUserId = $my->id;
+	
+		$giftModel = CFactory::getModel('configuregift');
+	
+		$giftResult = $giftModel->getGiftObject($giftId);
+	
+		$giftValuePoint = 0;
+	
+		foreach ($giftResult as $giftElement)
+		{
+			$giftValuePoint = $giftElement->valuePoint;
+		}
+	
+		$sourceUserPoint = $this->getUserBalancePoint($sourceUserId);
+		$targetUserPoint = $this->getUserBalancePoint($targetUserId);
+	
+		if (is_null($sourceUserPoint)) // source user point cannot be found; create it //
+		{
+			$this->createUserPoint($sourceUserPoint, 0); // create a user point with zero value.
+			$sourceUserPoint=0;
+		}
+	
+		if (is_null($targetUserPoint)) // target point cannot be found; create it //
+		{
+			$this->createUserPoint($targetUserId, 0); // create a user point with zero value.
+			$targetUserPoint = 0;
+		}
+	
+		if ($sourceUserPoint >= $giftValuePoint)
+		{
+			// update source user point
+			$newBalance = $sourceUserPoint - $giftValuePoint;
+			$this->updateUserBalancePoint($sourceUserId, $newBalance);
+			// update gift activity //
+	
+			$eventDate = new DateTime();
+			$this->updateUserPointActivity($my->id, $targetUserId, $itemId, $giftId, $giftValuePoint, $eventDate->format('Y-m-d H:i:s'), 1);
+	
+			$targetUserPoint = $this->getUserBalancePoint($targetUserId);
+	
+			if (!is_null($targetUserPoint))
+			{
+				// update target user point
+				$newBalanceGivenPoint = $targetUserPoint + $giftValuePoint;
+				$this->updateUserBalancePoint($targetUserId, $newBalanceGivenPoint);
+				$this->ajaxLikePhoto("album", $itemId); // for some reason we are not able to generate multiple ajax response.
+			}
+	
+		}
+		else
+		{
+			// Todo :- Better response handling in the user interface level.
+			// $objResponse->addAlert('You do not have sufficient credit to complete this operation.');
+			$content = "<div>You do not have sufficient credit to complete this operation. </div>";
+			$actions = "<button class='btn' onclick='cWindowHide()'>Ok</button>";
+	
+			$objResponse->addScriptCall('joms.jQuery(\'#cWindow\').remove();');
+	
+			//recreate the warning cwindow
+			$objResponse->addScriptCall('cWindowShow', '	', 'Support ', 450, 200, 'warning');
+			$objResponse->addScriptCall('cWindowAddContent', $content, $actions);
+	
+			$objResponse->addScriptCall('showLikeSupport', $itemId);
+			return $objResponse->sendResponse();
+		}
+	}
+	
+	
+	
+	
+	
 	public function sendSupport($giftId, $itemId)
 	{
 		$filter = JFilterInput::getInstance();
@@ -1840,10 +2067,7 @@ return $objResponse->sendResponse();
 
 		$sourceUserPoint = $this->getUserBalancePoint($sourceUserId);
 		$targetUserPoint = $this->getUserBalancePoint($targetUserId);
-
-		//var_dump($sourceUserPoint);
-		//$objResponse->addAlert("send support response" . $sourceUserPoint);
-
+		
 		if (is_null($sourceUserPoint)) // source user point cannot be found; create it //
 		{	
 			$this->createUserPoint($sourceUserPoint, 0); // create a user point with zero value.

@@ -13,6 +13,7 @@ defined('_JEXEC') or die();
 if( $photos && $isOwner )
 {
 ?>
+
 <script type="text/javascript" src="<?php echo rtrim(JURI::root(),'/'); ?>/components/com_community/assets/ui.core.js"></script>
 <script type="text/javascript" src="<?php echo rtrim(JURI::root(),'/'); ?>/components/com_community/assets/ui.sortable.js"></script>
 <script type='text/javascript'>
@@ -263,8 +264,172 @@ joms.jQuery(document).ready(function(){
 	<input type="hidden" name="albumid" value="<?php echo $album->id;?>" id="albumid" />
 </div>
 
+
+
+
+<script type='text/javascript'>
+
+var prevId = "";
+var documentCount=0;
+var alinkPattern = "like-album-"; 
+
+function closeSupport(id, liked)
+{	
+	if (liked)
+	{
+		jomsQuery("#" + alinkPattern + id).popover('hide');
+	}
+	reload();
+}
+
+function showLikeSupport(id)
+{			
+	jomsQuery("#" + alinkPattern + id).show();
+}
+
+function reload()
+{
+	functionCount=0;
+}
+
+function closeOtherPopup(currentId)
+{
+	if (prevId == "") 
+		return; 
+
+	if (prevId == currentId)
+		return;
+	
+	jomsQuery(prevId).popover('hide');	
+}
+
+function showSupport(data, likedItem)
+{	
+
+	var content="";
+	var idx=0; 
+	
+ 	for(var i=0; i < data.length; i++)
+ 	{
+ 		idx++;
+ 		
+		if (idx == 1)
+		{
+ 			content += "<div class='tableRow'>";
+		}
+		
+ 			content += "<div class='tableColumn'>"; 
+ 			content += "<div class='cIndex-Box clearfix'>";
+ 			
+ 			content += "<div class='support-Content'>";
+ 			content += "<h3 class='cIndex-Name cResetH'>";
+ 					content += "<a href=''>" + data[i].code +  "</a>";
+ 			content += "</h3>";
+ 			
+ 			content += "<div class='cIndex-Status'><span><img src='../../.." + data[i].imageURL +  "'/></span></div>";
+ 			content += "<div class='cIndex-Status'><span></span><span>" + data[i].valuePoint +  " credits</span></div>";
+ 			content += "<div class='cIndex-Actions'><a href='#' class='btn btn-primary' id=sendSupport" + data[i].id + " giftId=" + data[i].id + " itemId=" + likedItem  + ">Send</a></div>";
+
+	 		content += "</div>";
+ 			content += "</div>";
+ 			content += "</div>";
+ 			
+ 		
+ 		if (idx == 5 || (i + 1) == data.length)
+ 		{
+ 			content += "</div>";  // ending tag 
+ 		}
+
+ 		if (idx == 5)
+ 		{
+	 		idx = 0;
+ 		}
+ 	}
+ 	
+ 	jomsQuery("#" + alinkPattern + likedItem).popover(
+	{	
+			 	placement : 'top',
+			 	title : 'Like ' + 
+			 	 '<button type="button" id="close" class="close" onclick="jomsQuery(&quot;' + "#" + alinkPattern + likedItem + '&quot;).popover(&quot;hide&quot;);">&times;</button>',
+			 	 //'<button type="button" id="close" class="close" onclick="jomsQuery(&quot;' + ".popover" + '&quot;).hide();">&times;</button>', 
+        		content : content 
+        	
+ 	}).popover('show');
+
+ 	prevId = "#" + alinkPattern + likedItem;
+  }
+
+  function hideUserLike(likedItem)
+  {  	
+	 jomsQuery("#like-container").html("<i>Thanks! You liked this. </i>");
+  }
+
+  function getPhotoId(ctrlId)
+  {
+	var matchingStringPattern = "album-";
+	var patternLen = matchingStringPattern.length;
+	var searchResult = ctrlId.indexOf(matchingStringPattern);
+	var idStr = ctrlId.substr(searchResult + patternLen);
+	return idStr;
+	
+  }
+  
+	jomsQuery(document).ready(function()
+    {    
+	    	    
+		if (documentCount == 0)
+		{
+			
+			jomsQuery('a[id^=' +  alinkPattern + ' ]').live('click', function(evt) 
+			{
+				console.log('show...');
+				var e=jomsQuery(this);
+			    evt.preventDefault();
+			    e.unbind('click');
+				var ctrlId = getPhotoId(e.attr('id'));
+				var ctrlId = e.attr('id');
+			    jax.call('community','system,showSupport', getPhotoId(ctrlId));
+			    return false;	
+			});
+
+
+			jomsQuery('a[id^=sendSupport]').live('click',function(evt) 
+			{
+						var e=jomsQuery(this);
+					    e.unbind('click');
+						    	
+						var giftId = e.attr('giftId');
+						var itemId = e.attr('itemId');
+						
+						if (confirm("Please acknowledge if you would like to proceed with this?"))
+						{	
+							jax.call('community','system,sendSupportAlbum', giftId, itemId);
+							closeSupport(itemId, true);
+						}
+						else 
+						{	
+							closeSupport(itemId, false);
+							prevId = "";
+						}
+						return false;
+						    
+			});
+					
+			documentCount++; // bind only DOM object tree only once
+		}	
+      });
+	
+
+</script>
+
+
+
 <script type="text/javascript">
-	joms.jQuery(document).ready(function() {
+
+
+
+
+		joms.jQuery(document).ready(function() {
 		var photoAlbumDesc = joms.jQuery('.community-photo-desc-editable');
 
 

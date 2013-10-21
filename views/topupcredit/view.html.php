@@ -39,61 +39,48 @@ class CommunityViewTopupCredit extends CommunityView
 			      ->fetch( 'topupcredit');
 	}
 	
-	public function addGift()
-	{
-		$tmpl	= new CTemplate();
-		$saveGiftUrl = CRoute::_('index.php?option=com_community&view=configuregift&task=saveGift', false);	
-		echo $tmpl->set('coreUrl', $saveGiftUrl)->fetch( 'configuregift.addgift');
-	}
 	
-	public function editGift()
-	{
-		$mainframe = JFactory::getApplication();
-		$giftModel = CFactory::getModel('configuregift');
-		$mainframe = JFactory::getApplication();
-		$giftRequest = JRequest::get('REQUEST');
-		$id = $giftRequest["id"];
-		
-		if (isset($id))
-		{
-			$result  = $giftModel->getGiftObject($id);
-						
-			if (isset($result))
-			{
-				$tmpl	= new CTemplate();
-				$saveGiftUrl = CRoute::_('index.php?option=com_community&view=configuregift&task=saveGift', false);	
-				$giftRecord; 
-				
-				foreach ($result as $key)
-				{
-					$giftRecord = $key;
-				}
+	public function topupForUser()
+	{	
+		$tmpl	= new CTemplate();
+		$my 		= CFactory::getUser();
+		$selectedPackage = JRequest::getVar('packageName', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
-				echo $tmpl->set('coreUrl', $saveGiftUrl)
-						  ->set('giftRecord', $giftRecord)
-						  //->set('description', $result["description"])
-						  //->set('valuePoint', $result["valuePoint"])
-						  //->set('imageURL', $result["imageURL"])
-						  ->fetch('configuregift.addgift');
-			}
-			else 
-			{
-				$url = CRoute::_('index.php?option=com_community&view=configuregift');
-				$mainframe->redirect($url, "unable to load requsted record");
+		$topupStatus = false;
+		
+		$packageModel = CFactory::getModel("topupcredit");
+		
+		if (isset($selectedPackage))
+		{	
+			$packageValue = $packageModel->getPackageValue($selectedPackage);
+			
+			if ($packageValue > 0)
+			{	
+				$userPointModel = CFactory::getModel("userpoint");
+				
+				$existingBalancePoint = $userPointModel->getUserPointValue($my->id);
+				
+				if ($existingBalancePoint > 0)
+				{
+					$newBalancePoint = $existingBalancePoint + $packageValue;
+					$userPointModel->updateUserBalancePoint($my->id, $newBalancePoint);
+					$topupStatus = true;
+				} 
 			}
 		}
-	}
-	
-	public function removeComplete()
-	{
-		$targetUrl = CRoute::_('index.php?option=com_community&view=configuregift', false);	
-		echo  '<a href="'. $targetUrl . '">Gift deleted. Click here to continue.</a>';
-	}
-	
-	public function saveComplete()
-	{
-		$targetUrl = CRoute::_('index.php?option=com_community&view=configuregift', false);	
-		echo  '<a href="' . $targetUrl . '">Gift saved. Click here to continue.</a>';
+		
+		$coreUrl = CRoute::_('index.php?option=com_community&view=topupcredit', false);
+		
+		if ($topupStatus)
+		{			
+			echo $tmpl->set('coreUrl', $coreUrl)
+			->fetch('topup.success');
+		}
+		else 
+		{
+			echo $tmpl->set('coreUrl', $coreUrl)
+			->fetch( 'topupcredit.fail');
+		}		
 	}
 	
 }

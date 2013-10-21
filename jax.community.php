@@ -354,6 +354,8 @@ $jaxFuncNames[]	= 'system,ajaxStreamUnlike';
 $jaxFuncNames[]	= 'system,ajaxeditComment';
 $jaxFuncNames[]	= 'system,showSupport';
 $jaxFuncNames[]	= 'system,sendSupport';
+$jaxFuncNames[]	= 'system,sendSupportPhoto';
+$jaxFuncNames[]	= 'system,sendSupportAlbum';
 
 /**
  * Memberlist

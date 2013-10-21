@@ -40,26 +40,11 @@ defined('_JEXEC') or die();
 
 			if (!formValidated)
 			{
+				if( jomsQuery("#packageName").val() !=  '' )
+				{
+					return true; 
+				}
 				event.preventDefault();
-				alert('please setup validation routine in javascript first');
-
-
-				if( jomsQuery("#FirstName").val().length == 0 )
-				{
-					alert('Please specify first name.');
-					return false;
-				}
-
-				if( jomsQuery("#LastName").val().length == 0 )
-				{
-					alert('Please specify last name.');
-					return false;
-				}
-
-
-
-				
-					
 			}		
 		});
 	});
@@ -75,9 +60,9 @@ defined('_JEXEC') or die();
 			  	<label for="packageName" class="form-label">Select package</label>
 					<div class="form-field">
 						<select id='packageName' name='packageName'>
-						 	<option>100 </option>
-						 	<option>200 </option>
-						 	<option>300 </option>
+						 	<option value="PKG1">100</option>
+						 	<option value="PKG2">200</option>
+						 	<option value="PKG3">300</option>
 						   </select>
 				   </div>
 			</li>

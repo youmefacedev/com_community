@@ -777,7 +777,8 @@ class CToolbarLibrary
 		$js = 'assets/window-1.0.min.js';
 		CAssets::attach($js, 'js');
 
-		$js	= 'assets/script-1.2.min.js';
+		//$js	= 'assets/script-1.2.min.js';
+		$js	= 'assets/script-1.2.js';
 		CAssets::attach($js, 'js');
 
 
@@ -814,9 +815,11 @@ class CToolbarLibrary
 		$css = 'assets/autocomplete.css';
 		
 		$fontello = 'assets/css/fontello.css';
+		$mysupport = 'assets/css/mysupport.css';
 		
 		CAssets::attach($css, 'css');
 		CAssets::attach($fontello, 'css');
+		CAssets::attach($mysupport, 'css');
 
 		// Load joms.ajax
 		CTemplate::addScript('joms.ajax');

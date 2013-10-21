@@ -29,10 +29,13 @@ defined('_JEXEC') or die();
 				
 					<ul class="cFormList cFormHorizontal cResetList">
 						
+						<li>&nbsp;</li>
+						<li>&nbsp;</li>
+						<li>&nbsp;</li>
 						<li>
 							<label class="form-label" for="name"></label>
 							<div class="form-field">
-								<span><a href="<?php echo $coreUrl; ?>"> You have successfully withdraw your credits. </a><span/>
+								<span><a href="<?php echo $coreUrl; ?>"> You have successfully topup with your credits. </a><span/>
 							</div>
 						</li>
 						

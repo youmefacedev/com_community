@@ -3293,7 +3293,7 @@ joms.extend({
 		like: function(e){
 		    var like  = joms.jQuery(e).parents('.like-snippet');
 		    var data = this.extractData(like.attr('id'));
-
+		    
 		    // Remove the onclick attribute value to avoid double processing
 		    joms.jQuery(e).attr('onclick', '');
 

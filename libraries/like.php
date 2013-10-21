@@ -307,7 +307,7 @@ class CLike
 
 		$like	= JTable::getInstance( 'Like' , 'CTable' );
 		$like->loadInfo( $element, $itemId );
-
+		
 		$userLiked	    =	COMMUNITY_UNLIKE;
 		$likesInArray	    =	array();
 		$dislikesInArray    =	array();
@@ -337,7 +337,8 @@ class CLike
 		$tmpl->set( 'likes',	    $likes );
 		$tmpl->set( 'dislikes',	    $dislikes );
 		$tmpl->set( 'userLiked',    $userLiked );
-
+		
+		
 		if(!COwnerHelper::isRegisteredUser())
 		{
 			return $this->getHtmlPublic( $element, $itemId );

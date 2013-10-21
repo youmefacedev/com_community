@@ -48,6 +48,19 @@ class CommunityModelUserPoint extends JCCModel
 		return $result;
 	}
 	
+	public function getUserPointValue($userId)
+	{
+		$result = $this->getUserPoint($userId);
+		$balanceValue = 0;
+		
+		foreach ($result as $element)
+		{
+			$balanceValue = $element->balance_point;
+		}
+		
+		return $balanceValue;
+	}
+	
 	
 	public function updateUserBalancePoint($userId, $point)
 	{

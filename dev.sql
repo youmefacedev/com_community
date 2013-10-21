@@ -4,6 +4,13 @@ create table jom_user_point (id int primary key auto_increment, userId int, bala
 
 create table jom_user_topup_activity (id int primary key auto_increment, userId int, description varchar(255), valuePoint float, actualValue decimal(10, 2), paymentTransactionId int, lastUpdate datetime);
 
+create table jom_user_package (id int primary key auto_increment, packageCode varchar(50), description varchar(255), valuePoint int, lastUpdate datetime);
+
+insert into jom_user_package (packageCode, description, valuePoint) values ('PKG1', 'Package 1', 100);
+insert into jom_user_package (packageCode, description, valuePoint) values ('PKG2', 'Package 2', 200);
+insert into jom_user_package (packageCode, description, valuePoint) values ('PKG3', 'Package 3', 300);
+
+
 create table jom_user_withdrawal_activity (id int primary key auto_increment, userId int, bankCountry varchar(50), name varchar(100), bankName varchar(100), mepsRouting varchar(50), acctnum varchar(50),  withdrawal_date datetime, withdrawal_amount float, status int, payment_method int, approvedByUser int, lastUpdate datetime);
 
 create table jom_gift (id int primary key auto_increment, description varchar(255), valuePoint float, imageURL varchar(500), updatedByUser int, lastUpdate datetime); 

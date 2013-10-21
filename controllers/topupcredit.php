@@ -31,21 +31,14 @@ class CommunityTopupCreditController extends CommunityBaseController
 		$data		= new stdClass();
 		
 		$view = $this->getView('topupcredit');
-			echo $view->get('display');
+		echo $view->get('display');
 	}
 	
 	
 	public function topupForUser()
-	{
-		
-		$withdrawValue = JRequest::getVar('withdrawPoint', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		echo $withdrawValue;
-		
-		echo "topping up for user";
-		$post = JRequest::get('post');
-		
-		
-		die;
+	{	
+		$view = $this->getView('topupcredit');
+		echo $view->get('topupForUser');
 	}
 	
 	public function buySupport()
