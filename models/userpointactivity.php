@@ -44,7 +44,7 @@ class CommunityModelUserPointActivity extends JCCModel
 				$obj->giftId = $giftId;
 				$obj->giftValue = $giftValue;
 				$obj->transactionType = 0;
-				$obj->activityStatus = $activityStatus; // 1 : gift was given 2 : withdrawn 
+				$obj->activityStatus = $activityStatus; // 1 : gift was given 2 : withdrawn // 3 : approved 
 				$obj->lastUpdate = $eventDate;
 				
 				return $db->insertObject( '#__user_reward_activity' ,  $obj);

@@ -32,8 +32,12 @@ class CommunityModelWithdrawalRequest extends JCCModel
 				. $db->quoteName('transactionType')
 				. $db->quoteName('approvedByUser')
 				. $db->quoteName('lastUpdate')
+				. $db->quoteName('name')
+				. $db->quoteName('bankName')
+				. $db->quoteName('bankCountry')
+				. $db->quoteName('acctnum')
 				. ' FROM '.$db->quoteName('#__user_withdrawal_activity');
-		$sql = $sql . ' WHERE '.$db->quoteName('id') . '=' . $db->Quote($id);
+		$sql = $sql . ' WHERE '.$db->quoteName('id') . '=' . $db->Quote($requestId);
 		
 		$db->setQuery($sql);
 		$db->query();
@@ -41,7 +45,6 @@ class CommunityModelWithdrawalRequest extends JCCModel
 		$result = $db->loadObjectList();
 		return $result;
 	}
-	
 	
 	public function createRequest($userId, $withdrawal_date, $withdrawal_amount, $payment_method, $approvedByUser, $lastUpdate)
 	{	
@@ -102,25 +105,6 @@ class CommunityModelWithdrawalRequest extends JCCModel
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	// Get all the withdrawal request with status = 1 - User just initiated request
 	public function getWithdrawalRequest()
 	{
@@ -146,8 +130,8 @@ class CommunityModelWithdrawalRequest extends JCCModel
 	public function approveWithdrawalRequest($id, $approvedByUser, $lastUpdate)
 	{
 		$db	= $this->getDBO();
-		$query	= 'UPDATE ' . $db->quoteName( '#__user_withdrawal_activity' ) . ' '
-		      	  . 'SET ' . $db->quoteName('approvedByUser') . '=' . $db->Quote(approvedByUser) . ' '
+		$sql	= 'UPDATE ' . $db->quoteName( '#__user_withdrawal_activity' ) . ' '
+		      	  . 'SET ' . $db->quoteName('approvedByUser') . '=' . $db->Quote($approvedByUser) . ' '
 				  . ', ' . $db->quoteName('status') . '=' . $db->Quote(2) . ' '
 				  . ', ' . $db->quoteName('lastUpdate') . '=' . $db->Quote($lastUpdate) . ' '
 				  . 'WHERE ' . $db->quoteName( 'id' ) . '=' . $db->Quote($id);
@@ -160,6 +144,69 @@ class CommunityModelWithdrawalRequest extends JCCModel
 			JError::raiseError( 500, $db->stderr());
 		}
 		
+	}
+	
+	public function denyWithdrawalRequest($id, $approvedByUser, $lastUpdate)
+	{
+		$db	= $this->getDBO();
+		$sql	= 'UPDATE ' . $db->quoteName( '#__user_withdrawal_activity' ) . ' '
+				. 'SET ' . $db->quoteName('approvedByUser') . '=' . $db->Quote($approvedByUser) . ' '
+						. ', ' . $db->quoteName('status') . '=' . $db->Quote(-1) . ' '
+								. ', ' . $db->quoteName('lastUpdate') . '=' . $db->Quote($lastUpdate) . ' '
+										. 'WHERE ' . $db->quoteName( 'id' ) . '=' . $db->Quote($id);
+	
+		$db->setQuery($sql);
+		$db->query();
+	
+		if($db->getErrorNum())
+		{
+			JError::raiseError( 500, $db->stderr());
+		}
+	
+	}
+	
+	public function moneyInBank($id, $approvedByUser, $lastUpdate)
+	{
+		$db	= $this->getDBO();
+		$sql	= 'UPDATE ' . $db->quoteName( '#__user_withdrawal_activity' ) . ' '
+				. 'SET ' . $db->quoteName('approvedByUser') . '=' . $db->Quote($approvedByUser) . ' '
+						. ', ' . $db->quoteName('status') . '=' . $db->Quote(3) . ' '
+								. ', ' . $db->quoteName('lastUpdate') . '=' . $db->Quote($lastUpdate) . ' '
+										. 'WHERE ' . $db->quoteName( 'id' ) . '=' . $db->Quote($id);
+	
+		$db->setQuery($sql);
+		$db->query();
+	
+		if($db->getErrorNum())
+		{
+			JError::raiseError( 500, $db->stderr());
+		}	
+	}
+	
+	
+	
+	public function getWithdrawalRequestByStatus($status)
+	{
+		$db	= $this->getDBO();
+		$sql = 'SELECT '.$db->quoteName('id') .  ", " . $db->quoteName('userId') . ", " .$db->quoteName('withdrawal_date') . ", "
+				. $db->quoteName('withdrawal_amount') . ", " .$db->quoteName('lastUpdate') . ", "
+				. $db->quoteName('status') . ", "
+				. $db->quoteName('payment_method') . ", "
+				. $db->quoteName('approvedByUser') . ", "
+				. $db->quoteName('bankName') . ", "
+				. $db->quoteName('name') . ", "
+				. $db->quoteName('bankCountry') . ", "
+				. $db->quoteName('acctnum') . ", "
+				. $db->quoteName('mepsRouting') . ", "
+				. $db->quoteName('lastUpdate') . " "
+				. ' FROM '.$db->quoteName('#__user_withdrawal_activity');
+		$sql = $sql . ' WHERE '.$db->quoteName('status') . '=' .  $db->Quote($status);
+			
+		$db->setQuery($sql);
+		$db->query();
+	
+		$result = $db->loadObjectList();
+		return $result;
 	}
 		
 }

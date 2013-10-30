@@ -356,6 +356,13 @@ $jaxFuncNames[]	= 'system,showSupport';
 $jaxFuncNames[]	= 'system,sendSupport';
 $jaxFuncNames[]	= 'system,sendSupportPhoto';
 $jaxFuncNames[]	= 'system,sendSupportAlbum';
+$jaxFuncNames[]	= 'system,denyWithdrawal';
+$jaxFuncNames[]	= 'system,approveWithdrawal';
+$jaxFuncNames[]	= 'system,moneyInBank';
+
+$jaxFuncNames[]	= 'system,filterRequest';
+$jaxFuncNames[]	= 'system,filterApproved';
+$jaxFuncNames[]	= 'system,filterCompleted';
 
 /**
  * Memberlist

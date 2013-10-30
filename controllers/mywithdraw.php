@@ -37,19 +37,9 @@ class CommunityMyWithdrawController extends CommunityBaseController
 	
 	
 	public function withdrawPoint()
-	{
-		
-		 /*$withdrawValue = JRequest::getVar('withdrawPoint', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		 $country = JRequest::getVar('country', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		 $name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		 $bankName = JRequest::getVar('bankName', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		 $mepsRouting = JRequest::getVar('mepsRouting', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		 $acctnum = JRequest::getVar('acctnum', '', 'post', 'string', JREQUEST_ALLOWRAW); */
-		 
-		 $view = $this->getView('mywithdraw');
-		 echo $view->get('withdrawPoint');
-		 
-		 
+	{	
+		$view = $this->getView('mywithdraw');
+		echo $view->get('withdrawPoint');
 	}
 	
 	

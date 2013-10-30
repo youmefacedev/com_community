@@ -30,8 +30,7 @@ defined('_JEXEC') or die();
 
 			<li><label class="form-label" for="name"></label>
 				<div class="form-field">
-					<span><a href="<?php echo $coreUrl; ?>"> You have successfully
-							withdraw your credits. </a><span />
+					<span><a href="<?php echo $coreUrl; ?>"> Only administrator is allowed to access this page. </a><span />
 				
 				</div>
 			</li>

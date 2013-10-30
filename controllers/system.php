@@ -593,43 +593,43 @@ return $objResponse->sendResponse();
 
 		// Add logging
 		CActivityStream::addActor($act, $params->toString() );
-		
+
 		$userValuePoint = $this->getUserBalancePoint($my->id);
-		
+
 		$objResponse->addScriptCall('refreshUserPoint', $userValuePoint);
-		
+
 		$objResponse->addScriptCall('__callback', $html);
 
 		return $objResponse->sendResponse();
 	}
-	
-	
+
+
 	public function ajaxLikePhoto( $element, $itemId )
 	{
 		$filter = JFilterInput::getInstance();
 		$element = $filter->clean($element, 'string');
 		$itemId = $filter->clean($itemId, 'int');
-	
+
 		if (!COwnerHelper::isRegisteredUser())
 		{
 			return $this->ajaxBlockUnregister();
 		}
-	
+
 		$like	=   new CLike();
-	
+
 		if( !$like->enabled($element) )
 		{
 			// @todo: return proper ajax error
 			return;
 		}
-	
+
 		$my				= CFactory::getUser();
 		$objResponse	= new JAXResponse();
-	
-	
+
+
 		$like->addLike( $element, $itemId );
 		$html	=   $like->getHTML( $element, $itemId, $my->id );
-	
+
 		$act = new stdClass();
 		$act->cmd 		= $element.'.like';
 		$act->actor   	= $my->id;
@@ -638,11 +638,11 @@ return $objResponse->sendResponse();
 		$act->content	= '';
 		$act->app		= $element.'.like';
 		$act->cid		= $itemId;
-	
+
 		$params = new CParameter('');
-	
+
 		switch ($element) {
-	
+
 			case 'groups':
 				$act->groupid = $itemId;
 				break;
@@ -650,20 +650,20 @@ return $objResponse->sendResponse();
 				$act->eventid = $itemId;
 				break;
 		}
-	
+
 		$params->set( 'action', $element.'.like');
-	
+
 		// Add logging
 		CActivityStream::addActor($act, $params->toString() );
-	
+
 		$userValuePoint = $this->getUserBalancePoint($my->id);
-	
+
 		$objResponse->addScriptCall('refreshUserPoint', $userValuePoint);
 		$objResponse->addScriptCall('hideUserLike', $itemId);
-		
+
 		return $objResponse->sendResponse();
 	}
-	
+
 
 	/**
 	 * Dislike an item
@@ -1701,13 +1701,13 @@ return $objResponse->sendResponse();
 
 		$my				= CFactory::getUser();
 		$userValuePoint = $this->getUserBalancePoint($my->id);
-		
+
 		$objResponse->addScriptCall('refreshUserPoint', $userValuePoint);
-		
+
 		return $objResponse->sendResponse();
 	}
-	
-	
+
+
 
 	/**
 	 *
@@ -1769,7 +1769,7 @@ return $objResponse->sendResponse();
 	{
 		$my        = CFactory::getUser();
 		$like      = new CLike();
-		
+
 		$userPointModel = CFactory::getModel('userpointactivity');
 
 		$likes     = $like->getWhoLikes( $like_type, $like_id );
@@ -1777,17 +1777,17 @@ return $objResponse->sendResponse();
 		$canUnlike = false;
 		$likeHTML  = '<i class="stream-icon com-icon-thumbup"></i>';
 		$likeUsers = array();
-		
+
 		foreach($likes as $user)
-		{				
+		{
 			$giftIdResult  = $userPointModel->getGiftValueActivity($like_id);
 			$value = "";
-			
+				
 			if ($giftIdResult > 0)
 			{
 				$value = "(" . $giftIdResult . " points)";
 			}
-			
+				
 			$likeUsers[] = '<a href="'.CUrlHelper::userLink($user->id).'">'.$user->getDisplayName() . " " . $value .'</a>';
 			if ($my->id == $user->id)
 				$canUnlike = true;
@@ -1863,7 +1863,7 @@ return $objResponse->sendResponse();
 		$actid = $filter->clean($actid, 'int');
 
 		$objResponse	=   new JAXResponse();
-		
+
 		$giftModel = CFactory::getModel('support');
 		$giftResult = $giftModel->getList();
 
@@ -1871,60 +1871,60 @@ return $objResponse->sendResponse();
 		return $objResponse->sendResponse();
 
 	}
-	
+
 	public function sendSupportPhoto($giftId, $itemId)
-	{	
-		
+	{
+
 		$filter = JFilterInput::getInstance();
 		$objResponse	=   new JAXResponse();
-		
-		
+
+
 		$my = CFactory::getUser();
-		
+
 		$photo	    = JTable::getInstance( 'Photo' , 'CTable' );
 		$photo->load($itemId);
-				
+
 		$targetUserId = $photo->creator;
 		$sourceUserId = $my->id;
-		
+
 		$giftModel = CFactory::getModel('configuregift');
-		
+
 		$giftResult = $giftModel->getGiftObject($giftId);
-		
+
 		$giftValuePoint = 0;
-		
+
 		foreach ($giftResult as $giftElement)
 		{
 			$giftValuePoint = $giftElement->valuePoint;
 		}
-		
+
 		$sourceUserPoint = $this->getUserBalancePoint($sourceUserId);
 		$targetUserPoint = $this->getUserBalancePoint($targetUserId);
-		
+
 		if (is_null($sourceUserPoint)) // source user point cannot be found; create it //
 		{
 			$this->createUserPoint($sourceUserPoint, 0); // create a user point with zero value.
 			$sourceUserPoint=0;
 		}
-		
+
 		if (is_null($targetUserPoint)) // target point cannot be found; create it //
 		{
 			$this->createUserPoint($targetUserId, 0); // create a user point with zero value.
 			$targetUserPoint = 0;
 		}
-		
+
 		if ($sourceUserPoint >= $giftValuePoint)
 		{
 			// update source user point
 			$newBalance = $sourceUserPoint - $giftValuePoint;
 			$this->updateUserBalancePoint($sourceUserId, $newBalance);
 			// update gift activity //
-		
+
 			$eventDate = new DateTime();
 			$this->updateUserPointActivity($my->id, $targetUserId, $itemId, $giftId, $giftValuePoint, $eventDate->format('Y-m-d H:i:s'), 1);
-		
+
 			$targetUserPoint = $this->getUserBalancePoint($targetUserId);
-		
+
 			if (!is_null($targetUserPoint))
 			{
 				// update target user point
@@ -1932,7 +1932,7 @@ return $objResponse->sendResponse();
 				$this->updateUserBalancePoint($targetUserId, $newBalanceGivenPoint);
 				$this->ajaxLikePhoto("photo", $itemId); // for some reason we are not able to generate multiple ajax response.
 			}
-		
+
 		}
 		else
 		{
@@ -1940,73 +1940,73 @@ return $objResponse->sendResponse();
 			// $objResponse->addAlert('You do not have sufficient credit to complete this operation.');
 			$content = "<div>You do not have sufficient credit to complete this operation. </div>";
 			$actions = "<button class='btn' onclick='cWindowHide()'>Ok</button>";
-		
+
 			$objResponse->addScriptCall('joms.jQuery(\'#cWindow\').remove();');
-		
+
 			//recreate the warning cwindow
 			$objResponse->addScriptCall('cWindowShow', '	', 'Support ', 450, 200, 'warning');
 			$objResponse->addScriptCall('cWindowAddContent', $content, $actions);
-		
+
 			$objResponse->addScriptCall('showLikeSupport', $itemId);
 			return $objResponse->sendResponse();
 		}
 	}
-	
-	
-	
+
+
+
 	public function sendSupportAlbum($giftId, $itemId)
 	{
-	
+
 		$filter = JFilterInput::getInstance();
 		$objResponse	=   new JAXResponse();
-	
-	
+
+
 		$my = CFactory::getUser();
-	
+
 		$photo	    = JTable::getInstance( 'Photo' , 'CTable' );
 		$photo->load($itemId);
-	
+
 		$targetUserId = $photo->creator;
 		$sourceUserId = $my->id;
-	
+
 		$giftModel = CFactory::getModel('configuregift');
-	
+
 		$giftResult = $giftModel->getGiftObject($giftId);
-	
+
 		$giftValuePoint = 0;
-	
+
 		foreach ($giftResult as $giftElement)
 		{
 			$giftValuePoint = $giftElement->valuePoint;
 		}
-	
+
 		$sourceUserPoint = $this->getUserBalancePoint($sourceUserId);
 		$targetUserPoint = $this->getUserBalancePoint($targetUserId);
-	
+
 		if (is_null($sourceUserPoint)) // source user point cannot be found; create it //
 		{
 			$this->createUserPoint($sourceUserPoint, 0); // create a user point with zero value.
 			$sourceUserPoint=0;
 		}
-	
+
 		if (is_null($targetUserPoint)) // target point cannot be found; create it //
 		{
 			$this->createUserPoint($targetUserId, 0); // create a user point with zero value.
 			$targetUserPoint = 0;
 		}
-	
+
 		if ($sourceUserPoint >= $giftValuePoint)
 		{
 			// update source user point
 			$newBalance = $sourceUserPoint - $giftValuePoint;
 			$this->updateUserBalancePoint($sourceUserId, $newBalance);
 			// update gift activity //
-	
+
 			$eventDate = new DateTime();
 			$this->updateUserPointActivity($my->id, $targetUserId, $itemId, $giftId, $giftValuePoint, $eventDate->format('Y-m-d H:i:s'), 1);
-	
+
 			$targetUserPoint = $this->getUserBalancePoint($targetUserId);
-	
+
 			if (!is_null($targetUserPoint))
 			{
 				// update target user point
@@ -2014,7 +2014,7 @@ return $objResponse->sendResponse();
 				$this->updateUserBalancePoint($targetUserId, $newBalanceGivenPoint);
 				$this->ajaxLikePhoto("album", $itemId); // for some reason we are not able to generate multiple ajax response.
 			}
-	
+
 		}
 		else
 		{
@@ -2022,22 +2022,19 @@ return $objResponse->sendResponse();
 			// $objResponse->addAlert('You do not have sufficient credit to complete this operation.');
 			$content = "<div>You do not have sufficient credit to complete this operation. </div>";
 			$actions = "<button class='btn' onclick='cWindowHide()'>Ok</button>";
-	
+
 			$objResponse->addScriptCall('joms.jQuery(\'#cWindow\').remove();');
-	
+
 			//recreate the warning cwindow
 			$objResponse->addScriptCall('cWindowShow', '	', 'Support ', 450, 200, 'warning');
 			$objResponse->addScriptCall('cWindowAddContent', $content, $actions);
-	
+
 			$objResponse->addScriptCall('showLikeSupport', $itemId);
 			return $objResponse->sendResponse();
 		}
 	}
-	
-	
-	
-	
-	
+
+
 	public function sendSupport($giftId, $itemId)
 	{
 		$filter = JFilterInput::getInstance();
@@ -2067,9 +2064,9 @@ return $objResponse->sendResponse();
 
 		$sourceUserPoint = $this->getUserBalancePoint($sourceUserId);
 		$targetUserPoint = $this->getUserBalancePoint($targetUserId);
-		
+
 		if (is_null($sourceUserPoint)) // source user point cannot be found; create it //
-		{	
+		{
 			$this->createUserPoint($sourceUserPoint, 0); // create a user point with zero value.
 			$sourceUserPoint=0;
 		}
@@ -2082,27 +2079,27 @@ return $objResponse->sendResponse();
 		}
 
 		if ($sourceUserPoint >= $giftValuePoint)
-		{		
+		{
 			// update source user point
 			$newBalance = $sourceUserPoint - $giftValuePoint;
 			$this->updateUserBalancePoint($sourceUserId, $newBalance);
 			// update gift activity //
-				
+
 			$eventDate = new DateTime();
 			$this->updateUserPointActivity($my->id, $targetUserId, $itemId, $giftId, $giftValuePoint, $eventDate->format('Y-m-d H:i:s'), 1);
 
 			$targetUserPoint = $this->getUserBalancePoint($targetUserId);
-				
+
 			if (!is_null($targetUserPoint))
 			{
 				// update target user point
 				$newBalanceGivenPoint = $targetUserPoint + $giftValuePoint;
 				$this->updateUserBalancePoint($targetUserId, $newBalanceGivenPoint);
-				
+
 				$this->ajaxStreamAddLike($itemId); // for some reason we are not able to generate multiple ajax response.
-				
+
 			}
-				
+
 		}
 		else
 		{
@@ -2110,20 +2107,158 @@ return $objResponse->sendResponse();
 			// $objResponse->addAlert('You do not have sufficient credit to complete this operation.');
 			$content = "<div>You do not have sufficient credit to complete this operation. </div>";
 			$actions = "<button class='btn' onclick='cWindowHide()'>Ok</button>";
-				
+
 			$objResponse->addScriptCall('joms.jQuery(\'#cWindow\').remove();');
-				
+
 			//recreate the warning cwindow
 			$objResponse->addScriptCall('cWindowShow', '	', 'Support ', 450, 200, 'warning');
 			$objResponse->addScriptCall('cWindowAddContent', $content, $actions);
-				
+
 			$objResponse->addScriptCall('showLikeSupport', $itemId);
-				
+
 		}
 
 		//$objResponse->addAlert('everything is ok');
 
 		return $objResponse->sendResponse();
+	}
+
+	
+	public function approveWithdrawal($id)
+	{
+		$filter = JFilterInput::getInstance();
+		$objResponse	=   new JAXResponse();
+		$withdrawalRequestModel = CFactory::getModel('withdrawalrequest');
+		$my = CFactory::getUser();
+
+		$eventDate = new DateTime();
+		$requestId = $filter->clean($id, 'int');
+
+		$withdrawalRequestModel->approveWithdrawalRequest($requestId, $my->id, $eventDate->format('Y-m-d H:i:s'));
+		$this->createWithdrawalHistory($id);
+
+		$objResponse->addScriptCall('updateWithdrawalStatus', $requestId, 2);
+		return $objResponse->sendResponse();
+	}
+
+	public function denyWithdrawal($id)
+	{
+		$filter = JFilterInput::getInstance();
+		$my = CFactory::getUser();
+		$objResponse	=   new JAXResponse();
+		$eventDate = new DateTime();
+		$requestId = $filter->clean($id, 'int');
+		$withdrawalRequestModel = CFactory::getModel('withdrawalrequest');
+		$withdrawalRequestModel->denyWithdrawalRequest($requestId, $my->id, $eventDate->format('Y-m-d H:i:s'));
+		$this->createWithdrawalHistory($id);
+		
+		$objResponse->addScriptCall('updateWithdrawalStatus', $requestId, -1);
+		return $objResponse->sendResponse();
+	}
+
+	public function moneyInBank($id)
+	{
+		$filter = JFilterInput::getInstance();
+		$my = CFactory::getUser();
+		$objResponse	=   new JAXResponse();
+		$eventDate = new DateTime();
+		$requestId = $filter->clean($id, 'int');
+
+		$withdrawalRequestModel = CFactory::getModel('withdrawalrequest');
+		$withdrawalRequestModel->moneyInBank($requestId, $my->id, $eventDate->format('Y-m-d H:i:s'));
+		$this->createWithdrawalHistory($id);
+		
+		$objResponse->addScriptCall('updateWithdrawalStatus', $requestId, 3);
+		return $objResponse->sendResponse();
+	}
+
+	
+	public function filterRequest()
+	{
+		$objResponse	=   new JAXResponse();
+		$withdrawalRequestModel = CFactory::getModel('withdrawalrequest');
+		
+		$result = $withdrawalRequestModel->getWithdrawalRequestByStatus(1);
+		
+		foreach ($result as $element)
+		{
+			$user = CFactory::getUser($element->userId);
+			$element->username = $user->username;
+		}
+		
+		$objResponse->addScriptCall('updateViewWithFilterResult', $result);
+		return $objResponse->sendResponse();
+	}
+	
+	public function filterApproved()
+	{
+		$objResponse	=   new JAXResponse();
+		$withdrawalRequestModel = CFactory::getModel('withdrawalrequest');
+		$result = $withdrawalRequestModel->getWithdrawalRequestByStatus(2);
+		
+		
+		foreach ($result as $element)
+		{
+			$user = CFactory::getUser($element->userId);
+			$element->username = $user->username;
+		}
+		
+		$objResponse->addScriptCall('updateViewWithFilterResult', $result);
+		return $objResponse->sendResponse();
+	}
+	
+	public function filterCompleted()
+	{
+		$objResponse	=   new JAXResponse();
+		$withdrawalRequestModel = CFactory::getModel('withdrawalrequest');
+		$result = $withdrawalRequestModel->getWithdrawalRequestByStatus(3);
+		
+		foreach ($result as $element)
+		{
+			$user = CFactory::getUser($element->userId);
+			$element->username = $user->username;
+		}
+		
+		$objResponse->addScriptCall('updateViewWithFilterResult', $result);
+		return $objResponse->sendResponse();
+	}
+	
+	public function filterDeny()
+	{
+		$objResponse	=   new JAXResponse();
+		$withdrawalRequestModel = CFactory::getModel('withdrawalrequest');
+		$result = $withdrawalRequestModel->getWithdrawalRequestByStatus(-1);
+		
+		foreach ($result as $element)
+		{
+			$user = CFactory::getUser($element->userId);
+			$element->username = $user->username;
+		}
+		
+		
+		$objResponse->addScriptCall('updateViewWithFilterResult', $result);
+		return $objResponse->sendResponse();
+	}
+	
+	private function updateUserInArray()
+	{
+		
+	}
+	
+	private function createWithdrawalHistory($id)
+	{
+		$withdrawalRequestModel = CFactory::getModel('withdrawalrequest');
+		$withdrawalHistoryModel = CFactory::getModel('withdrawalrequesthistory');
+
+		$result = $withdrawalHistoryModel->getRequest($id);
+		
+		//($userId, $withdrawal_date, $withdrawal_amount, $payment_method, $approvedByUser, $lastUpdate, $name, $bankName, $mepsRouting, $acctnum, $bankCountry)
+		foreach ($result as $element)
+		{
+				$withdrawalHistoryModel->create($element->userId, $element->withdrawal_date, $element->withdrawal_amount, $element->payment_method, $element->approvedByUser,
+						$element->lastUpdate, $element->name, $element->bankName, $element->mepsRouting, $element->acctnum, $element->bankCountry, $element->status);
+		}			
+					
 	}
 
 	private function updateUserBalancePoint($userId, $point)

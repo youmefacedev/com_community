@@ -109,6 +109,16 @@ class CommunityViewMyWithdraw extends CommunityView
 		}
 	}
 
+	public function withdrawPointSuccess()
+	{		
+		$tmpl	= new CTemplate();
+		$coreUrl = CRoute::_('index.php?option=com_community&view=mywithdraw', false);
+		
+		echo $tmpl->set('coreUrl', $coreUrl)
+		->fetch( 'mywithdraw.success');
+	}
+	
+	
 	private function getBalancePoint($userId)
 	{
 		$my 			= CFactory::getUser();
