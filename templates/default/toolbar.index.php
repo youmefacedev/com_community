@@ -126,6 +126,12 @@ $taskName = JRequest::getCmd( 'task');
 						</a>
 					</li>
 					
+					<li class="visible-desktop" >
+						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=reportgifttrans' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_VIEW_GIFT_REPORT' );?>">
+							<i class="icon-doc-inv"></i>
+						</a>
+					</li>
+					
 					
 					<?php if( $balancePoint ){ ?>
 					<li class="visible-desktop" >
@@ -140,14 +146,26 @@ $taskName = JRequest::getCmd( 'task');
 					<?php } ?>
 					
 					
+					
+					
+					
 					<?php 
 						$adminUser = COwnerHelper::isCommunityAdmin($my->id);
 						if( $adminUser ){ ?>
+						
 					<li class="visible-desktop" >
 						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=configureGift' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_CONFIGUREGIFT' );?>">
 							<i class=" icon-cog-1"></i>
 						</a>
 					</li>
+					
+					
+					<li class="visible-desktop" >
+						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=withdrawals' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_WITHDRAWALS' );?>">
+							<i class=" icon-upload"></i>
+						</a>
+					</li>
+					
 					<?php } ?>
 					
 					

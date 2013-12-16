@@ -20,7 +20,7 @@ defined('_JEXEC') or die();
 
 <div class="cSearch-Result">
 <p>
-<b>Gifts</b>
+<b>Gifts currently configured within the system.</b>
 </p>
 
 	<a id="lists" name="listing"/>

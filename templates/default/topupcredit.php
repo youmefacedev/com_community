@@ -1,86 +1,150 @@
 <?php
 /**
-* @copyright (C) 2013 iJoomla, Inc. - All rights reserved.
-* @license GNU General Public License, version 2 (http://www.gnu.org/licenses/gpl-2.0.html)
-* @author iJoomla.com <webmaster@ijoomla.com>
-* @url https://www.jomsocial.com/license-agreement
-* The PHP code portions are distributed under the GPL license. If not otherwise stated, all images, manuals, cascading style sheets, and included JavaScript *are NOT GPL, and are released under the IJOOMLA Proprietary Use License v1.0
-* More info at https://www.jomsocial.com/license-agreement
-*/
+ * @copyright (C) 2013 iJoomla, Inc. - All rights reserved.
+ * @license GNU General Public License, version 2 (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @author iJoomla.com <webmaster@ijoomla.com>
+ * @url https://www.jomsocial.com/license-agreement
+ * The PHP code portions are distributed under the GPL license. If not otherwise stated, all images, manuals, cascading style sheets, and included JavaScript *are NOT GPL, and are released under the IJOOMLA Proprietary Use License v1.0
+ * More info at https://www.jomsocial.com/license-agreement
+ */
 defined('_JEXEC') or die();
 ?>
 
 <style>
-
-  #community-wrap li {
-  line-height:20px;
-  list-style:none;
+#community-wrap li {
+	line-height: 20px;
+	list-style: none;
 }
 </style>
 
 <div class="cSearch-ResultTopless">
-<p>
-<b>Topup credit</b>
-</p>
+	<p>
+		<b>Topup credit</b>
+	</p>
 
 
-<script type="text/javascript">
+	<script type="text/javascript">
 
 	var formValidated = false; 
+	var ctrlId = "#packageId";
+	var PackageId50 = "50pts";
+	var PackageId100 = "100pts";
+	var PackageId500 = "500pts";
+	var PackageId1000 = "1000pts";
+
+	function setValue(pts, packageId)
+	{
+		jomsQuery("#item_name").val(packageId);
+		jomsQuery("#item_number").val(packageId);
+		jomsQuery("#amount").val(pts);
+		
+	}
 	
 	jomsQuery(document).ready(function() {
 
-		//ensure only numeric value entered here 
-		jomsQuery('#withdrawPoint').keyup(function () { 
-			this.value = this.value.replace(/[^0-9\.]/g,'');
-		});
-
-
-		jomsQuery('#topupForm').submit(function (event) { 
-
+		jax.call('community','system,startPayment', "500pts");
+		
+		jomsQuery(ctrlId).change(function (event) { 
+						
 			if (!formValidated)
 			{
-				if( jomsQuery("#packageName").val() !=  '' )
-				{
+				
+				var packageId = jomsQuery(ctrlId).val();
+				
+				if(packageId !=  '' )
+				{	
+					if (packageId == PackageId50)
+					{	
+						setValue(50, PackageId50);
+					}
+					else if (packageId == PackageId100)
+					{
+						setValue(100, PackageId100);
+					}
+					else if (packageId == PackageId500)
+					{
+						setValue(500, PackageId500);
+					}
+					else if (packageId == PackageId1000)
+					{
+						setValue(1000, PackageId1000);
+					}
+					
+					jax.call('community','system,startPayment', packageId);
 					return true; 
 				}
+				else 
+				{
+					return false;
+				}
 				event.preventDefault();
-			}		
+			} 		
 		});
-	});
+	
+});
 
 </script>
 
-<form name="topupForm" id="topupForm" action="<?php echo $coreUrl; ?>" method="POST" class="cForm community-form-validate">
+	<form action="https://www.sandbox.paypal.com/cgi-bin/webscr"
+		method="post">
 
-	<div class="cIndex-Box clearfix">
-		<ul class="cFormList cFormHorizontal cResetList"> 
-		
-			<li>
-			  	<label for="packageName" class="form-label">Select package</label>
-					<div class="form-field">
-						<select id='packageName' name='packageName'>
-						 	<option value="PKG1">100</option>
-						 	<option value="PKG2">200</option>
-						 	<option value="PKG3">300</option>
-						   </select>
-				   </div>
-			</li>
-					
-			<li>
-			  	<label class="form-label"></label>
-			  	
-					<div class="form-field">
-						 <button id="ConfirmBtn" class="btn-primary btn" name="ConfirmBtn"> Pay </button>
-				   </div>
-			</li>
-		
-	</ul>
-<div class="cPagination"/>
+		<div class="cIndex-Box clearfix">
+
+			<div class="cIndex-Box clearfix">
+				<ul class="cFormList cFormHorizontal cResetList">
+
+					<li><label for="packageName" class="form-label">Select package</label>
+
+						<input type="hidden" name="hosted_button_id" value="ZTY3E8UW99HVC">
+						<div>
+							<select id="packageId">
+								<option value="50pts">50pts RM50.00 MYR</option>
+								<option value="100pts">100pts RM100.00 MYR</option>
+								<option value="500pts">500pts RM500.00 MYR</option>
+								<option value="1000pts">1000pts RM1,000.00 MYR</option>
+							</select>
+						</div>
+					</li>
+
+					<li><label class="form-label"></label>
+						<div class="form-field">
+							<input type="hidden" name="currency_code" value="MYR"> <input
+								type="image"
+								src="https://www.paypalobjects.com/en_US/i/btn/btn_paynow_SM.gif"
+								border="0" id="submit" name="submit"
+								alt="PayPal - The safer, easier way to pay online!"> <img alt=""
+								border="0"
+								src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif"
+								width="1" height="1">
+						</div>
+					</li>
+				</ul>
+
+
+
+				<input type="hidden" name="cmd" value="_xclick"> <input
+					type="hidden" name="business" value="miki.flintech@gmail.com"> <input
+					type="hidden" name="item_name" id="item_name"
+					value="50pts RM 50,00"> <input type="hidden" name="item_number"
+					id="item_number" value="50pts RM 50,00"> <input type="hidden"
+					id="amount" name="amount" value="50"> <input type="hidden"
+					name="tax" value="0"> <input type="hidden" name="quantity"
+					value="1">
+				<!-- Quantity-->
+				<input type="hidden" name="no_note" value="1"> <input type="hidden"
+					name="currency_code" value="MYR">
+				<!-- Currency-->
+				<input type="hidden" name="notify_url"
+					value="http://www.youmeface.com/joomla/index.php/en/jomsocial/payment/ipn">
+				<input type="hidden" name="return"
+					value="http://www.youmeface.com/index.php/payment/success">
+				<input type="hidden" name="cancel_return"
+					value="http://www.youmeface.com/index.php/payment/cancel">
+
+
+				<div class="cPagination" />
+			</div>
+		</div>
+
+	</form>
 </div>
-
-
-</div>
-</div>
-
-</form>

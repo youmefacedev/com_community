@@ -7,6 +7,29 @@
 * The PHP code portions are distributed under the GPL license. If not otherwise stated, all images, manuals, cascading style sheets, and included JavaScript *are NOT GPL, and are released under the IJOOMLA Proprietary Use License v1.0
 * More info at https://www.jomsocial.com/license-agreement
 */
+
+// no direct access
 defined('_JEXEC') or die('Restricted access');
-?>
-<h4> <?php if($title != 'JomSocial') { echo $title; } ?> </h4>
+jimport('joomla.utilities.date');
+
+class CommunityReportGiftTransController extends CommunityBaseController
+{
+	var $_icon = 'search';
+	
+	public function display($cacheable=false, $urlparams=false)
+	{	  
+		$this->listGiftTransaction();
+	}	
+	
+	function listGiftTransaction()
+	{
+		
+		$mainframe	= JFactory::getApplication();
+		$my 		= CFactory::getUser();
+		$jinput 	= $mainframe->input;
+		$data		= new stdClass();
+		
+		$view = $this->getView('reportgifttrans');
+		echo $view->get('display');
+	}
+}

@@ -18,6 +18,13 @@ class CommunityViewMyWithdraw extends CommunityView
 {
 	public function display($tpl = null)
 	{
+		$user	= JFactory::getUser();
+		if ( $user->get('guest'))
+		{
+			JError::raiseError( 403, JText::_('COM_COMMUNITY_ACCESS_FORBIDDEN') );
+			return;
+		}
+		
 		$this->listSupport();
 	}
 	

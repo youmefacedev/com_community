@@ -152,12 +152,12 @@ defined('_JEXEC') or die();
 
 <div class="cSearch-ResultTopless">
 	<p>
-		<b>Withdrawal request. </b> &nbsp;Filter : <span><a
+		<b>Withdrawal request </b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter by : <span><a
 			href="javascript:void(0);"
 			onclick="jax.call('community','system,filterRequest');">Requested</a>
-		</span> <span><a href="javascript:void(0);"
+		</span> <span> | <a href="javascript:void(0);"
 			onclick="jax.call('community','system,filterApproved');">Approved</a>
-		</span> <span><a href="javascript:void(0);"
+		</span><span> | <a href="javascript:void(0);"
 			onclick="jax.call('community','system,filterCompleted');">Completed</a>
 		</span>
 	</p>

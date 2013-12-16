@@ -1871,6 +1871,27 @@ return $objResponse->sendResponse();
 		return $objResponse->sendResponse();
 
 	}
+	
+	
+	public function startPayment($target)
+	{	
+		$filter = JFilterInput::getInstance();
+		$packageId = $filter->clean($target, 'strings');
+		
+		// stores the session 
+		// used later in the success page to 
+		// request for credit topup transfer 
+			
+		$session	= JFactory::getSession();
+		$session->set('topupPoint', $packageId);
+		
+		$objResponse	=   new JAXResponse();
+
+		//$data = $session->get('topupPoint');
+		//$objResponse->addAlert($data);
+		
+		return $objResponse->sendResponse();
+	} 
 
 	public function sendSupportPhoto($giftId, $itemId)
 	{
@@ -2293,6 +2314,5 @@ return $objResponse->sendResponse();
 		}
 		return $sourceUserPoint;
 	}
-
 
 }

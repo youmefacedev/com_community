@@ -12,46 +12,27 @@
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.utilities.date');
 
-class CommunityTopupCreditController extends CommunityBaseController
+class CommunityPaymentController extends CommunityBaseController
 {
 	var $_icon = 'search';
 	var $moduleName = "support";
 
 	public function display($cacheable=false, $urlparams=false)
-	{	
-		$this->listSupport();
-	}
-
-	function listSupport()
 	{
-		$mainframe	= JFactory::getApplication();
-		$my 		= CFactory::getUser();
-		$jinput 	= $mainframe->input;
-		$data		= new stdClass();
-
-		$view = $this->getView('topupcredit');
+		$view = $this->getView('payment');
 		echo $view->get('display');
 	}
 
-
-	public function topupForUser()
+	public function success()
 	{
-		$view = $this->getView('topupcredit');
-		echo $view->get('topupForUser');
+		$view = $this->getView('payment');
+		echo $view->get('success');
 	}
 
-	public function buySupport()
+
+	public function cancel()
 	{
-		$view	=  $this->getView($moduleName);
-		$giftRequest = JRequest::get('REQUEST');
-
-		$giftModel = CFactory::getModel($moduleName);
-
-		$id = $giftRequest["id"];
-		if (isset($id))
-		{
-			$giftModel->deleteGift($id);
-			echo $view->get('removeComplete');
-		}
+		$view = $this->getView('payment');
+		echo $view->get('cancel');
 	}
 }

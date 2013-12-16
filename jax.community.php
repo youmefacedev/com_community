@@ -347,6 +347,7 @@ $jaxFuncNames[]	= 'profile,ajaxUnblockUser';
 $jaxFuncNames[]	= 'system,ajaxStreamAddComment';
 $jaxFuncNames[]	= 'system,ajaxStreamShowComments';
 $jaxFuncNames[]	= 'system,ajaxStreamRemoveComment';
+$jaxFuncNames[]	= 'system,startPayment';
 
 $jaxFuncNames[]	= 'system,ajaxStreamAddLike';
 $jaxFuncNames[]	= 'system,ajaxStreamShowLikes';
@@ -359,6 +360,7 @@ $jaxFuncNames[]	= 'system,sendSupportAlbum';
 $jaxFuncNames[]	= 'system,denyWithdrawal';
 $jaxFuncNames[]	= 'system,approveWithdrawal';
 $jaxFuncNames[]	= 'system,moneyInBank';
+
 
 $jaxFuncNames[]	= 'system,filterRequest';
 $jaxFuncNames[]	= 'system,filterApproved';
