@@ -360,7 +360,8 @@ $jaxFuncNames[]	= 'system,sendSupportAlbum';
 $jaxFuncNames[]	= 'system,denyWithdrawal';
 $jaxFuncNames[]	= 'system,approveWithdrawal';
 $jaxFuncNames[]	= 'system,moneyInBank';
-
+$jaxFuncNames[]	= 'system,approveTopupRequest';
+$jaxFuncNames[]	= 'system,cancelTopupRequest';
 
 $jaxFuncNames[]	= 'system,filterRequest';
 $jaxFuncNames[]	= 'system,filterApproved';
@@ -400,3 +401,4 @@ if ( ! JString::stristr(JPATH_COMPONENT, 'administrator/components/com_community
 	// Load Ajax plugins jax file.
 	CAppPlugins::loadAjaxPlugins();
 }
+

@@ -2161,7 +2161,7 @@ return $objResponse->sendResponse();
 		$objResponse->addScriptCall('updateWithdrawalStatus', $requestId, 2);
 		return $objResponse->sendResponse();
 	}
-
+	
 	public function denyWithdrawal($id)
 	{
 		$filter = JFilterInput::getInstance();
@@ -2259,6 +2259,88 @@ return $objResponse->sendResponse();
 		
 		$objResponse->addScriptCall('updateViewWithFilterResult', $result);
 		return $objResponse->sendResponse();
+	}
+	
+	
+	public function approveTopupRequest($id)
+	{
+		$this->userAccessCheck();
+		$statusToSet = 2; 
+		
+		$my		= CFactory::getUser();
+		$filter = JFilterInput::getInstance();
+		$objResponse	=   new JAXResponse();
+		$topupactivityModel = CFactory::getModel('topupactivity');
+		
+		$requestId = $filter->clean($id, 'int');
+		
+		if (is_numeric($requestId))
+		{
+			$eventDate = new DateTime();
+		
+			$historyDataResult = $topupactivityModel->getId($requestId);
+			
+			foreach ($historyDataResult as $histElement)
+			{
+				$historyData = $histElement;
+			}
+			
+			$topupactivityModel->createRequestHistory($historyData->userId, $historyData->description, $historyData->valuePoint, $historyData->actualValue, $historyData->paymentTransactionId, $eventDate->format('Y-m-d H:i:s'), $statusToSet); 
+			$topupactivityModel->updateUserTopupStatus($requestId, $statusToSet, $eventDate->format('Y-m-d H:i:s'));
+			
+			$userPointModel = CFactory::getModel('userpoint');
+			$currentPoint = $userPointModel->getUserPointValue($historyData->userId);
+			$newBalancePoint = $currentPoint + $historyData->valuePoint;
+			$userPointModel->updateUserBalancePoint($historyData->userId, $newBalancePoint);
+		}
+	
+		$objResponse->addScriptCall('updateWithdrawalStatus', $requestId, $statusToSet);
+		return $objResponse->sendResponse();
+	}
+	
+	public function cancelTopupRequest($id)
+	{
+		$my		= CFactory::getUser();
+		$this->userAccessCheck();
+		$statusToSet = 3;
+		
+		$filter = JFilterInput::getInstance();
+		$objResponse	=   new JAXResponse();
+		$topupactivityModel = CFactory::getModel('topupactivity');
+		
+		$requestId = $filter->clean($id, 'int');
+		
+		if (is_numeric($requestId))
+		{
+			$eventDate = new DateTime();
+			
+			$historyDataResult = $topupactivityModel->getId($requestId);
+				
+			foreach ($historyDataResult as $histElement)
+			{
+				$historyData = $histElement;
+			}
+				
+			$topupactivityModel->createRequestHistory($historyData->userId, $historyData->description, $historyData->valuePoint, $historyData->actualValue, $historyData->paymentTransactionId, $eventDate->format('Y-m-d H:i:s'), $statusToSet);
+			$topupactivityModel->updateUserTopupStatus($requestId, $statusToSet, $eventDate->format('Y-m-d H:i:s'));
+			$this->createWithdrawalHistory($id);
+		}
+		
+		$objResponse->addScriptCall('updateWithdrawalStatus', $requestId, $statusToSet);
+		return $objResponse->sendResponse();
+	}
+	
+	private function userAccessCheck()
+	{
+		$my		= CFactory::getUser();
+	
+		$adminUser = COwnerHelper::isCommunityAdmin($my->id);
+	
+		if (!$adminUser)
+		{
+			JError::raiseError( 403, JText::_('COM_COMMUNITY_ACCESS_FORBIDDEN') );
+			return;
+		}
 	}
 	
 	private function updateUserInArray()

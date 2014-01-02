@@ -146,9 +146,6 @@ $taskName = JRequest::getCmd( 'task');
 					<?php } ?>
 					
 					
-					
-					
-					
 					<?php 
 						$adminUser = COwnerHelper::isCommunityAdmin($my->id);
 						if( $adminUser ){ ?>
@@ -166,19 +163,13 @@ $taskName = JRequest::getCmd( 'task');
 						</a>
 					</li>
 					
-					<?php } ?>
-					
-					
-					<?php 
-						$adminUser = COwnerHelper::isCommunityAdmin($my->id);
-						if( $adminUser ){ ?>
 					<li class="visible-desktop" >
-						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=withdrawals' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_WITHDRAWALS' );?>">
-							<i class=" icon-money"></i>
+						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=approvetopup' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_APPROVETOPUP' );?>">
+							<i class="icon-ok-4"></i>
 						</a>
 					</li>
-					<?php } ?>
 					
+					<?php } ?>
 					
 					
 

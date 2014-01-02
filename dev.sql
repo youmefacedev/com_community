@@ -2,6 +2,12 @@ create table jom_user_reward_activity (id int primary key auto_increment, source
 
 create table jom_user_point (id int primary key auto_increment, userId int, balance_point float, withdrawal_point float, lastUpdate datetime);
 
+-- to be added in dec 2013 deployment  START 
+create table jom_user_topup_activity (id int primary key auto_increment, userId int, description varchar(255), valuePoint float, actualValue decimal(10, 2),  status int, paymentTransactionId int, lastUpdate datetime);
+create table jom_user_topup_activity_history (id int primary key auto_increment, userId int, description varchar(255), valuePoint float, actualValue decimal(10, 2), status int, paymentTransactionId int, lastUpdate datetime);
+-- to be added in dec 2013 deployment  END
+
+
 create table jom_user_topup_activity (id int primary key auto_increment, userId int, description varchar(255), valuePoint float, actualValue decimal(10, 2), paymentTransactionId int, lastUpdate datetime);
 
 create table jom_user_package (id int primary key auto_increment, packageCode varchar(50), description varchar(255), valuePoint int, lastUpdate datetime);
@@ -13,8 +19,17 @@ insert into jom_user_package (packageCode, description, valuePoint) values ('PKG
 
 create table jom_user_withdrawal_activity (id int primary key auto_increment, userId int, bankCountry varchar(50), name varchar(100), bankName varchar(100), mepsRouting varchar(50), acctnum varchar(50),  withdrawal_date datetime, withdrawal_amount float, status int, payment_method int, approvedByUser int, lastUpdate datetime);
 
--- New Table created by idiot jeremy 
+-- New Table created by  jeremy 
 create table jom_user_withdrawal_activity_history (id int primary key auto_increment, userId int, bankCountry varchar(50), name varchar(100), bankName varchar(100), mepsRouting varchar(50), acctnum varchar(50),  withdrawal_date datetime, withdrawal_amount float, status int, payment_method int, approvedByUser int, lastUpdate datetime);
+
+
+
+
+
+
+
+
+
 
 create table jom_gift (id int primary key auto_increment, description varchar(255), valuePoint float, imageURL varchar(500), updatedByUser int, lastUpdate datetime); 
 

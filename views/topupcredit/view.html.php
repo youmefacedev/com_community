@@ -89,5 +89,6 @@ class CommunityViewTopupCredit extends CommunityView
 			->fetch( 'topupcredit.fail');
 		}
 	}
+	
 
 }

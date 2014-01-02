@@ -57,15 +57,12 @@ class CommunityViewReportGiftTrans extends CommunityView
 			$object->giftValue = $element->giftValue;
 			
 			$object->lastUpdate = date('Y-m-d h:i:s a', strtotime($element->lastUpdate));
-			
-			
 				
 			$sourceUser = CFactory::getUser($element->sourceUserId);
 			$targetUser = CFactory::getUser($element->targetUserId);
 			
 			$object->avatar = $sourceUser ->getAvatar();
 			
-		
 				
 			$object->lastUpdate = date('Y-m-d h:i:s a', strtotime($element->lastUpdate));
 			$object->avatar = $sourceUser->getAvatar();

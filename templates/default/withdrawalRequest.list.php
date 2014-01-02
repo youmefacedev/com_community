@@ -56,9 +56,7 @@ defined('_JEXEC') or die();
 
  function updateViewWithFilterResult(result)
  {
-	 console.log(result);
-
-
+	 
 	 for (var i=0; i < result.length; i++)
 	 {
 		 

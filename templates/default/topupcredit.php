@@ -42,7 +42,7 @@ defined('_JEXEC') or die();
 	
 	jomsQuery(document).ready(function() {
 
-		jax.call('community','system,startPayment', "500pts");
+		jax.call('community','system,startPayment', "50pts");
 		
 		jomsQuery(ctrlId).change(function (event) { 
 						

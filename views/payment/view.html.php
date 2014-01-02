@@ -84,7 +84,6 @@ class CommunityViewPayment extends CommunityView
 	public function cancel()
 	{
 		$tmpl	= new CTemplate();
-
 		$targetDestinationUrl = CRoute::_('index.php?option=com_community', false);
 		
 		echo $tmpl->set('targetDestinationUrl', $targetDestinationUrl)
@@ -96,12 +95,16 @@ class CommunityViewPayment extends CommunityView
 		$session	= JFactory::getSession();
 		$my 			= CFactory::getUser();
 
-		$userPointModel = CFactory::getModel('userpoint');
-		$currentPoint = $userPointModel->getUserPointValue($my->id);
-
-		$newBalancePoint = $currentPoint + $point;
-
-		$userPointModel->updateUserBalancePoint($my->id, $newBalancePoint);
+		//Update user balance point directly 
+		//$userPointModel = CFactory::getModel('userpoint');
+		//$currentPoint = $userPointModel->getUserPointValue($my->id);
+		//$newBalancePoint = $currentPoint + $point;
+		//$userPointModel->updateUserBalancePoint($my->id, $newBalancePoint);
+		
+		$topupDate = new DateTime();
+		$userTopupModel = CFactory::getModel('topupactivity');
+		$userTopupModel->createRequest($my->id, 'test', $point, $point, 911, $topupDate->format('Y-m-d H:i:s'));
+		$userTopupModel->createRequestHistory($my->id, 'test', $point, $point, 911, $topupDate->format('Y-m-d H:i:s'), 1);
 		$session->set('topupPoint', '');
 		
 	}
