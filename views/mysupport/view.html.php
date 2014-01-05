@@ -21,12 +21,16 @@ class CommunityViewMySupport extends CommunityView
 
 	public function display($tpl = null)
 	{
-		$user	= JFactory::getUser();
-		if ( $user->get('guest'))
+		
+		$mainframe = JFactory::getApplication();
+		$my		= JFactory::getUser();
+		
+		if($my->id == 0)
 		{
-			JError::raiseError( 403, JText::_('COM_COMMUNITY_ACCESS_FORBIDDEN') );
+			$mainframe->enqueueMessage(JText::_('COM_COMMUNITY_PLEASE_LOGIN_WARNING'), 'error');
 			return;
 		}
+		
 		$this->listSupport();
 	}
 

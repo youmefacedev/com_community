@@ -72,8 +72,9 @@ class CommunityModelWithdrawalRequest extends JCCModel
 	}
 	
 	
-	public function createRequestWithBankInfo($userId, $withdrawal_date, $withdrawal_amount, $payment_method, $approvedByUser, $lastUpdate, $name, $bankName, $mepsRouting, $acctnum, $bankCountry)
+	public function createRequestWithBankInfo($userId, $withdrawal_date, $withdrawal_amount, $payment_method, $approvedByUser, $lastUpdate, $name, $bankName, $mepsRoutingCode, $acctnum, $bankCountry)
 	{
+			
 		if (isset($userId))
 		{
 			$db	= $this->getDBO();
@@ -87,10 +88,9 @@ class CommunityModelWithdrawalRequest extends JCCModel
 			$obj->approvedByUser = 0;
 			$obj->lastUpdate = $lastUpdate;
 			
-			
 			$obj->name = $name;
 			$obj->bankName = $bankName;
-			$obj->mepsRouting = $mepsRouting;
+			$obj->mepsRouting = $mepsRoutingCode;
 			$obj->acctnum = $acctnum;
 			$obj->bankCountry = $bankCountry;
 			

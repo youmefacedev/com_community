@@ -22,12 +22,53 @@ defined('_JEXEC') or die();
 <script type="text/javascript">
 
 	var formValidated = false; 
+
+	function showBankRoutingCode()
+	{
+
+		var bankdata = Array();
+		bankdata.push({"name" : "AFFIN BANK BERHAD", "code" : "PHBMMYKL"});
+		bankdata.push({"name" : "ALLIANCE BANK MALAYSIA BERHAD", "code" : "MFBBMYKL"});
+		bankdata.push({"name" : "AMBANK BERHAD", "code" : "ARBKMYKL"});
+		bankdata.push({"name" : "BANK ISLAM MALAYSIA BERHAD", "code" : "BIMBMYKL"});
+		bankdata.push({"name" : "BANK KERJASAMA RAKYAT BERHAD", "code" : "BKRMMYK1"});
+				
+		cWindowShow('', 'Bank routing code', 400, 300);
+		var content = "<div style='display : table;'>";
+			content += "<div style='display : table-row;'><div style='display: table-cell'>Bank Name</div><div style='display: table-cell'>Bank Code</div></div>";
+
+			for(var i=0; i < bankdata.length; i ++)
+			{
+				content += "<div style='display : table-row;'><div style='display: table-cell'>" +  bankdata[i].name  + "</div><div style='display: table-cell'>" + bankdata[i].code + "</div></div>";	
+			}
+			
+		content += "</div>";
+		cWindowAddContent(content, "<button class='btn' onclick='selectBankRoutingCode(); '>Ok</button>");	
+	}
+
+	function selectBankRoutingCode()
+	{
+		cWindowHide();
+	}
+	
 	
 	jomsQuery(document).ready(function() {
+
+		var defaultDataValue = jomsQuery('#bankName option:selected').attr('code');
+		console.log(defaultDataValue);
+		
+		//jomsQuery('#mepsRouting').val(dataValue);
+	
+		
 
 		//ensure only numeric value entered here 
 		jomsQuery('#withdrawPoint').keyup(function () { 
 			this.value = this.value.replace(/[^0-9\.]/g,'');
+		});
+		
+		jomsQuery('#bankName').change(function () {
+			var dataValue = jomsQuery('option:selected', this).attr('code');
+			jomsQuery('#mepsRouting').val(dataValue);
 		});
 
 		// submitBtn
@@ -145,17 +186,41 @@ defined('_JEXEC') or die();
 			
 			<label for="bankName" class="form-label">Bank Name</label>
 					<div class="form-field">
-					<input type='text' id="bankName" name="bankName" /> 
+					<select id="bankName" name="bankName">
+							<option code='PHBMMYKL' value='AFFIN BANK BERHAD'>AFFIN BANK BERHAD</option>
+							<option code='MFBBMYKL' value='ALLIANCE BANK MALAYSIA BERHAD'>ALLIANCE BANK MALAYSIA BERHAD</option>
+							<option code='ARBKMYKL' value='AMBANK BERHAD'>AMBANK BERHAD</option>
+							<option code='BIMBMYKL' value='BANK ISLAM MALAYSIA BERHAD'>BANK ISLAM MALAYSIA BERHAD</option>
+							<option code='BKRMMYK1' value='BANK KERJASAMA RAKYAT BERHAD'>BANK KERJASAMA RAKYAT BERHAD</option>
+							<option code='BMMBMYKL' value='BANK MUAMALAT BERHAD'>BANK MUAMALAT BERHAD</option>
+							
+							<option code='BOFAMY2X' value='BANK OF AMERICA'>BANK OF AMERICA</option>
+							<option code='BSNAMYK1' value='BANK SIMPANAN NASIONAL'>BANK SIMPANAN NASIONAL</option>
+							<option code='CIBBMYKL' value='CIMB BANK BERHAD'>CIMB BANK BERHAD</option>
+							<option code='CITIMYKL' value='CITIBANK BERHAD'>CITIBANK BERHAD</option>
+							<option code='DEUTMYKL' value='DEUSTCHE BANK'>DEUSTCHE BANK</option>
+							<option code='EOBBMYKL' value='EON BANK BERHAD'>EON BANK BERHAD</option>
+							<option code='HLBBMYKL' value='HONG LEONG BANK BERHAD'>HONG LEONG BANK BERHAD</option>
+							
+							
+							<option code='HBMBMYKL' value='HSBC BANK MALAYSIA BERHAD'>HSBC BANK MALAYSIA BERHAD</option>
+							<option code='MBBEMYKL' value='MALAYAN BANKING BERHAD'>MALAYAN BANKING BERHAD</option>
+							<option code='OCBCMYKL' value='OCBC BANK (M) BERHAD'>OCBC BANK (M) BERHAD</option>
+							<option code='PBBEMYKL' value='PUBLIC BANK BERHAD'>PUBLIC BANK BERHAD</option>
+							
+							<option code='RHBBMYKL' value='RHB BANK BERHAD'>RHB BANK BERHAD</option>
+							<option code='SCBLMYKX' value='STANDARD CHARTERED BANK MSIA BHD'>STANDARD CHARTERED BANK MSIA BHD</option>
+							<option code='ABNAMYKL' value='THE ROYAL BANK OF SCOTLAND BERHAD (RBS)'>THE ROYAL BANK OF SCOTLAND BERHAD (RBS)</option>
+							<option code='UOVBMYKL' value='UNITED OVERSEAS BANK'>UNITED OVERSEAS BANK</option>
+							
+					    </select>
+					    
+					    <input type='hidden'  value="PHBMMYKL" id="mepsRouting" name="mepsRouting" />
+					     
 					</div>
+					
 			</li>		
-		
-		       
-		     <li>
-					<label for="mepsRouting" class="form-label">Meps Routing Code</label>
-					<div class="form-field">
-						<input type='text' id="mepsRouting" name="mepsRouting" /> <a href="">Get code</a>
-					</div>
-			</li>	
+		    
 					
 			<li>
 			

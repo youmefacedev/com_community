@@ -18,10 +18,12 @@ class CommunityViewMyWithdraw extends CommunityView
 {
 	public function display($tpl = null)
 	{
-		$user	= JFactory::getUser();
-		if ( $user->get('guest'))
+		$mainframe = JFactory::getApplication();
+		$my		= JFactory::getUser();
+		
+		if($my->id == 0)
 		{
-			JError::raiseError( 403, JText::_('COM_COMMUNITY_ACCESS_FORBIDDEN') );
+			$mainframe->enqueueMessage(JText::_('COM_COMMUNITY_PLEASE_LOGIN_WARNING'), 'error');
 			return;
 		}
 		
@@ -92,6 +94,7 @@ class CommunityViewMyWithdraw extends CommunityView
 					$acctnum = $post["acctnum"];
 					$bankCountry = $post["bankCountry"];
 					
+					
 					$this->initiateRequest($my->id, $withdrawalDate->format('Y-m-d H:i:s'), $withdrawValue, 0, 0, $withdrawalDate->format('Y-m-d H:i:s'), $name, $bankName, $mepsRouting, $acctnum, $bankCountry);
 					
 					$coreUrl = CRoute::_('index.php?option=com_community&view=mywithdraw', false);
@@ -125,6 +128,11 @@ class CommunityViewMyWithdraw extends CommunityView
 		->fetch( 'mywithdraw.success');
 	}
 	
+
+	private function doAccessCheck()
+	{
+		
+	}
 	
 	private function getBalancePoint($userId)
 	{
@@ -159,7 +167,5 @@ class CommunityViewMyWithdraw extends CommunityView
 			$withdrawalPoint = $balanceElement->withdrawal_point;
 		}
 		return $withdrawalPoint;
-	}
-	
-	
+	}	
 }

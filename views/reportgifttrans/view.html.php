@@ -18,8 +18,17 @@ class CommunityViewReportGiftTrans extends CommunityView
 {
 	public function display($tpl = null)
 	{
-
-           $this->listGiftReport();
+		
+		$mainframe = JFactory::getApplication();
+		$my		= JFactory::getUser();
+		
+		if($my->id == 0)
+		{
+			$mainframe->enqueueMessage(JText::_('COM_COMMUNITY_PLEASE_LOGIN_WARNING'), 'error');
+			return;
+		}
+		
+        $this->listGiftReport();
 	}
 
 	public function listGiftReport()
