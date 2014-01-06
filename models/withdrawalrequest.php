@@ -103,6 +103,39 @@ class CommunityModelWithdrawalRequest extends JCCModel
 			JError::raiseError( 500, $db->stderr());
 		}
 	}
+
+	
+	public function createRequestWithBankInfoHistory($userId, $withdrawal_date, $withdrawal_amount, $payment_method, $approvedByUser, $lastUpdate, $name, $bankName, $mepsRoutingCode, $acctnum, $bankCountry)
+	{
+			
+		if (isset($userId))
+		{
+			$db	= $this->getDBO();
+			$obj = new stdClass();
+	
+			$obj->userId = $userId;
+			$obj->withdrawal_date = $withdrawal_date;
+			$obj->withdrawal_amount = $withdrawal_amount;
+			$obj->status = 1;
+			$obj->payment_method = $payment_method;
+			$obj->approvedByUser = 0;
+			$obj->lastUpdate = $lastUpdate;
+				
+			$obj->name = $name;
+			$obj->bankName = $bankName;
+			$obj->mepsRouting = $mepsRoutingCode;
+			$obj->acctnum = $acctnum;
+			$obj->bankCountry = $bankCountry;
+				
+			$result = $db->insertObject( '#__user_withdrawal_activity_history' ,  $obj);
+	
+		}
+			
+		if($db->getErrorNum())
+		{
+			JError::raiseError( 500, $db->stderr());
+		}
+	}
 	
 	
 	// Get all the withdrawal request with status = 1 - User just initiated request

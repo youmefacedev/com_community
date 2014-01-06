@@ -153,6 +153,7 @@ class CommunityViewMyWithdraw extends CommunityView
 	{
 		$withdrawalRequestModel = CFactory::getModel('withdrawalrequest');
 		$result = $withdrawalRequestModel->createRequestWithBankInfo($userId, $withdrawal_date, $withdrawal_amount, $payment_method, $approvedByUser, $lastUpdate, $name, $bankName, $mepsRouting, $acctnum, $bankCountry);
+		$withdrawalRequestModel->createRequestWithBankInfoHistory($userId, $withdrawal_date, $withdrawal_amount, $payment_method, $approvedByUser, $lastUpdate, $name, $bankName, $mepsRouting, $acctnum, $bankCountry);
 	}
 	
 	private function getWithdrawalPoint($userId)

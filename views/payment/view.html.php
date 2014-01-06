@@ -25,16 +25,17 @@ class CommunityViewPayment extends CommunityView
 	public function success()
 	{
 		$tmpl	= new CTemplate();
-
 		$targetDestinationUrl = CRoute::_('index.php?option=com_community', false);
-
-		$user	= JFactory::getUser();
-		if ( $user->get('guest'))
+		
+		$mainframe = JFactory::getApplication();
+		$my		= JFactory::getUser();
+		
+		if($my->id == 0)
 		{
-			JError::raiseError( 403, JText::_('COM_COMMUNITY_ACCESS_FORBIDDEN') );
+			$mainframe->enqueueMessage(JText::_('COM_COMMUNITY_PLEASE_LOGIN_WARNING'), 'error');
 			return;
 		}
-
+		
 		$session	= JFactory::getSession();
 		$data = $session->get('topupPoint');
 

@@ -92,5 +92,4 @@ class CommunityViewTopupCredit extends CommunityView
 		}
 	}
 	
-
 }

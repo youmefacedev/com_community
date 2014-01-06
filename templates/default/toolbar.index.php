@@ -132,6 +132,18 @@ $taskName = JRequest::getCmd( 'task');
 						</a>
 					</li>
 					
+					<li class="visible-desktop" >
+						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=reporttopup' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_VIEW_TOPUP_REPORT' );?>">
+							<i class="icon-doc-3"></i>
+						</a>
+					</li>
+					
+					<li class="visible-desktop" >
+						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=reportwithdrawal' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_VIEW_WITHDRAWAL_REPORT' );?>">
+							<i class="icon-list-1"></i>
+						</a>
+					</li>
+					
 					
 					<?php if( $balancePoint ){ ?>
 					<li class="visible-desktop" >
