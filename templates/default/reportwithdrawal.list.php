@@ -15,6 +15,8 @@ defined('_JEXEC') or die();
 
 </style>
 
+
+<h2>Credit Withdrawal Report</h2>
 <div class="cSearch-Result">
 
 
@@ -49,6 +51,7 @@ defined('_JEXEC') or die();
 					<div class="cIndex-ReportInfo">&nbsp; Bank Country : <?php  echo $dataRec->bankcountry; ?></div>
 					<div class="cIndex-ReportInfo">&nbsp; Account No : <i>  <?php  echo $dataRec->acctnum; ?></i></div>
 					<div class="cIndex-ReportInfo">&nbsp; Date  : <i><?php  echo $dataRec->lastUpdate; ?></i></div>
+					<div class="cIndex-ReportInfo">&nbsp; Status : <i><?php  echo $dataRec->lastUpdate; ?></i></div>
 				</div>
 				
 

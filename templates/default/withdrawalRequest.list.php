@@ -56,6 +56,8 @@ defined('_JEXEC') or die();
 
  function updateViewWithFilterResult(result)
  {
+
+	var output = "";
 	 
 	 for (var i=0; i < result.length; i++)
 	 {
@@ -159,8 +161,7 @@ defined('_JEXEC') or die();
 			onclick="jax.call('community','system,filterCompleted');">Completed</a>
 		</span>
 	</p>
-
-	<a id="lists" name="listing" />
+	
 	<ul class="cIndexList forFriendsList cResetList" id="resultWindow">
 
 		<?php foreach ($requestList as $element) {  ?>

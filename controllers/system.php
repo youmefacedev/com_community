@@ -2158,6 +2158,7 @@ return $objResponse->sendResponse();
 		$withdrawalRequestModel->approveWithdrawalRequest($requestId, $my->id, $eventDate->format('Y-m-d H:i:s'));
 		$this->createWithdrawalHistory($id);
 
+		
 		$objResponse->addScriptCall('updateWithdrawalStatus', $requestId, 2);
 		return $objResponse->sendResponse();
 	}

@@ -36,8 +36,8 @@ defined('_JEXEC') or die();
 		 
 			<li>
 				<div class="cIndex-Box clearfix">
-					
-					<a href="<?php echo CRoute::getURI();?>/editGift" class="cIndex-Avatar cFloat-L">
+					<!-- Miki 5Jan2014, added id into the url of image -->
+					<a href="<?php echo CRoute::getURI();?>/editGift?id=<?php echo $dataRec->id; ?>" class="cIndex-Avatar cFloat-L">
 						<img class="cAvatar" src="<?php echo JURI::root() . $dataRec->imageURL; ?>" alt="google"/>
 					</a>
 

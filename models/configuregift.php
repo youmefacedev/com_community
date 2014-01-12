@@ -28,7 +28,7 @@ class CommunityModelConfigureGift extends JCCModel
 		$db	= $this->getDBO();
 		$sql = 'SELECT '.$db->quoteName('id') .  ", " . $db->quoteName('code') . ", " .$db->quoteName('description') . ", " .$db->quoteName('valuePoint') . ", " .$db->quoteName('imageURL') . ' FROM '.$db->quoteName('#__gift');
 		$sql = $sql . ' WHERE '.$db->quoteName('CODE') . '!= ""';
-		
+		$sql = $sql . ' ORDER BY valuePoint '; /* Miki 5Jan2014, sort the list by value point  */
 		$db->setQuery($sql);
 		$db->query();
 		$result = $db->loadObjectList();
