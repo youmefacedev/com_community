@@ -26,7 +26,7 @@ class CommunityModelReportWithdrawal extends JCCModel
 	public function getUserList($sourceUserId)
 	{		
 		$db	= $this->getDBO();
-		$sql = 'SELECT '.$db->quoteName('id') .  ", " . $db->quoteName('userId') . ", " .$db->quoteName('bankName') . ", " .$db->quoteName('bankcountry'); 
+		$sql = 'SELECT '.$db->quoteName('id') .  ", " . $db->quoteName('userId') . ", " .$db->quoteName('bankName') . ", " .$db->quoteName('bankcountry') . ", " .$db->quoteName('status'); 
 		$sql = $sql . ", " .$db->quoteName('acctnum') . ", " .$db->quoteName('withdrawal_amount') . ", " .$db->quoteName('lastUpdate') . ' FROM '.$db->quoteName('#__user_withdrawal_activity');
 		$sql = $sql . ' WHERE '.$db->quoteName('userId') . '=' . $db->Quote($sourceUserId);
 		
@@ -38,7 +38,7 @@ class CommunityModelReportWithdrawal extends JCCModel
 	
 	
 	public function getAdminList($sourceUserId)	{
-		$db	= $this->getDBO();		$sql = 'SELECT '.$db->quoteName('id') .  ", " . $db->quoteName('userId') . ", " .$db->quoteName('bankName') . ", " .$db->quoteName('bankcountry');		$sql = $sql . ", " .$db->quoteName('acctnum') . ", " .$db->quoteName('withdrawal_amount') . ", " .$db->quoteName('lastUpdate') . ' FROM '.$db->quoteName('#__user_withdrawal_activity');
+		$db	= $this->getDBO();		$sql = 'SELECT '.$db->quoteName('id') .  ", " . $db->quoteName('userId') . ", " .$db->quoteName('bankName') . ", " .$db->quoteName('bankcountry') . ", " .$db->quoteName('status');		$sql = $sql . ", " .$db->quoteName('acctnum') . ", " .$db->quoteName('withdrawal_amount') . ", " .$db->quoteName('lastUpdate') . ' FROM '.$db->quoteName('#__user_withdrawal_activity');
 		$db->setQuery($sql);		$db->query();		$result = $db->loadObjectList();		return $result;	}
 	
 }

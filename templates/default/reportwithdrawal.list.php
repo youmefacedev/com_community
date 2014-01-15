@@ -13,6 +13,11 @@ defined('_JEXEC') or die();
     padding: 0 0 0px;
 }
 
+.highlightMode 
+{
+	color : #245DC1;
+}
+
 </style>
 
 
@@ -51,7 +56,7 @@ defined('_JEXEC') or die();
 					<div class="cIndex-ReportInfo">&nbsp; Bank Country : <?php  echo $dataRec->bankcountry; ?></div>
 					<div class="cIndex-ReportInfo">&nbsp; Account No : <i>  <?php  echo $dataRec->acctnum; ?></i></div>
 					<div class="cIndex-ReportInfo">&nbsp; Date  : <i><?php  echo $dataRec->lastUpdate; ?></i></div>
-					<div class="cIndex-ReportInfo">&nbsp; Status : <i><?php  echo $dataRec->lastUpdate; ?></i></div>
+					<div class="cIndex-ReportInfo">&nbsp; State : <i class='highlightMode'><?php  echo $dataRec->status; ?></i></div>
 				</div>
 				
 

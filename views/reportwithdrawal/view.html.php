@@ -66,7 +66,7 @@ class CommunityViewReportWithdrawal extends CommunityView
 			$object->acctnum = $element->acctnum;
 			$object->withdrawal_amount = $element->withdrawal_amount;
 			$object->bankcountry = $element->bankcountry;
-			
+			$object->status = $this->getStatus($element->status);
 			$object->lastUpdate = date('Y-m-d h:i:s a', strtotime($element->lastUpdate));
 				
 			$sourceUser = CFactory::getUser($element->userId);
@@ -83,5 +83,19 @@ class CommunityViewReportWithdrawal extends CommunityView
 		echo $tmpl->set('giftList', $finalList)
 		->fetch( 'reportwithdrawal.list');
 
+	}
+	
+	private function getStatus($status)
+	{
+		switch($status)
+		{
+			case 1: 
+			case 2:
+				return "Pending";
+			case 3:
+				return "Banked in";
+			default: 
+				return "Pending";
+		}
 	}
 }
