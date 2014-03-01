@@ -2170,10 +2170,33 @@ return $objResponse->sendResponse();
 		$objResponse	=   new JAXResponse();
 		$eventDate = new DateTime();
 		$requestId = $filter->clean($id, 'int');
+		
+		
 		$withdrawalRequestModel = CFactory::getModel('withdrawalrequest');
+		$deniedWithdrawal = $withdrawalRequestModel->getRequest($id);
+		
+		$userWithdrawalAmount = 0;
+		$userWithdrawId = -1;
+		
+		if (!is_null($deniedWithdrawal))
+		{
+				
+			foreach ($deniedWithdrawal as $element)
+			{	
+				$userWithdrawalAmount = $element->withdrawal_amount;
+				$userWithdrawId = $element->userId;
+			}
+			
+			$userCurrentPoint = $this->getUserBalancePoint($userWithdrawId);
+			if ($userWithdrawalAmount > 0)
+			{
+				$newPoint = $userCurrentPoint + $userWithdrawalAmount;
+				$this->updateUserBalancePoint($userWithdrawId, $newPoint);
+			}
+		}
+			
 		$withdrawalRequestModel->denyWithdrawalRequest($requestId, $my->id, $eventDate->format('Y-m-d H:i:s'));
 		$this->createWithdrawalHistory($id);
-		
 		$objResponse->addScriptCall('updateWithdrawalStatus', $requestId, -1);
 		return $objResponse->sendResponse();
 	}

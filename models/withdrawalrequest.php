@@ -26,16 +26,15 @@ class CommunityModelWithdrawalRequest extends JCCModel
 	{		
 		$db	= $this->getDBO();
 		$sql = 'SELECT '.$db->quoteName('id') .  ", " . $db->quoteName('userId') . ", " .$db->quoteName('withdrawal_date') . ", " 
-				. $db->quoteName('withdrawal_amount') . ", " .$db->quoteName('lastUpdate')
-				. $db->quoteName('status') 
-				. $db->quoteName('payment_method')
-				. $db->quoteName('transactionType')
-				. $db->quoteName('approvedByUser')
-				. $db->quoteName('lastUpdate')
-				. $db->quoteName('name')
-				. $db->quoteName('bankName')
-				. $db->quoteName('bankCountry')
-				. $db->quoteName('acctnum')
+				. $db->quoteName('withdrawal_amount') . ", " .$db->quoteName('lastUpdate') . ", "
+				. $db->quoteName('status') . ", "
+				. $db->quoteName('payment_method') . ", "
+				. $db->quoteName('approvedByUser') . ", "
+				. $db->quoteName('lastUpdate') . ", "
+				. $db->quoteName('name') . ", "
+				. $db->quoteName('bankName') . ", "
+				. $db->quoteName('bankCountry') . ", "
+				. $db->quoteName('acctnum') 
 				. ' FROM '.$db->quoteName('#__user_withdrawal_activity');
 		$sql = $sql . ' WHERE '.$db->quoteName('id') . '=' . $db->Quote($requestId);
 		
@@ -243,3 +242,5 @@ class CommunityModelWithdrawalRequest extends JCCModel
 	}
 		
 }
+
+?>

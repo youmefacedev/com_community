@@ -74,7 +74,7 @@ defined('_JEXEC') or die();
 </div>
 <?php } ?>
 
-<div class="cWindowNotification-Jumper">11
+<div class="cWindowNotification-Jumper">
 	<a href="<?php echo $link; ?>"><?php echo $link_text; ?></a>
 </div>
 
