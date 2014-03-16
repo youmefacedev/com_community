@@ -18,6 +18,8 @@ class CommunityViewReportWithdrawal extends CommunityView
 {
 	public function display($tpl = null)
 	{
+	    $document     = JFactory::getDocument(); 
+        $document->setTitle("Withdrawal Report"); 
 		
 		$mainframe = JFactory::getApplication();
 		$my		= JFactory::getUser();
@@ -55,8 +57,8 @@ class CommunityViewReportWithdrawal extends CommunityView
 		}
 
 		$finalList = array();
-
-
+		$totalValue = 0;
+		
 		foreach ($giftResult as $element)
 		{
 			$object = new stdClass();
@@ -72,15 +74,16 @@ class CommunityViewReportWithdrawal extends CommunityView
 			$sourceUser = CFactory::getUser($element->userId);
 			
 			$object->avatar = $sourceUser ->getAvatar();
-				
+			
+			$object->name = $sourceUser->name;	
 			$object->lastUpdate = date('Y-m-d h:i:s a', strtotime($element->lastUpdate));
 			$object->avatar = $sourceUser->getAvatar();
-				
+			$totalValue += $object->withdrawal_amount;	
+			
 			array_push($finalList, $object);
 		} 
-
-
-		echo $tmpl->set('giftList', $finalList)
+		
+		echo $tmpl->set('giftList', $finalList)->set('totalValue', $totalValue)
 		->fetch( 'reportwithdrawal.list');
 
 	}
@@ -93,7 +96,7 @@ class CommunityViewReportWithdrawal extends CommunityView
 			case 2:
 				return "Pending";
 			case 3:
-				return "Banked in";
+				return "Approved (Payment bank in within 7 workings days).";
 			default: 
 				return "Pending";
 		}

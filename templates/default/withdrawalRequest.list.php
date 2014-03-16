@@ -56,9 +56,7 @@ defined('_JEXEC') or die();
 
  function updateViewWithFilterResult(result)
  {
-
-	var output = "";
-	 
+	 var output = "";
 	 for (var i=0; i < result.length; i++)
 	 {
 		 
@@ -161,6 +159,7 @@ defined('_JEXEC') or die();
 			onclick="jax.call('community','system,filterCompleted');">Completed</a>
 		</span>
 	</p>
+
 	
 	<ul class="cIndexList forFriendsList cResetList" id="resultWindow">
 
@@ -170,7 +169,7 @@ defined('_JEXEC') or die();
 			<div class="cIndex-Box clearfix">
 				<div class="withdrawContent">
 					<h3 class="cIndex-Name cResetH">
-						<a href="javascript:void(0);"> <?php 
+						<a href="javascript:void(0);" style="cursor:none"> <?php 
 						$user = CFactory::getUser($element->userId);
 						echo (!empty($user->username) ? $user->username : ''); ?>
 						</a>
@@ -182,7 +181,7 @@ defined('_JEXEC') or die();
 
 
 						<div id="showDetail<?php echo $element->id; ?>">
-							<div class="panel-	heading">
+							 <div class="panel-	heading">
 								<h4 class="panel-title">
 									<a class="accordion-toggle" data-toggle="collapse"
 										data-parent="#accordion" href="#collapseOne"> <span
@@ -191,8 +190,8 @@ defined('_JEXEC') or die();
 									</span>
 									</a>
 								</h4>
-							</div>
-							<div id="collapseOne" class="panel-collapse collapse in">
+							</div> 
+						  <div id="collapseOne" class="panel-collapse collapse in"> 
 								<div class="panel-body">
 									<ul>
 										<li>Account no : <?php echo $element->acctnum; ?>
@@ -203,12 +202,13 @@ defined('_JEXEC') or die();
 										</li>
 										<li>Bank Country : <?php echo $element->bankCountry; ?>
 										</li>
-										<li>Meps Routing <?php echo $element->mepsRouting; ?>
+										<li>Meps Routing :  <?php echo $element->mepsRouting; ?>
 										</li>
+					                    <li>Date/Time  :  <?php  echo $element->lastUpdate; ?></i> 
 										<li>&nbsp;</li>
 									</ul>
 								</div>
-							</div>
+							 </div> 
 						</div>
 
 
@@ -236,12 +236,12 @@ defined('_JEXEC') or die();
 									class='icon-cancel-2'></i> Deny withdrawal</span> </a>
 						</div>
 
-						<div>
+						<!--<div>
 							<a id="moneyInBankControl<?php echo $element->id; ?>"
 								href="javascript:void(0);"
 								onclick="jax.call('community','system,moneyInBank',<?php echo $element->id; ?>);"><span><i
 									class='icon-dollar'></i> Money In Bank</span> </a>
-						</div>
+						</div>-->
 
 						<?php } ?>
 

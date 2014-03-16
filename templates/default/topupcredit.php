@@ -27,6 +27,8 @@ defined('_JEXEC') or die();
 
 	var formValidated = false; 
 	var ctrlId = "#packageId";
+	var PackageId10 = "10pts";
+	var PackageId20 = "20pts";
 	var PackageId50 = "50pts";
 	var PackageId100 = "100pts";
 	var PackageId500 = "500pts";
@@ -37,23 +39,29 @@ defined('_JEXEC') or die();
 		jomsQuery("#item_name").val(packageId);
 		jomsQuery("#item_number").val(packageId);
 		jomsQuery("#amount").val(pts);
-		
 	}
 	
 	jomsQuery(document).ready(function() {
 
-		jax.call('community','system,startPayment', "50pts");
+		jax.call('community','system,startPayment', "<?php echo $trxId; ?>", "10pts");
 		
 		jomsQuery(ctrlId).change(function (event) { 
 						
 			if (!formValidated)
-			{
-				
+			{	
 				var packageId = jomsQuery(ctrlId).val();
 				
 				if(packageId !=  '' )
 				{	
-					if (packageId == PackageId50)
+					if (packageId == PackageId10)
+					{	
+						setValue(10, PackageId10);
+					}
+					else if (packageId == PackageId20)
+					{	
+						setValue(20, PackageId20);
+					}
+					else if (packageId == PackageId50)
 					{	
 						setValue(50, PackageId50);
 					}
@@ -70,7 +78,7 @@ defined('_JEXEC') or die();
 						setValue(1000, PackageId1000);
 					}
 					
-					jax.call('community','system,startPayment', packageId);
+					jax.call('community','system,startPayment', "<?php echo $trxId; ?>", packageId);
 					return true; 
 				}
 				else 
@@ -78,7 +86,7 @@ defined('_JEXEC') or die();
 					return false;
 				}
 				event.preventDefault();
-			} 		
+			}
 		});
 	
 });
@@ -98,17 +106,19 @@ defined('_JEXEC') or die();
 						<input type="hidden" name="hosted_button_id" value="ZTY3E8UW99HVC">
 						<div>
 							<select id="packageId">
-								<option value="50pts">50pts RM50.00 MYR</option>
-								<option value="100pts">100pts RM100.00 MYR</option>
-								<option value="500pts">500pts RM500.00 MYR</option>
-								<option value="1000pts">1000pts RM1,000.00 MYR</option>
+								<option value="10pts">10pts 10.00 USD</option>
+								<option value="20pts">20pts 20.00 USD</option>
+								<option value="50pts">50pts 50.00 USD</option>
+								<option value="100pts">100pts 100.00 USD</option>
+								<option value="500pts">500pts 500.00 USD</option>
+								<option value="1000pts">1000pts 1,000.00 USD</option>
 							</select>
 						</div>
 					</li>
 
 					<li><label class="form-label"></label>
 						<div class="form-field">
-							<input type="hidden" name="currency_code" value="MYR"> <input
+							<input type="hidden" name="currency_code" value="USD"> <input
 								type="image"
 								src="https://www.paypalobjects.com/en_US/i/btn/btn_paynow_SM.gif"
 								border="0" id="submit" name="submit"
@@ -120,19 +130,17 @@ defined('_JEXEC') or die();
 					</li>
 				</ul>
 
-
-
 				<input type="hidden" name="cmd" value="_xclick"> <input
-					type="hidden" name="business" value="miki.flintech@gmail.com"> <input
-					type="hidden" name="item_name" id="item_name"
-					value="50pts RM 50,00"> <input type="hidden" name="item_number"
-					id="item_number" value="50pts RM 50,00"> <input type="hidden"
-					id="amount" name="amount" value="50"> <input type="hidden"
-					name="tax" value="0"> <input type="hidden" name="quantity"
-					value="1">
+					type="hidden" name="business" value="miki.flintech@gmail.com"> 
+					<input type="hidden" name="item_name" id="item_name" value="10pts USD 10,00"> <input type="hidden" name="item_number" id="item_number" value="10pts USD 10,00"> 
+					<input type="hidden" id="amount" name="amount" value="10"> 
+					<input type="hidden" name="tax" value="0"> 
+					<input type="hidden" name="quantity" value="1"> 
+					<input type="hidden" name="txn_id" value="<?php echo $trxId; ?>"> 
+				
 				<!-- Quantity-->
 				<input type="hidden" name="no_note" value="1"> <input type="hidden"
-					name="currency_code" value="MYR">
+					name="currency_code" value="USD">
 				<!-- Currency-->
 				<input type="hidden" name="notify_url"
 					value="http://www.youmeface.com/joomla/index.php/en/jomsocial/payment/ipn">

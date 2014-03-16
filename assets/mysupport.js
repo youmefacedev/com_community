@@ -36,13 +36,13 @@ function showSupport(data, likedItem) {
 
 		content += "<div class='support-Content'>";
 		content += "<h3 class='cIndex-Name cResetH'>";
-		content += "<a href=''>" + data[i].code + "</a>";
+		content +=  data[i].description;
 		content += "</h3>";
 
-		content += "<div class='cIndex-Status'><span><img src='../../.."
+		content += "<div class='cIndex-Status' style='text-align:center'><span><img src='../../.."
 				+ data[i].imageURL + "'/></span></div>";
 		content += "<div class='cIndex-Status'><span></span><span>"
-				+ data[i].valuePoint + " credits</span></div>";
+				+ data[i].valuePoint + " pts</span></div>";
 		content += "<div class='cIndex-Actions'><a href='#' class='btn btn-primary' id=sendSupport"
 				+ data[i].id
 				+ " giftId="

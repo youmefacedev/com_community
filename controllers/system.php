@@ -1873,23 +1873,35 @@ return $objResponse->sendResponse();
 	}
 	
 	
-	public function startPayment($target)
+	public function startPayment($id, $points)
 	{	
 		$filter = JFilterInput::getInstance();
-		$packageId = $filter->clean($target, 'strings');
 		
-		// stores the session 
-		// used later in the success page to 
-		// request for credit topup transfer 
+		if(!empty($points))
+		{
+			$pointsValue = 0;
 			
-		$session	= JFactory::getSession();
-		$session->set('topupPoint', $packageId);
+			if ($points == "10pts")
+				$pointsValue = 10; 
+			else if ($points == "20pts")
+				$pointsValue = 20;
+			else if ($points == "50pts")
+				$pointsValue = 50;
+			else if ($points == "100pts")
+				$pointsValue = 100;
+			else if ($points == "500pts")
+				$pointsValue = 500;
+			else if ($points == "1000pts")
+				$pointsValue = 1000;
+			
+			if ($pointsValue != 0)
+			{
+				$userTopupModel = CFactory::getModel('topupactivity');
+				$userTopupModel->updateTempRequest($id, $pointsValue);
+			}
+		}
 		
 		$objResponse	=   new JAXResponse();
-
-		//$data = $session->get('topupPoint');
-		//$objResponse->addAlert($data);
-		
 		return $objResponse->sendResponse();
 	} 
 
@@ -2155,13 +2167,34 @@ return $objResponse->sendResponse();
 		$eventDate = new DateTime();
 		$requestId = $filter->clean($id, 'int');
 
-		$withdrawalRequestModel->approveWithdrawalRequest($requestId, $my->id, $eventDate->format('Y-m-d H:i:s'));
-		$this->createWithdrawalHistory($id);
-
+		//$withdrawalRequestModel->approveWithdrawalRequest($requestId, $my->id, $eventDate->format('Y-m-d H:i:s'));
+		//$this->createWithdrawalHistory($id);
+		//$objResponse->addScriptCall('updateWithdrawalStatus', $requestId, 2);
 		
-		$objResponse->addScriptCall('updateWithdrawalStatus', $requestId, 2);
+		$withdrawalRequestModel->moneyInBank($requestId, $my->id, $eventDate->format('Y-m-d H:i:s'));
+		$this->createWithdrawalHistory($id);
+		$objResponse->addScriptCall('updateWithdrawalStatus', $requestId, 3);
+		
 		return $objResponse->sendResponse();
 	}
+	
+	
+	public function moneyInBank($id)
+	{
+		$filter = JFilterInput::getInstance();
+		$my = CFactory::getUser();
+		$objResponse	=   new JAXResponse();
+		$eventDate = new DateTime();
+		$requestId = $filter->clean($id, 'int');
+	
+		$withdrawalRequestModel = CFactory::getModel('withdrawalrequest');
+		$withdrawalRequestModel->moneyInBank($requestId, $my->id, $eventDate->format('Y-m-d H:i:s'));
+		$this->createWithdrawalHistory($id);
+	
+		$objResponse->addScriptCall('updateWithdrawalStatus', $requestId, 3);
+		return $objResponse->sendResponse();
+	}
+	
 	
 	public function denyWithdrawal($id)
 	{
@@ -2201,23 +2234,7 @@ return $objResponse->sendResponse();
 		return $objResponse->sendResponse();
 	}
 
-	public function moneyInBank($id)
-	{
-		$filter = JFilterInput::getInstance();
-		$my = CFactory::getUser();
-		$objResponse	=   new JAXResponse();
-		$eventDate = new DateTime();
-		$requestId = $filter->clean($id, 'int');
-
-		$withdrawalRequestModel = CFactory::getModel('withdrawalrequest');
-		$withdrawalRequestModel->moneyInBank($requestId, $my->id, $eventDate->format('Y-m-d H:i:s'));
-		$this->createWithdrawalHistory($id);
 		
-		$objResponse->addScriptCall('updateWithdrawalStatus', $requestId, 3);
-		return $objResponse->sendResponse();
-	}
-
-	
 	public function filterRequest()
 	{
 		$objResponse	=   new JAXResponse();

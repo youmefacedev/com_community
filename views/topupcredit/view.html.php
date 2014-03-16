@@ -35,16 +35,21 @@ class CommunityViewTopupCredit extends CommunityView
 		$mainframe		= JFactory::getApplication();
 		$config			= CFactory::getConfig();
 		$document		= JFactory::getDocument();
-
+		$my 			= CFactory::getUser();
+		
 		$tmpl	= new CTemplate();
 
 		$coreUrl = CRoute::_('index.php?option=com_community&view=topupcredit&task=topupForUser', false);
-
-		$giftModel = CFactory::getModel('support');
-		$giftResult = $giftModel->getList();
-
-		echo $tmpl->set('giftList', $giftResult)
-		->set('coreUrl', $coreUrl)
+		
+		$trxId = uniqid('', true);
+		$topupDate = new DateTime();
+		$point = 0;
+		$userTopupModel = CFactory::getModel('topupactivity');
+		
+		$userTopupModel->createTempTopupRequest($my->id, 'temporaryrequest', $point, $point, $trxId, $topupDate->format('Y-m-d H:i:s'));
+		
+		echo $tmpl->set('coreUrl', $coreUrl)
+		->set('trxId', $trxId)
 		->fetch( 'topupcredit');
 	}
 

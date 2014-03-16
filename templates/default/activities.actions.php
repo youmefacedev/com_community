@@ -1,4 +1,3 @@
-
 <script>
 		
 		function closeSupport(id, liked)
@@ -39,16 +38,16 @@
 		 			content += "<div class='tableRow'>";
 				}
 				
-		 			content += "<div class='tableColumn'>"; 
+		 			content += "<div class='tableColumn' style='text-align:center'>"; 
 		 			content += "<div class='cIndex-Box clearfix'>";
 		 			
 		 			content += "<div class='support-Content'>";
 		 			content += "<h3 class='cIndex-Name cResetH'>";
-		 					content += "<a href=''>" + data[i].code +  "</a>";
+		 					content +=   data[i].description ;
 		 			content += "</h3>";
 		 			
 		 			content += "<div class='cIndex-Status'><span><img src='../../.." + data[i].imageURL +  "'/></span></div>";
-		 			content += "<div class='cIndex-Status'><span></span><span>" + data[i].valuePoint +  " credits</span></div>";
+		 			content += "<div class='cIndex-Status'><span></span><span>" + data[i].valuePoint +  " pts</span></div>";
 		 			content += "<div class='cIndex-Actions'><a href='#' class='btn btn-primary' id=sendSupport" + data[i].id + " giftId=" + data[i].id + " itemId=" + likedItem  + ">Send</a></div>";
 
 			 		content += "</div>";
@@ -289,4 +288,3 @@ if($accessClass != 'public') {
 
 </div>
 <?php } ?>
-

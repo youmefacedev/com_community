@@ -26,7 +26,7 @@ defined('_JEXEC') or die();
 							Admin View			
 					<?php }  ?>
 		
-		Topup Report
+		  <span style="float:right"> Total value : <b>$<?php echo $totalValue; ?></b> </span>
 		
 		</li>
 
@@ -58,8 +58,9 @@ defined('_JEXEC') or die();
 					<?php if (COwnerHelper::isCommunityAdmin($my->id)) {  ?>
 					
 					<?php }  ?>
-					<div class="cIndex-ReportInfo">&nbsp; Topup Value: <i> <?php  echo $dataRec->valuePoint; ?> </i></div>
-					<div class="cIndex-ReportInfo">&nbsp; Date  : <?php  echo $dataRec->lastUpdate; ?></div>
+					<div class="cIndex-ReportInfo">&nbsp; User : <i> <?php  echo $dataRec->name; ?> </i></div>
+					<div class="cIndex-ReportInfo">&nbsp; Topup Value: <i> <b><?php  echo $dataRec->valuePoint; ?> pts</b> </i></div>
+					<div class="cIndex-ReportInfo">&nbsp; Date/Time  : <?php  echo $dataRec->lastUpdate; ?></div>
 				</div>
 				
 

@@ -19,6 +19,8 @@ class CommunityViewReportGiftTrans extends CommunityView
 	public function display($tpl = null)
 	{
 		
+	    $document     = JFactory::getDocument(); 
+        $document->setTitle("Gift Transaction List Report"); 
 		$mainframe = JFactory::getApplication();
 		$my		= JFactory::getUser();
 		

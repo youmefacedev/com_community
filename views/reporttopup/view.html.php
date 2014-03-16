@@ -19,6 +19,8 @@ class CommunityViewReportTopup extends CommunityView
 	public function display($tpl = null)
 	{
 		
+	    $document     = JFactory::getDocument(); 
+        $document->setTitle("Top Up Report"); 
 		$mainframe = JFactory::getApplication();
 		$my		= JFactory::getUser();
 		
@@ -55,6 +57,7 @@ class CommunityViewReportTopup extends CommunityView
 		}
 
 		$finalList = array();
+		$totalValue=0;
 		
 		foreach ($giftResult as $element)
 		{
@@ -65,16 +68,17 @@ class CommunityViewReportTopup extends CommunityView
 			$object->lastUpdate = date('Y-m-d h:i:s a', strtotime($element->lastUpdate));
 				
 			$sourceUser = CFactory::getUser($element->userId);
-			$object->avatar = $sourceUser ->getAvatar();
-				
+			
+			$object->avatar = $sourceUser->getAvatar();
+			$object->name = $sourceUser->name;
 			$object->lastUpdate = date('Y-m-d h:i:s a', strtotime($element->lastUpdate));
 			$object->avatar = $sourceUser->getAvatar();
-				
+			
+			$totalValue += $object->valuePoint;
 			array_push($finalList, $object);
 		} 
-
 		
-		echo $tmpl->set('giftList', $finalList)
+		echo $tmpl->set('giftList', $finalList)->set('totalValue', $totalValue)
 		->fetch( 'reporttopup.list');
 
 	}

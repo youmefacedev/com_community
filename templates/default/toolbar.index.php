@@ -147,7 +147,7 @@ $taskName = JRequest::getCmd( 'task');
 					
 					<?php if( $balancePoint ){ ?>
 					<li class="visible-desktop" >
-							<i class="icon-gift"></i><span id="balancePoints" class="js-counter"><?php echo $balancePoint; ?></span>
+							<i class="icon-gift"></i><span id="balancePoints" class="js-counter"><?php echo $balancePoint; ?> pts</span>
 					</li>
 					<?php } ?>
 					
@@ -233,8 +233,8 @@ $taskName = JRequest::getCmd( 'task');
 
 	function refreshUserPoint(userValuePoint)
 	{
-		// automativally refresh user point //
-		jomsQuery("#balancePoints").html(userValuePoint);
+		
+		jomsQuery("#balancePoints").html(userValuePoint + "pts");
 	}
 
 

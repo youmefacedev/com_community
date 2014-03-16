@@ -13,9 +13,15 @@ defined('_JEXEC') or die();
 <style>
 
   #community-wrap li {
-  line-height:20px;
-  list-style:none;
-}
+ 	 line-height:20px;
+  	 list-style:none;
+ 	}
+ 	
+  #community-wrap input[type="checkbox"] 
+  {
+    margin : 0px;
+  }
+  
 </style>
 
 
@@ -59,8 +65,6 @@ defined('_JEXEC') or die();
 		
 		//jomsQuery('#mepsRouting').val(dataValue);
 	
-		
-
 		//ensure only numeric value entered here 
 		jomsQuery('#withdrawPoint').keyup(function () { 
 			this.value = this.value.replace(/[^0-9\.]/g,'');
@@ -77,7 +81,6 @@ defined('_JEXEC') or die();
 
 			if (!formValidated)
 			{
-
 					event.preventDefault();
 		
 					if( jomsQuery("#withdrawPoint").val().length == 0 )
@@ -85,6 +88,13 @@ defined('_JEXEC') or die();
 						alert('Please specify value you would like to withdraw.');
 						return false;
 					}
+
+					if( jomsQuery("#withdrawPoint").val() < 100 )
+					{
+						alert('Minimum withdrawal is 100 pts.');
+						return false;
+					}
+					
 		
 					if( jomsQuery("#name").val().length == 0 )
 					{
@@ -134,10 +144,17 @@ defined('_JEXEC') or die();
 </script>
 
 <div class="cSearch-ResultTopless">
-<p>
-<b>Withdraw credit</b>
-</p>
+<h4>
+	<b>Withdraw Credit</b>
+</h4>
 
+<!--<div>
+ <span> <i> (minimum withdrawal point is 100pts, 6% chargable per transaction)</i></span>
+</div>-->
+
+<div>
+<span>&nbsp;</span>
+</div>
 <form name="formWithdraw" id="formWithdraw" action="<?php echo $coreUrl; ?>" method="POST" class="cForm community-form-validate">
 
 	
@@ -147,15 +164,19 @@ defined('_JEXEC') or die();
 			<li>
 			  	<label class="form-label">Your Balance  </label>
 				
-					<div class="form-field">
-						<span><?php echo (!empty($balancePoint) ? $balancePoint : ''); ?></span>
+					<div class="form-field" style="padding-top:7px">
+						<span><b> <?php echo (!empty($balancePoint) ? $balancePoint : ''); ?> pts </b></span>
 				   </div>
 			</li>
 					
 			<li>
 			  	<label class="form-label">Withdraw  </label>
 					<div class="form-field">
+				 
 						<input type='text' id="withdrawPoint" name="withdrawPoint" />
+					 
+					    <div> <span> <i> (minimum withdrawal point is 100 pts, 6% chargable per transaction)</i></span> </div>
+					 
 				   </div>
 			</li>
 			
@@ -241,7 +262,7 @@ defined('_JEXEC') or die();
 					<label for="agree" class="form-label"></label>
 				
 					<div class="form-field">
-						<input id="agree" name="agree" type='checkbox'> I agree to terms and condition.
+						<input id="agree" name="agree" type='checkbox'> I agree
 					</div>
 					
 			</li>

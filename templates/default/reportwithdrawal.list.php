@@ -20,14 +20,13 @@ defined('_JEXEC') or die();
 
 </style>
 
-
-<h2>Credit Withdrawal Report</h2>
+ 
 <div class="cSearch-Result">
 
 
 	<ul class="cIndexList forFriendsList cResetList">
 
-		<li>Withdrawal List Report</li>
+		<li><span style="float:right"> Total value : <b>$<?php echo $totalValue; ?></b> </span></li> 
 
 		<?php foreach ($giftList as $dataRec) 
 		{
@@ -36,8 +35,7 @@ defined('_JEXEC') or die();
 		<li>
 			<div class="cIndex-Box clearfix">
 
-				<?php 
-						$avatar = $dataRec->avatar;
+				<?php $avatar = $dataRec->avatar;
 				  
 				if (!empty($avatar))
 				{
@@ -51,12 +49,13 @@ defined('_JEXEC') or die();
 				?>
 				
 				<div class="cIndex-Content">
-					<div class="cIndex-ReportInfo">&nbsp; Withdrawal Amount :  <b> <i> <?php  echo $dataRec->withdrawal_amount; ?></i></b></div>
+					<div class="cIndex-ReportInfo">&nbsp; User : <i> <?php  echo $dataRec->name; ?> </i></div>
+					<div class="cIndex-ReportInfo">&nbsp; Withdrawal Amount :  <b> <i> <?php  echo $dataRec->withdrawal_amount; ?> pts</i></b></div>
 					<div class="cIndex-ReportInfo">&nbsp; Bank Name : <i> <?php  echo $dataRec->bankName; ?></i></div>
 					<div class="cIndex-ReportInfo">&nbsp; Bank Country : <?php  echo $dataRec->bankcountry; ?></div>
 					<div class="cIndex-ReportInfo">&nbsp; Account No : <i>  <?php  echo $dataRec->acctnum; ?></i></div>
-					<div class="cIndex-ReportInfo">&nbsp; Date  : <i><?php  echo $dataRec->lastUpdate; ?></i></div>
-					<div class="cIndex-ReportInfo">&nbsp; State : <i class='highlightMode'><?php  echo $dataRec->status; ?></i></div>
+					<div class="cIndex-ReportInfo">&nbsp; Date/Time  : <i><?php  echo $dataRec->lastUpdate; ?></i></div>
+					<div class="cIndex-ReportInfo">&nbsp; Status : <i class='highlightMode'><?php  echo $dataRec->status; ?></i></div>
 				</div>
 				
 

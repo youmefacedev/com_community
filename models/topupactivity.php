@@ -82,6 +82,8 @@ class CommunityModelTopupActivity extends JCCModel
 		{
 			JError::raiseError( 500, $db->stderr());
 		}
+		
+		return $result; 
 	}
 
 	public function createRequestHistory($userId, $description, $valuePoint, $actualValue, $paymentTransactionId, $lastUpdate, $status)
@@ -123,4 +125,72 @@ class CommunityModelTopupActivity extends JCCModel
 			JError::raiseError( 500, $db->stderr());
 		}
 	}
+	
+	public function updateTempRequest($id, $points)
+	{
+		$db	= $this->getDBO();
+		$query	= 'UPDATE ' . $db->quoteName( '#__user_temp_topup_activity' ) . ' '
+				. 'SET ' . $db->quoteName('valuePoint') . '=' . $db->Quote($points) . ' '
+						. 'WHERE ' . $db->quoteName( 'paymentTransactionId' ) . '=' . $db->Quote($id);
+	
+		$db->setQuery($query);
+		$db->query( $query );
+	
+		if($db->getErrorNum())
+		{
+			JError::raiseError( 500, $db->stderr());
+		}
+	}
+	
+	
+	public function createTempTopupRequest($userId, $description, $valuePoint, $actualValue, $paymentTransactionId, $lastUpdate)
+	{
+		if (isset($userId))
+		{
+			$db	= $this->getDBO();
+			$obj = new stdClass();
+	
+			$obj->userId = $userId;
+			$obj->description = $description;
+			$obj->valuePoint = $valuePoint;
+			$obj->actualValue = $actualValue;
+			$obj->status = 1;
+			$obj->paymentTransactionId = $paymentTransactionId;
+			$obj->lastUpdate = $lastUpdate;
+	
+			$result = $db->insertObject( '#__user_temp_topup_activity' ,  $obj);
+		}
+			
+		if($db->getErrorNum())
+		{
+			JError::raiseError( 500, $db->stderr());
+		}
+	
+		return $result;
+	}
+	
+	public function getTempId($id)
+	{
+		$db	= $this->getDBO();
+		$sql = 'SELECT '.$db->quoteName('id') .  ", " . $db->quoteName('userId') .  ", " . $db->quoteName('description')  . ", " . $db->quoteName('valuePoint')
+		. ", " . $db->quoteName('actualValue') . ", " . $db->quoteName('lastUpdate') . ", " . $db->quoteName('status')  . ", "
+				. $db->quoteName('paymentTransactionId')
+				. ' FROM ' . $db->quoteName('#__user_temp_topup_activity');
+		$sql = $sql . ' WHERE '.$db->quoteName('paymentTransactionId') . '=' . $db->Quote($id);
+	
+		$db->setQuery($sql);
+		$db->query();
+	
+		$result = $db->loadObjectList();
+		$requestData = null; 
+		
+		foreach ($result as $resultElement)
+		{
+			$requestData = $resultElement;
+		}
+
+		return $requestData;
+	}
+	
+	
 }

@@ -25,14 +25,14 @@ defined('_JEXEC') or die();
 </style>
 
 <div class="cSearch-ResultTopless">
-<p>
-<b>Who like me</b>
-</p>
+<h4>
+<b>Who Like Me</b>
+</h4>
 
-	<a id="lists" name="listing"/>
+	<div id="lists" name="listing"/>
 		<ul class="cIndexList forFriendsList cResetList"> 
 			<li>
-				Total gift point(s) : <?php echo (!empty($totalGiftValue) ? $totalGiftValue : ""); ?>
+				Total gift point(s) : <b><?php echo (!empty($totalGiftValue) ? $totalGiftValue : ""); ?> pts</b>
 			</li>
 			
 			<li>&nbsp;</li>
@@ -45,7 +45,7 @@ defined('_JEXEC') or die();
 				<div class="cIndex-Box clearfix">
 				
 				
-					<a href="#" class="cIndex-Avatar cFloat-L">
+					<div href="#" class="cIndex-Avatar cFloat-L">
 					
 					<?php 
 						
@@ -60,13 +60,13 @@ defined('_JEXEC') or die();
 					  	}
 					 ?>
 					 
-					</a>
+					</div>
 
 					<div class="cIndex-Content">
 						<div class="cIndex-Support">
 							<span> <?php echo $dataRec['supportName']; ?> </span>
 						</div>
-						<div class="cIndex-Support">Gift value : <span></span><span> <?php echo (!empty($dataRec['giftValue']) ? $dataRec['giftValue'] : ""); ?> </span> 
+						<div class="cIndex-Support">Gift value : <span></span><span> <?php echo (!empty($dataRec['giftValue']) ? $dataRec['giftValue'] : ""); ?> pts</span> 
 						&nbsp; <i class="timeStamping"> <?php echo (!empty($dataRec['lastUpdate']) ? "(" . date("F j, Y", strtotime($dataRec['lastUpdate'])) . ")" : ""); ?></i> </div>
 						
 					</div>

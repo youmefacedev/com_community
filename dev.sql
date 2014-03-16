@@ -3,9 +3,20 @@ create table jom_user_reward_activity (id int primary key auto_increment, source
 create table jom_user_point (id int primary key auto_increment, userId int, balance_point float, withdrawal_point float, lastUpdate datetime);
 
 -- to be added in dec 2013 deployment  START 
-create table jom_user_topup_activity (id int primary key auto_increment, userId int, description varchar(255), valuePoint float, actualValue decimal(10, 2),  status int, paymentTransactionId int, lastUpdate datetime);
-create table jom_user_topup_activity_history (id int primary key auto_increment, userId int, description varchar(255), valuePoint float, actualValue decimal(10, 2), status int, paymentTransactionId int, lastUpdate datetime);
+
+
+--create table jom_user_topup_activity (id int primary key auto_increment, userId int, description varchar(255), valuePoint float, actualValue decimal(10, 2),  status int, paymentTransactionId int, lastUpdate datetime);
+--create table jom_user_topup_activity_history (id int primary key auto_increment, userId int, description varchar(255), valuePoint float, actualValue decimal(10, 2), status int, paymentTransactionId int, lastUpdate datetime);
+
+create table jom_user_topup_activity (id int primary key auto_increment, userId int, description varchar(255), valuePoint float, actualValue decimal(10, 2),  status int, paymentTransactionId varchar(50), lastUpdate datetime);
+create table jom_user_topup_activity_history (id int primary key auto_increment, userId int, description varchar(255), valuePoint float, actualValue decimal(10, 2), status int, paymentTransactionId varchar(50), lastUpdate datetime);
+
+
+create table jom_user_topup_activity (id int primary key auto_increment, userId int, description varchar(255), valuePoint float, actualValue decimal(10, 2),  status int, paymentTransactionId varchar(50), lastUpdate datetime);
+
 -- to be added in dec 2013 deployment  END
+
+
 
 
 create table jom_user_topup_activity (id int primary key auto_increment, userId int, description varchar(255), valuePoint float, actualValue decimal(10, 2), paymentTransactionId int, lastUpdate datetime);

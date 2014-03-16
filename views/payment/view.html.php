@@ -18,8 +18,61 @@ class CommunityViewPayment extends CommunityView
 {
 	public function display($tpl = null)
 	{
-		JError::raiseError( 403, JText::_('COM_COMMUNITY_ACCESS_FORBIDDEN') );
-		return;
+		
+		$tmpl	= new CTemplate();
+		$targetDestinationUrl = CRoute::_('index.php?option=com_community', false);
+		
+		$mainframe = JFactory::getApplication();
+		$my		= JFactory::getUser();
+		
+		if($my->id == 0)
+		{
+			$mainframe->enqueueMessage(JText::_('COM_COMMUNITY_PLEASE_LOGIN_WARNING'), 'error');
+			return;
+		}
+		
+		$trxId =  (isset($_REQUEST["txn_id"]) ? $_REQUEST["txn_id"] : null);
+		$status = (isset($_REQUEST["payment_status"]) ? $_REQUEST["payment_status"] : null);
+		
+		$trxId = "53258fa8895512.57629933";
+		
+		$status = "completed";
+		
+		if (strtoupper($status) == "COMPLETED")
+		{
+			$userTopupModel = CFactory::getModel('topupactivity');
+			$tempTopupId = $userTopupModel->getTempId($trxId);
+			
+			if ($tempTopupId != null)
+			{	
+				$topupDate = new DateTime();
+				
+				$userTopupModel->createRequest($my->id, 'user topup request', $tempTopupId->valuePoint, $tempTopupId->valuePoint, $tempTopupId->paymentTransactionId, $topupDate->format('Y-m-d H:i:s'));
+				$userTopupModel->createRequestHistory($my->id, 'user topup test', $tempTopupId->valuePoint, $tempTopupId->valuePoint, $tempTopupId->paymentTransactionId, $topupDate->format('Y-m-d H:i:s'), 1);
+				$targetDestinationUrl = CRoute::_('index.php?option=com_community', false);
+				
+				
+				// Update user balance point // 
+				$userPointModel = CFactory::getModel('userpoint');
+				$currentPoint = $userPointModel->getUserPointValue($my->id);
+				
+				$newBalancePoint = $currentPoint + $tempTopupId->valuePoint;
+				$userPointModel->updateUserBalancePoint($my->id, $newBalancePoint);
+				
+				echo $tmpl->set('targetDestinationUrl', $targetDestinationUrl)->set('topupPoint', $tempTopupId->valuePoint)
+				->fetch( 'payment.success');
+			}
+			
+		}
+		else 
+		{
+			$tmpl	= new CTemplate();
+			$targetDestinationUrl = CRoute::_('index.php?option=com_community', false);
+			
+			echo $tmpl->set('targetDestinationUrl', $targetDestinationUrl)
+			->fetch( 'payment.cancel');
+		}
+		
 	}
 
 	public function success()
@@ -43,13 +96,28 @@ class CommunityViewPayment extends CommunityView
 
 		$topupPoint = 0; 
 		
+		if ($data == "10pts")
+		{
+			$isValidSessionId = true;
+			$topupPoint = 10;
+			$this->updateUserPoint($topupPoint);
+		}
+		
+		
+		if ($data == "20pts")
+		{
+			$isValidSessionId = true;
+			$topupPoint = 20;
+			$this->updateUserPoint($topupPoint);
+		}
+		
 		if ($data == "50pts")
 		{
 			$isValidSessionId = true;
 			$topupPoint = 50;
 			$this->updateUserPoint($topupPoint);
 		}
-
+		
 		if ($data == "100pts")
 		{
 			$isValidSessionId = true;
@@ -95,12 +163,6 @@ class CommunityViewPayment extends CommunityView
 	{
 		$session	= JFactory::getSession();
 		$my 			= CFactory::getUser();
-
-		//Update user balance point directly 
-		//$userPointModel = CFactory::getModel('userpoint');
-		//$currentPoint = $userPointModel->getUserPointValue($my->id);
-		//$newBalancePoint = $currentPoint + $point;
-		//$userPointModel->updateUserBalancePoint($my->id, $newBalancePoint);
 		
 		$topupDate = new DateTime();
 		$userTopupModel = CFactory::getModel('topupactivity');

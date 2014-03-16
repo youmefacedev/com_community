@@ -18,9 +18,7 @@ defined('_JEXEC') or die();
 <div class="cSearch-Result">
 
 
-	<ul class="cIndexList forFriendsList cResetList">
-
-		<li>Gift Transaction List Report</li>
+	<ul class="cIndexList forFriendsList cResetList"> 
 
 		<?php foreach ($giftList as $dataRec) 
 		{
@@ -49,8 +47,8 @@ defined('_JEXEC') or die();
 						<div class="cIndex-ReportInfo">&nbsp; Source : <?php  echo $dataRec->giftSenderName; ?></div>
 					<?php }  ?>
 					<div class="cIndex-ReportInfo">&nbsp; Recipient : <?php  echo $dataRec->giftRecipientName; ?></div>
-					<div class="cIndex-ReportInfo">&nbsp; Gift Value : <?php  echo $dataRec->giftValue; ?></div>
-					<div class="cIndex-ReportInfo">&nbsp; Date  : <?php  echo $dataRec->lastUpdate; ?></div>
+					<div class="cIndex-ReportInfo">&nbsp; Gift Value : <b><?php  echo $dataRec->giftValue; ?> pts</b></div>
+					<div class="cIndex-ReportInfo">&nbsp; Date/Time  : <?php  echo $dataRec->lastUpdate; ?></div>
 				</div>
 				
 
