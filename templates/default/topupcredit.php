@@ -136,7 +136,7 @@ defined('_JEXEC') or die();
 					<input type="hidden" id="amount" name="amount" value="10"> 
 					<input type="hidden" name="tax" value="0"> 
 					<input type="hidden" name="quantity" value="1"> 
-					<input type="hidden" name="txn_id" value="<?php echo $trxId; ?>"> 
+					<input type="hidden" name="custom" value="<?php echo $trxId; ?>"> 
 				
 				<!-- Quantity-->
 				<input type="hidden" name="no_note" value="1"> <input type="hidden"
