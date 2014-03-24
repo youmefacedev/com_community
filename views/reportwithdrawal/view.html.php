@@ -92,6 +92,8 @@ class CommunityViewReportWithdrawal extends CommunityView
 	{
 		switch($status)
 		{
+			case -1:
+				return "Denied";
 			case 1: 
 			case 2:
 				return "Pending";

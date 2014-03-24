@@ -18,9 +18,9 @@ defined('_JEXEC') or die();
 </style>
 
 <div class="cSearch-ResultTopless">
-	<p>
-		<b>Topup credit</b>
-	</p>
+	<h4>
+		<b>Top Up Credit</b>
+	</h4>
 
 
 	<script type="text/javascript">
@@ -131,7 +131,7 @@ defined('_JEXEC') or die();
 				</ul>
 
 				<input type="hidden" name="cmd" value="_xclick"> <input
-					type="hidden" name="business" value="miki.flintech@gmail.com"> 
+					type="hidden" name="business" value="miki.lai@syndes.biz"> 
 					<input type="hidden" name="item_name" id="item_name" value="10pts USD 10,00"> <input type="hidden" name="item_number" id="item_number" value="10pts USD 10,00"> 
 					<input type="hidden" id="amount" name="amount" value="10"> 
 					<input type="hidden" name="tax" value="0"> 
@@ -145,9 +145,9 @@ defined('_JEXEC') or die();
 				<input type="hidden" name="notify_url"
 					value="http://www.youmeface.com/joomla/index.php/en/jomsocial/payment/ipn">
 				<input type="hidden" name="return"
-					value="http://www.youmeface.com/index.php/payment/success">
+					value="http://www.youmeface.com/index.php/topupcredit">
 				<input type="hidden" name="cancel_return"
-					value="http://www.youmeface.com/index.php/payment/cancel">
+					value="http://www.youmeface.com/index.php/topupcredit">
 
 
 				<div class="cPagination" />

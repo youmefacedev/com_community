@@ -18,6 +18,9 @@ class CommunityViewTopupCredit extends CommunityView
 {
 	public function display($tpl = null)
 	{	
+	    $document     = JFactory::getDocument(); 
+        $document->setTitle("Top Up Credit"); 
+		
 		$mainframe = JFactory::getApplication();
 		$my		= JFactory::getUser();
 		
