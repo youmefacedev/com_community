@@ -27,20 +27,20 @@ defined('_JEXEC') or die();
 		
 	<?php } else { ?>
 	
-	<a id="<?php echo $likeId ?>" class="like-button" href="javascript:void(0);"
+	<!---<a id="<?php echo $likeId ?>" class="like-button" href="javascript:void(0);"
 		onclick="return false;joms.like.like(this)"
 		title="<?php echo JText::_('COM_COMMUNITY_I_LIKE'); ?>"> <i
 		class="com-icon-thumbup"></i><b><?php echo $likes; ?> </b> 11111
-	</a>
+	</a>--->
 	
 	
 	<?php } ?>
 	<?php } else { ?>
 	
-	<a id="<?php echo $likeId ?>" class="like-button"
+	<!--<a id="<?php echo $likeId ?>" class="like-button"
 		href="javascript:void(0);" onclick="return false; joms.like.like(this)"><i
 		class="com-icon-thumbup-shade"></i><b><?php echo JText::_('COM_COMMUNITY_LIKE'); ?>
-	</b> </a> 
+	</b> </a> -->
 	
 	
 	<?php } ?>

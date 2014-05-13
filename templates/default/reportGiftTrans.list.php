@@ -29,13 +29,20 @@ defined('_JEXEC') or die();
 
 				<?php 
 						$avatar = $dataRec->avatar;
+						$recipientavatar = $dataRec->recipientavatar;
 				  
 				if (!empty($avatar))
 				{
 					?>
-				<a class="cIndex-Avatar cFloat-L" href="/joomla/index.php/en/jomsocial/577-google/profile">
+				<div class="cFloat-L" style="height:75px; width:65px" >
 						<img class="cAvatar" alt="google" src="<?php echo $avatar; ?>">
-				</a>
+				</div>
+				<div  class="cFloat-L" style="padding-top:20px">
+				<img  height="25px" width="25px" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQvu9IJavBCsKyXSh3RpT6CGC7WBakeICRHyu5xUzku7th4Pf-a">
+				 </div>
+				<div class="cFloat-L" style="height:75px; width:65px" >
+						<img class="cAvatar" alt="google" src="<?php echo $recipientavatar; ?>">
+				</div>
 
 				<?php 
 				}

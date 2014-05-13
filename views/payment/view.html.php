@@ -16,9 +16,28 @@ jimport( 'joomla.html.html');
 
 class CommunityViewPayment extends CommunityView
 {
+	//$paymentState = 0; 
+	
 	public function display($tpl = null)
 	{
 		
+			//header("HTTP/1.1 200 OK");
+			//$paymentState = 1; 
+	    
+			// echo contents back to paypal
+			//$queryStringPaypal = $_SERVER['QUERY_STRING'];
+			//$paypalAckPost = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_notify-validate&" . $queryStringPaypal;
+			//$xml = file_get_contents($paypalAckPost);
+		
+			//file_put_contents("paypal.txt", $person, FILE_APPEND | LOCK_EX);
+
+echo 'etst';
+		
+	}
+
+	
+	public function paymentSuccess()
+	{
 		$tmpl	= new CTemplate();
 		$targetDestinationUrl = CRoute::_('index.php?option=com_community', false);
 		
@@ -34,10 +53,6 @@ class CommunityViewPayment extends CommunityView
 		$trxId =  (isset($_REQUEST["txn_id"]) ? $_REQUEST["txn_id"] : null);
 		$status = (isset($_REQUEST["payment_status"]) ? $_REQUEST["payment_status"] : null);
 		
-		$trxId = "53258fa8895512.57629933";
-		
-		$status = "completed";
-		
 		if (strtoupper($status) == "COMPLETED")
 		{
 			$userTopupModel = CFactory::getModel('topupactivity');
@@ -50,7 +65,6 @@ class CommunityViewPayment extends CommunityView
 				$userTopupModel->createRequest($my->id, 'user topup request', $tempTopupId->valuePoint, $tempTopupId->valuePoint, $tempTopupId->paymentTransactionId, $topupDate->format('Y-m-d H:i:s'));
 				$userTopupModel->createRequestHistory($my->id, 'user topup test', $tempTopupId->valuePoint, $tempTopupId->valuePoint, $tempTopupId->paymentTransactionId, $topupDate->format('Y-m-d H:i:s'), 1);
 				$targetDestinationUrl = CRoute::_('index.php?option=com_community', false);
-				
 				
 				// Update user balance point // 
 				$userPointModel = CFactory::getModel('userpoint');
@@ -72,9 +86,8 @@ class CommunityViewPayment extends CommunityView
 			echo $tmpl->set('targetDestinationUrl', $targetDestinationUrl)
 			->fetch( 'payment.cancel');
 		}
-		
 	}
-
+	
 	public function success()
 	{
 		$tmpl	= new CTemplate();

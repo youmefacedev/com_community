@@ -29,6 +29,7 @@ class CommunityModelReportTopup extends JCCModel
 		$sql = 'SELECT '.$db->quoteName('id') .  ", " . $db->quoteName('userId') .  ", " . $db->quoteName('valuePoint'); 
 		$sql = $sql . ", "  . $db->quoteName('lastUpdate') . ' FROM '.$db->quoteName('#__user_topup_activity');
 		$sql = $sql . ' WHERE '.$db->quoteName('userId') . '=' . $db->Quote($sourceUserId);
+		$sql = $sql .' ORDER BY '.$db->quoteName('lastUpdate') . ' DESC '; //Miki 26Apr2014.
 		
 		$db->setQuery($sql);
 		$db->query();
@@ -37,10 +38,20 @@ class CommunityModelReportTopup extends JCCModel
 	}
 	
 	
-	public function getAdminList($sourceUserId)	{
-		$db	= $this->getDBO();
-		$sql = 'SELECT '.$db->quoteName('id') .  ", " . $db->quoteName('userId') . ", " .$db->quoteName('valuePoint');		$sql = $sql . ", " .$db->quoteName('lastUpdate') . ' FROM '.$db->quoteName('#__user_topup_activity');
-		$db->setQuery($sql);		$db->query();		$result = $db->loadObjectList();		return $result;
+	public function getAdminList($sourceUserId)
+	{
+
+		$db	= $this->getDBO();
+
+		$sql = 'SELECT '.$db->quoteName('id') .  ", " . $db->quoteName('userId') . ", " .$db->quoteName('valuePoint');
+		$sql = $sql . ", " .$db->quoteName('lastUpdate') . ' FROM '.$db->quoteName('#__user_topup_activity');
+		$sql = $sql .' ORDER BY '.$db->quoteName('lastUpdate') . ' DESC '; //Miki 26Apr2014.
+
+		$db->setQuery($sql);
+		$db->query();
+		$result = $db->loadObjectList();
+		return $result;
+
 	}
 	
 }

@@ -2256,7 +2256,7 @@ return $objResponse->sendResponse();
 	{
 		$objResponse	=   new JAXResponse();
 		$withdrawalRequestModel = CFactory::getModel('withdrawalrequest');
-		$result = $withdrawalRequestModel->getWithdrawalRequestByStatus(2);
+		$result = $withdrawalRequestModel->getWithdrawalRequestByStatus(3); //Miki 28Apr014, changed 2 to 3.
 		
 		
 		foreach ($result as $element)

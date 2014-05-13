@@ -19,20 +19,20 @@ class CommunityPaymentController extends CommunityBaseController
 
 	public function display($cacheable=false, $urlparams=false)
 	{
-		$view = $this->getView('payment');
+		$view = $this->getView('payment');
 		echo $view->get('display');
 	}
 
 	public function success()
 	{
-		$view = $this->getView('payment');
+		$view = $this->getView('payment');
 		echo $view->get('success');
 	}
 
 
 	public function cancel()
 	{
-		$view = $this->getView('payment');
+		$view = $this->getView('payment');
 		echo $view->get('cancel');
 	}
 }

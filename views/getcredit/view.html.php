@@ -18,6 +18,8 @@ class CommunityViewGetCredit extends CommunityView
 {
 	public function display($tpl = null)
 	{
+	    $document     = JFactory::getDocument(); 
+        $document->setTitle("Credit Withdrawal"); 
 		$this->displayCredit();
 	}
 	

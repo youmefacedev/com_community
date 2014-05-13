@@ -25,42 +25,81 @@ defined('_JEXEC') or die();
 .cIndex-Status span.detailsInfo {
 	font-size: 12px;
 }
+
+
 </style>
 
 
-<script>
+<script type = 'text/javascript'>
 
+function confirmApproval(action,id)
+{ 
+	 var cmt = confirm('Are you sure you want to '+action+' this withdrawal?');
+	 if(cmt)
+	 {
+	    if(action=="approve")
+		   jax.call('community','system,approveWithdrawal', id);
+		else
+		   jax.call('community','system,denyWithdrawal', id);
+		//window.open('withdrawals?wstatus=1','_self');
+	 }
+	 else
+	 {
+		return false;
+	 }
+}
+ 
  function updateWithdrawalStatus(ctrlId, status)
  {
-	 var message = ""; 
-	 if (status == 2)
+	 /*var message = ""; 
+	
+	 if (status == 2)	
 	 {
 		 message = " (approved)";
 	 }
+	 
 	 if (status == -1)
 	 {
 		 message = " (denied)";
+		 jomsQuery("#infoStatusBox" + ctrlId).html(" (denied)");
 	 }
 
 	 if (status == 3)
 	 {
-		 message = " (converted to cash)";
+		 message = " (approved)";
 		 jomsQuery("#approveControlContainer" + ctrlId).remove();
 		 jomsQuery("#denyControlContainer" + ctrlId).remove();
 		 jomsQuery("#moneyInBankControl" + ctrlId).remove();
+		 jomsQuery("#infoStatusBox" + ctrlId).html(" (approved)");
 	 }
 
-	 jomsQuery("#statusBox" + ctrlId).html(" " + message);
+	 jomsQuery("#statusBox" + ctrlId).html(" " + message);*/
+	 window.open('withdrawals?wstatus=1','_self');
  }
 
-
+ function getStatus(status)
+ {
+ 	switch (status)
+ 	{
+ 		case "-1":
+ 	 		return " denied";
+	 	 	break;
+ 		case "1": 
+ 	 		return " pending";
+ 	 		break;
+ 		case "3": 
+			return " approved";
+ 	 		break;
+ 	}	
+ }
+ 
  function updateViewWithFilterResult(result)
  {
-	 var output = "";
-	 for (var i=0; i < result.length; i++)
-	 {
-		 
-		 output = "<li>";
+	var output = "";
+
+	for (var i=0; i < result.length; i++)
+	 { 
+		 output += "<li>";
 		 output += '<div class="cIndex-Box clearfix">';
 		 output += '<div class="withdrawContent">';
 		 output += '<h3 class="cIndex-Name cResetH">';
@@ -68,21 +107,15 @@ defined('_JEXEC') or die();
 		 output += '</h3>';
 
 		 output += '<div class="cIndex-Status">';
-
 		 output += 'requested withdrawal of :' + result[i].withdrawal_amount ;
 		 output += '<span id="statusBox' + result[i].id +  '"></span>';
 		 output += '<div id="showDetail' + result[i].id  + '">';
 		 output += '<div class="panel-	heading">';
 		 output += '<h4 class="panel-title">';
-		 output += '<a class="accordion-toggle" data-toggle="collapse"';
-		 output += 'data-parent="#accordion" href="#collapseOne"> <span';
-		 output += 'class="detailsInfo"> <i class=" icon-down-circle"></i> more';
-		 output += 'info';
-		 output += '</span>';
-		 output += '</a>';
+		 
 		 output += '</h4>';
 		 output += '</div>';
-		 output += '<div id="collapseOne" class="panel-collapse collapse in">';
+		 output += '<div id="collapseOne"	>';
 		 output += '<div class="panel-body">';
 		 output += '<ul>';
 		 output += '<li>Account no : ' + result[i].acctnum;
@@ -95,6 +128,10 @@ defined('_JEXEC') or die();
 		 output += '</li>';
 		 output += '<li>Meps Routing ' + result[i].mepsRouting;
 		 output += '</li>';
+		 output += '<li>Date/Time ' + result[i].lastUpdate;
+		 output += '</li>';
+		 output += '<li>Status :' +  '<span id="infoStatusBox' + result[i].id + '">' + getStatus(result[i].status) + '</span>';
+		 output += '</li>';
 		 output += '<li>&nbsp;</li>';
 		 output += '</ul>';
 		 output += '</div>';
@@ -102,44 +139,46 @@ defined('_JEXEC') or die();
 		 output += '</div>';
 		 output += '</div>';
 		 output += '<div class="cIndex-Actions">';
-
-
-		 if (result[i].status != 3)
+ 
+		 if (result[i].status == 1)
 		 {
 			 output += '<div id="approveControlContainer' + result[i].id +  '">';
 			 output += '<a id="approveControl' + result[i].id + '"';
 			 output += 'href="javascript:void(0);"';
 			 output += 'onclick="jax.call(&#39;community&#39;,&#39;system,approveWithdrawal&#39;,' + result[i].id + ');"><i';
-			 output += 'class="icon-ok-2"></i> Approved </a>';
+			 output += ' class="icon-ok-2"></i> Approved </a>';
 			 output += '</div>';
 			 
 			 output += '<div id="denyControlContainer' + result[i].id + '">';
 			 output += '<a id="denyControl' + result[i].id + '"';
 			 output += 'href="javascript:void(0);"';
 			 output += 'onclick="jax.call(&#39;community&#39;,&#39;system,denyWithdrawal&#39;,' + result[i].id  +  ');"><span><i';
-			 output += 'class="icon-cancel-2"></i> Deny withdrawal</span> </a>';
+			 output += ' class="icon-cancel-2"></i> Deny withdrawal</span> </a>';
 			 output += '</div>';
-			 
-			 output += '<div>';
-			 output += '<a id="moneyInBankControl' + result[i].id +  '"';
-			 output += 'href="javascript:void(0);"';
-			 output += 'onclick="jax.call(&#39;community&#39;,&#39;system,moneyInBank&#39;,' + result[i].id + ' );"><span><i';
-			 output += 'class="icon-dollar"></i> Money In Bank</span> </a>';
-			 output += "</div>";
 		 }
+
+		 if (result[i].status == -1)
+		 {
+			 output += '<div id="deniedControlContainer' + result[i].id +  '">';
+			// output += '<a id="approveControl' + result[i].id + '"';
+			// output += 'href="javascript:void(0);"';
+			// output += 'onclick="jax.call(&#39;community&#39;,&#39;system,approveWithdrawal&#39;,' + result[i].id + ');"><i';
+			 //output += ' class="icon-ok-2"></i> Approved </a>';
+			 output += '</div>';
+		 }
+
 		 
 		 output += '</div>';
 		 output += '</div>';
 		 output += '</div>';
 		 output += "</li>";
 	 }
-	 
+
 	 jomsQuery('#resultWindow').html(output);
  }
  
  jomsQuery(document).ready(function()
- {
-	 	
+ { 	
 	 var alinkPatter = "showDetail"; 
 	 jomsQuery('.collapse').collapse("hide");
  });   
@@ -147,17 +186,48 @@ defined('_JEXEC') or die();
 	    
  
 </script>
-
+<?php 
+$wstatus = 1;
+if ($_REQUEST["wstatus"] != "") {  
+   $wstatus = $_REQUEST["wstatus"];
+}
+?>
 <div class="cSearch-ResultTopless">
 	<p>
-		<b>Withdrawal request </b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter by : <span><a
-			href="javascript:void(0);"
+		<b>Withdrawal request </b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter by : <span>
+		
+		<!--<a href="javascript:void(0);"
 			onclick="jax.call('community','system,filterRequest');">Requested</a>
 		</span> <span> | <a href="javascript:void(0);"
-			onclick="jax.call('community','system,filterApproved');">Approved</a>
-		</span><span> | <a href="javascript:void(0);"
-			onclick="jax.call('community','system,filterCompleted');">Completed</a>
-		</span>
+			onclick="jax.call('community','system,filterApproved');">Approved</a> </span>
+			<span> |
+		<a href="javascript:void(0);"
+			onclick="jax.call('community','system,filterDenied');">Denied</a> </span>-->
+		<a href="javascript:void(0);"
+			onclick="window.open('index.php/withdrawals?wstatus=1','_self');">
+			<?php if ($wstatus == 1) { ?>
+			  <b>Requested</b>
+			<?php } else { ?>
+			   Requested
+			<?php } ?>
+		</a>
+		</span> <span> | <a href="javascript:void(0);"
+			onclick="window.open('index.php/withdrawals?wstatus=3','_self');">
+			<?php if ($wstatus == 3) { ?>
+			  <b>Approved</b>
+			<?php } else { ?>
+			   Approved
+			<?php } ?>
+			</a> </span>
+			<span> |
+		<a href="javascript:void(0);"
+			onclick="window.open('index.php/withdrawals?wstatus=-1','_self');">
+			<?php if ($wstatus == -1) { ?>
+			  <b>Denied</b>
+			<?php } else { ?>
+			   Denied
+			<?php } ?>
+			</a>
 	</p>
 
 	
@@ -183,15 +253,10 @@ defined('_JEXEC') or die();
 						<div id="showDetail<?php echo $element->id; ?>">
 							 <div class="panel-	heading">
 								<h4 class="panel-title">
-									<a class="accordion-toggle" data-toggle="collapse"
-										data-parent="#accordion" href="#collapseOne"> <span
-										class='detailsInfo'> <i class=" icon-down-circle"></i> more
-											info
-									</span>
-									</a>
+									
 								</h4>
 							</div> 
-						  <div id="collapseOne" class="panel-collapse collapse in"> 
+						  <div id="collapseOne"> 
 								<div class="panel-body">
 									<ul>
 										<li>Account no : <?php echo $element->acctnum; ?>
@@ -205,7 +270,24 @@ defined('_JEXEC') or die();
 										<li>Meps Routing :  <?php echo $element->mepsRouting; ?>
 										</li>
 					                    <li>Date/Time  :  <?php  echo $element->lastUpdate; ?></i> 
+										<li>Status  :  <span id="infoStatusBox<?php echo $element->id; ?>"><?php  
+										
+										switch ($element->status)
+										{
+											case 1: 
+												echo " Pending.";
+												break;
+											case 3: 
+												echo " Approved.";
+												break; 
+											case -1: 
+												echo " Denied.";
+												break;
+										}
+										
+										?> </span></i> 
 										<li>&nbsp;</li>
+										
 									</ul>
 								</div>
 							 </div> 
@@ -219,20 +301,20 @@ defined('_JEXEC') or die();
 
 						<?php 
 							
-						if ($element->status != 3)
+						if ($element->status == 1)
 						{
 							?>
 						<div id="approveControlContainer<?php echo $element->id; ?>">
 							<a id="approveControl<?php echo $element->id; ?>"
 								href="javascript:void(0);"
-								onclick="jax.call('community','system,approveWithdrawal', <?php echo $element->id; ?>);"><i
+								onclick="confirmApproval('approve',<?php echo $element->id; ?>);"><i
 								class="icon-ok-2"></i> Approved </a>
 						</div>
 
 						<div id="denyControlContainer<?php echo $element->id; ?>">
 							<a id="denyControl<?php echo $element->id; ?>"
 								href="javascript:void(0);"
-								onclick="jax.call('community','system,denyWithdrawal',<?php echo $element->id; ?>);"><span><i
+								onclick="confirmApproval('deny',<?php echo $element->id; ?>);"><span><i
 									class='icon-cancel-2'></i> Deny withdrawal</span> </a>
 						</div>
 

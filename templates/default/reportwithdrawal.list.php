@@ -20,13 +20,14 @@ defined('_JEXEC') or die();
 
 </style>
 
+
  
 <div class="cSearch-Result">
 
 
 	<ul class="cIndexList forFriendsList cResetList">
 
-		<li><span style="float:right"> Total value : <b>$<?php echo $totalValue; ?></b> </span></li> 
+		<li><span style="float:right"> Total value : $<?php echo $totalValue; ?> </span></li> 
 
 		<?php foreach ($giftList as $dataRec) 
 		{

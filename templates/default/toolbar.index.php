@@ -74,12 +74,21 @@ $taskName = JRequest::getCmd( 'task');
 					</li>
 
 					<?php
+				    $adminUser = COwnerHelper::isCommunityAdmin($my->id);
+					
 					foreach( $menus as $menu ) {
 
 					$dropdown	= !empty( $menu->childs ) ? 'dropdown' : '';
 					$toggle = !empty( $menu->childs ) ? 'class="dropdown-toggle"' : '';
+					$mainmenuitem = $menu->item->name;
+					$show = true;
+					if($adminUser && $mainmenuitem=="Like"){ 
+					   $show = false;
+					}
+					
+					if($show == true) {
 					?>
-
+                       
 					<li class="<?php echo $active === $menu->item->id ? 'active' : '';?> <?php echo (isset($menu->item->css)) ? $menu->item->css : '' ; ?> <?php echo $dropdown; ?>" >
 						<a href="<?php echo CRoute::_( $menu->item->link );?>" <?php echo $toggle; ?> ><?php echo JText::_( $menu->item->name );?></a>
 						<?php if( !empty($menu->childs) ) { ?>
@@ -100,7 +109,7 @@ $taskName = JRequest::getCmd( 'task');
 					</li>
 
 					<?php
-						}
+						}}
 					?>
 
 					<li class="visible-desktop" >
@@ -125,30 +134,40 @@ $taskName = JRequest::getCmd( 'task');
 							<?php if( $newMessageCount ){ ?><span class="js-counter"><?php echo $newMessageCount; ?></span><?php } ?>
 						</a>
 					</li>
-					
+					<!--<li class="visible-desktop" style="padding-top:5px">
+					  Report:
+					</li>-->
 					<li class="visible-desktop" >
 						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=reportgifttrans' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_VIEW_GIFT_REPORT' );?>">
-							<i class="icon-doc-inv"></i>
+							<i class="icon-thumbs-up"></i>
 						</a>
 					</li>
 					
 					<li class="visible-desktop" >
 						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=reporttopup' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_VIEW_TOPUP_REPORT' );?>">
-							<i class="icon-doc-3"></i>
+							<i class="icon-plus-circle"></i>
 						</a>
 					</li>
 					
 					<li class="visible-desktop" >
 						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=reportwithdrawal' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_VIEW_WITHDRAWAL_REPORT' );?>">
-							<i class="icon-list-1"></i>
+							<i class="icon-minus-circle"></i>
 						</a>
 					</li>
 					
+					<?php 
+						if(!$adminUser ){ ?> 
+						
+						<?php if( $balancePoint ){ ?>
+						<li class="visible-desktop" >
+								<i class="icon-gift"></i><span id="balancePoints" class="js-counter"><?php echo $balancePoint; ?> pts</span>
+						</li>
+						<?php } else { ?>
+						<li class="visible-desktop" >
+								<i class="icon-gift"></i><span id="balancePoints" class="js-counter">0 pts</span>
+						</li>
+						<?php } ?>
 					
-					<?php if( $balancePoint ){ ?>
-					<li class="visible-desktop" >
-							<i class="icon-gift"></i><span id="balancePoints" class="js-counter"><?php echo $balancePoint; ?> pts</span>
-					</li>
 					<?php } ?>
 					
 					<?php if( $withdrawalPoint ){ ?>
@@ -159,27 +178,28 @@ $taskName = JRequest::getCmd( 'task');
 					
 					
 					<?php 
-						$adminUser = COwnerHelper::isCommunityAdmin($my->id);
+						//$adminUser = COwnerHelper::isCommunityAdmin($my->id);
 						if( $adminUser ){ ?>
 						
+					
+					<li class="visible-desktop" >
+						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=withdrawals' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_WITHDRAWALS' );?>">
+							<i class="icon-ok"></i> 
+						</a>
+					</li>
+					
+					<!--<li class="visible-desktop" >
+						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=approvetopup' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_APPROVETOPUP' );?>">
+							<i class="icon-download"></i>
+						</a>
+					</li>-->
+					
 					<li class="visible-desktop" >
 						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=configureGift' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_CONFIGUREGIFT' );?>">
 							<i class=" icon-cog-1"></i>
 						</a>
 					</li>
 					
-					
-					<li class="visible-desktop" >
-						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=withdrawals' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_WITHDRAWALS' );?>">
-							<i class=" icon-upload"></i>
-						</a>
-					</li>
-					
-					<li class="visible-desktop" >
-						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=approvetopup' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_APPROVETOPUP' );?>">
-							<i class="icon-ok-4"></i>
-						</a>
-					</li>
 					
 					<?php } ?>
 					

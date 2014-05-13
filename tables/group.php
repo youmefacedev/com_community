@@ -517,6 +517,8 @@ class CTableGroup extends JTable {
      * On first load, import old wall to stream data
      */
     public function upgradeWallToStream() {
+	  echo "here";
+	  break;
         $params = new CParameter($this->params);
         if ($params->get('stream') != 1) {
             $this->groupActivitiesMigrate();

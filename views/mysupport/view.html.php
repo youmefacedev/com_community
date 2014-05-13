@@ -22,6 +22,9 @@ class CommunityViewMySupport extends CommunityView
 	public function display($tpl = null)
 	{
 		
+	    $document     = JFactory::getDocument(); 
+        $document->setTitle("Who Like Me");
+		
 		$mainframe = JFactory::getApplication();
 		$my		= JFactory::getUser();
 		

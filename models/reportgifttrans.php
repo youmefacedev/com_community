@@ -29,7 +29,7 @@ class CommunityModelReportGiftTrans extends JCCModel
 		$sql = 'SELECT '.$db->quoteName('id') .  ", " . $db->quoteName('sourceUserId') . ", " .$db->quoteName('targetUserId'); 
 		$sql = $sql . ", " .$db->quoteName('giftId') . ", " .$db->quoteName('giftValue') . ", " .$db->quoteName('lastUpdate') . ' FROM '.$db->quoteName('#__user_reward_activity');
 		$sql = $sql . ' WHERE '.$db->quoteName('sourceUserId') . '=' . $db->Quote($sourceUserId);
-		
+		$sql = $sql . ' ORDER BY '.$db->quoteName('lastUpdate') .' DESC';
 		$db->setQuery($sql);
 		$db->query();
 		$result = $db->loadObjectList();
@@ -37,16 +37,26 @@ class CommunityModelReportGiftTrans extends JCCModel
 	}
 	
 	
-	public function getAdminList($sourceUserId)
-	{
-		$db	= $this->getDBO();
-		$sql = 'SELECT '.$db->quoteName('id') .  ", " . $db->quoteName('sourceUserId') . ", " .$db->quoteName('targetUserId');
-		$sql = $sql . ", " .$db->quoteName('giftId') . ", " .$db->quoteName('giftValue') . ", " .$db->quoteName('lastUpdate') . ' FROM '.$db->quoteName('#__user_reward_activity');
-		
-		$db->setQuery($sql);
-		$db->query();
-		$result = $db->loadObjectList();
-		return $result;
+	public function getAdminList($sourceUserId)
+
+	{
+
+		$db	= $this->getDBO();
+
+		$sql = 'SELECT '.$db->quoteName('id') .  ", " . $db->quoteName('sourceUserId') . ", " .$db->quoteName('targetUserId');
+
+		$sql = $sql . ", " .$db->quoteName('giftId') . ", " .$db->quoteName('giftValue') . ", " .$db->quoteName('lastUpdate') . ' FROM '.$db->quoteName('#__user_reward_activity');
+       $sql = $sql . ' ORDER BY '.$db->quoteName('lastUpdate') .' DESC';
+		
+
+		$db->setQuery($sql);
+
+		$db->query();
+
+		$result = $db->loadObjectList();
+
+		return $result;
+
 	}
 	
 }

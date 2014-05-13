@@ -143,7 +143,7 @@ defined('_JEXEC') or die();
 					name="currency_code" value="USD">
 				<!-- Currency-->
 				<input type="hidden" name="notify_url"
-					value="http://www.youmeface.com/joomla/index.php/en/jomsocial/payment/ipn">
+					value="http://www.youmeface.com/handler.php">
 				<input type="hidden" name="return"
 					value="http://www.youmeface.com/index.php/topupcredit">
 				<input type="hidden" name="cancel_return"

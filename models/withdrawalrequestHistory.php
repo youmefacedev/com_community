@@ -38,6 +38,7 @@ class CommunityModelWithdrawalRequestHistory extends JCCModel
 				. $db->quoteName('lastUpdate') . " "
 				. ' FROM '.$db->quoteName('#__user_withdrawal_activity');
 		$sql = $sql . ' WHERE '.$db->quoteName('id') . '=' . $db->Quote($requestId);
+		$sql = $sql .' ORDER BY '.$db->quoteName('lastUpdate') . ' DESC '; //Miki 26Apr2014.
 		
 		$db->setQuery($sql);
 		$db->query();

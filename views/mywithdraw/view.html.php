@@ -18,6 +18,9 @@ class CommunityViewMyWithdraw extends CommunityView
 {
 	public function display($tpl = null)
 	{
+	    $document     = JFactory::getDocument(); 
+        $document->setTitle("Credit Withdrawal"); 
+		
 		$mainframe = JFactory::getApplication();
 		$my		= JFactory::getUser();
 		

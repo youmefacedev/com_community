@@ -18,6 +18,8 @@ class CommunityViewWithdrawals extends CommunityView
 {
 	public function display($tpl = null)
 	{
+	    $document     = JFactory::getDocument(); 
+        $document->setTitle("Credit Withdrawal"); 
 		$this->displayWithdrawalRequest();
 	}
 
@@ -34,8 +36,11 @@ class CommunityViewWithdrawals extends CommunityView
 		$coreUrl = CRoute::_('index.php?option=com_community', false);
 
 		$withdrawalRequestModel = CFactory::getModel('withdrawalrequest');
-
-		$requestList = $withdrawalRequestModel->getWithdrawalRequestByStatus(1);
+		$wstatus=1;
+         if($_REQUEST["wstatus"] != "")
+		   $wstatus=$_REQUEST["wstatus"];
+		   
+		 $requestList = $withdrawalRequestModel->getWithdrawalRequestByStatus($wstatus);
 
 		$adminUser = COwnerHelper::isCommunityAdmin($my->id);
 

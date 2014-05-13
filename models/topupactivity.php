@@ -178,6 +178,7 @@ class CommunityModelTopupActivity extends JCCModel
 				. ' FROM ' . $db->quoteName('#__user_temp_topup_activity');
 		$sql = $sql . ' WHERE '.$db->quoteName('paymentTransactionId') . '=' . $db->Quote($id);
 	
+
 		$db->setQuery($sql);
 		$db->query();
 	

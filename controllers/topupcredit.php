@@ -36,7 +36,7 @@ class CommunityTopupCreditController extends CommunityBaseController
 
 	public function topupForUser()
 	{
-		$view = $this->getView('topupcredit');
+		$view = $this->getView('topupcredit');
 		echo $view->get('topupForUser');
 	}
 

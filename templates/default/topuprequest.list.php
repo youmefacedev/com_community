@@ -70,18 +70,20 @@ function updateWithdrawalStatus(ctrlId, status)
 						<span id="statusBox<?php echo $dataRec->id; ?>"> </span>
 					</div>
 					<div class="cIndex-ReportInfo">
-						&nbsp; Top up point(s) : <b><?php  echo $dataRec->valuePoint; ?> </b>
+						&nbsp; Top up point(s) : <b><?php  echo $dataRec->valuePoint; ?> </b> 
+					</div>
+					<div class="cIndex-ReportInfo">
 						&nbsp; Date :
 						<?php  echo $dataRec->lastUpdate; ?>
 					</div>
-					<div class="cIndex-ReportInfo">
+					<!--<div class="cIndex-ReportInfo">
 						&nbsp;&nbsp;<a
 							onclick="jax.call('community','system,approveTopupRequest', <?php echo $dataRec->id; ?>);"
 							href="javascript:void(0);" class="cIndex-Avatar "> Approve </a>
 						&nbsp;&nbsp; <a
 							onclick="jax.call('community','system,cancelTopupRequest', <?php echo $dataRec->id; ?>);"
 							href="javascript:void(0);" class="cIndex-Avatar "> Cancel </a>
-					</div>
+					</div>-->
 				</div>
 		
 		</li>

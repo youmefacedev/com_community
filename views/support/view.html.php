@@ -18,6 +18,8 @@ class CommunityViewSupport extends CommunityView
 {
 	public function display($tpl = null)
 	{
+	    $document     = JFactory::getDocument(); 
+        $document->setTitle("Like"); 
 		$this->listSupport();
 	}
 	

@@ -167,7 +167,7 @@ class CommunityNotificationController extends CommunityBaseController
 					$giftValue = $giftElement->giftValue;
 				}
 								
-				$iRow->giftValue = $giftValue; 
+				//$iRow->giftValue = $giftValue; 
 			}
 			
 			

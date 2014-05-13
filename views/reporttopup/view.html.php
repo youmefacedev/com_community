@@ -20,7 +20,7 @@ class CommunityViewReportTopup extends CommunityView
 	{
 		
 	    $document     = JFactory::getDocument(); 
-        $document->setTitle("Top Up Report"); 
+        $document->setTitle("Top Up Report");
 		$mainframe = JFactory::getApplication();
 		$my		= JFactory::getUser();
 		

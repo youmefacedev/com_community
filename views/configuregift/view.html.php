@@ -18,6 +18,8 @@ class CommunityViewConfigureGift extends CommunityView
 {
 	public function display($tpl = null)
 	{
+	    $document     = JFactory::getDocument(); 
+        $document->setTitle("Configure Gift"); 
 		$this->listGift();
 	}
 	

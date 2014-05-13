@@ -232,7 +232,10 @@ class CommunityModelWithdrawalRequest extends JCCModel
 				. $db->quoteName('mepsRouting') . ", "
 				. $db->quoteName('lastUpdate') . " "
 				. ' FROM '.$db->quoteName('#__user_withdrawal_activity');
-		$sql = $sql . ' WHERE '.$db->quoteName('status') . '=' .  $db->Quote($status);
+		 
+		   $sql = $sql . ' WHERE '.$db->quoteName('status') . '=' .  $db->Quote($status);
+		
+		$sql = $sql .' ORDER BY '.$db->quoteName('lastUpdate') . ' DESC '; //Miki 26Apr2014.
 			
 		$db->setQuery($sql);
 		$db->query();

@@ -18,6 +18,8 @@ class CommunityViewApproveTopup extends CommunityView
 {
 	public function display($tpl = null)
 	{
+	    $document     = JFactory::getDocument(); 
+        $document->setTitle("Top Up Credit Approval"); 
 		$this->listTopupRequest();
 	}
 
