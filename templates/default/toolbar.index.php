@@ -188,6 +188,13 @@ $taskName = JRequest::getCmd( 'task');
 						</a>
 					</li>
 					
+					<li class="visible-desktop" >
+						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=viewmember' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_WITHDRAWALS' );?>">
+							<i class="icon-users"></i> 
+						</a>
+					</li>
+					
+					
 					<!--<li class="visible-desktop" >
 						<a class="menu-icon" href="<?php echo CRoute::_( 'index.php?option=com_community&view=approvetopup' );?>" title="<?php echo JText::_( 'COM_COMMUNITY_APPROVETOPUP' );?>">
 							<i class="icon-download"></i>
